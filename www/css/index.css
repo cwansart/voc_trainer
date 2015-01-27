@@ -45,3 +45,11 @@ body {
     width:100%;
 }
 
+div[data-role="content"] {
+    text-transform: none ;
+}
+
+div[data-role="footer"] {
+    text-transform: none ;
+}
+

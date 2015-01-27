@@ -1,0 +1,43 @@
+/**
+ * Diese Datei enthält die CSS-Defintionen für eigene Icons
+ */
+
+/* Fix für eigen Icons in der Navbar, da diese sonst zu groß
+ * dargstellt werden. */
+div[data-role="navbar"] .ui-icon-anleitung.ui-btn-icon-top:after,
+div[data-role="navbar"] .ui-icon-karteiverwaltung.ui-btn-icon-top:after,
+div[data-role="navbar"] .ui-icon-einstellungen.ui-btn-icon-top:after {
+	background-size: 100%;
+}
+
+/* Schaltet die Hintergrundfarbe der Icons aus. */
+div[data-role="navbar"] .ui-btn-icon-top:after {
+	background-color: transparent;
+}
+
+/* Anleitung Icon */
+.ui-icon-anleitung:after {
+	background-image: url("../img/start-here.svg");
+}
+/* Fallback */
+.ui-nosvg .ui-icon-anleitung:after {
+	background-image: url("../img/start-here.png");
+}
+
+/* Karteiverwaltung Icon */
+.ui-icon-karteiverwaltung:after {
+	background-image: url("../img/folder.svg");
+}
+/* Fallback */
+.ui-nosvg .ui-icon-karteiverwaltung:after {
+	background-image: url("../img/folder.png");
+}
+
+/* Einstellungen Icon */
+.ui-icon-einstellungen:after {
+	background-image: url("../img/preferences-system.svg");
+}
+/* Fallback */
+.ui-nosvg .ui-icon-einstellungen:after {
+	background-image: url("../img/preferences-system.png");
+}
