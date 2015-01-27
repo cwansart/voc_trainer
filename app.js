@@ -18,7 +18,11 @@ Ext.application({
     ],
 
     views: [
-        'Main'
+        'Startseite',
+        'Panel',
+        'Einstellungen',
+        'Anleitung',
+        'Karteiverwaltung',
     ],
 
     icon: {
@@ -44,7 +48,7 @@ Ext.application({
         Ext.fly('appLoadingIndicator').destroy();
 
         // Initialize the main view
-        Ext.Viewport.add(Ext.create('voc_trainer.view.Main'));
+        Ext.Viewport.add(Ext.create('voc_trainer.view.Startseite'));
     },
 
     onUpdated: function() {
