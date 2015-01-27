@@ -60,6 +60,18 @@ div[data-role="footer"] {
     height: 60px;
 }
 
+/* Hiermit können wir die Hinzufügen und Entfernen-Buttons unten, oberhalb des
+ * Footer. Jedoch ist dann kein Abstand links und rechts zu sehen. */
+/*
+.kartei-action-box {
+    left: 0;
+    right: 0;
+    position: fixed;
+    z-index: 1000;
+    bottom: 60px;
+}
+*/
+
 .kartei-action-box > .ui-btn {
     position: absolute;
     margin: 0px;
