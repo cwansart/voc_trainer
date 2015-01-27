@@ -53,3 +53,24 @@ div[data-role="footer"] {
     text-transform: none ;
 }
 
+.kartei-action-box {
+    display: inline-block;
+    position: relative;
+    width: 100%;
+    height: 60px;
+}
+
+.kartei-action-box > .ui-btn {
+    position: absolute;
+    margin: 0px;
+    top: auto;
+    bottom: 0.24em;
+}
+
+.kartei-action-box > .footer-button-right {
+    right: 0;
+}
+
+.kartei-action-box > .footer-button-left {
+    left: 0;
+}
