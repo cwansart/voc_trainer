@@ -2,14 +2,12 @@
  * LADE ANIMATION
  *****************************************************************************/
 /* LADE ANIMATION ABSCHALTEN: */
-/*
 .event.received {
     display: block !important;
 }
 .event.listening {
     display:none !important;
 }
-*/
 
 /* ausgeblendetes Element der Ladeanimation. Hier ist die eigentliche
  * Webseite enthalten */
