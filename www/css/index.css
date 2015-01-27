@@ -46,7 +46,7 @@ body {
 }
 
 /* Portrait layout (default) */
-.app {
+.loading {
     background:url(../img/logo.png) no-repeat center top; /* 170px x 200px */
     position:absolute;             /* position in the center of the screen */
     left:50%;
@@ -59,27 +59,13 @@ body {
                                    /* offset horizontal: half of text area width */
 }
 
-/* Landscape layout (with min-width) */
-@media screen and (min-aspect-ratio: 1/1) and (min-width:400px) {
-    .app {
-        background-position:left center;
-        padding:75px 0px 75px 170px;  /* padding-top + padding-bottom + text area = image height */
-        margin:-90px 0px 0px -198px;  /* offset vertical: half of image height */
-                                      /* offset horizontal: half of image width and text area width */
-    }
+.event.listening {
+    display:block;
 }
 
-h1 {
-    font-size:24px;
-    font-weight:normal;
-    margin:0px;
-    overflow:visible;
-    padding:0px;
-    text-align:center;
-}
-
-.event {
-    border-radius:4px;
+.event.listening > div {
+    background-color: #333333;
+     border-radius:4px;
     -webkit-border-radius:4px;
     color:#FFFFFF;
     font-size:12px;
@@ -87,13 +73,7 @@ h1 {
     padding:2px 0px;
 }
 
-.event.listening {
-    background-color:#333333;
-    display:block;
-}
-
 .event.received {
-    background-color:#4B946A;
     display:none;
 }
 
