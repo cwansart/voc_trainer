@@ -18,6 +18,9 @@
  */
 // Hier werden Datei"global" die Sprachen gespeichert aus der data/sprachen.json
 var sprachen = {};
+var aktuelleSprache = null;
+var aktuelleKartei = null;
+var aktuelleVokabel = null;
 
 var app = {
     // Application Constructor
@@ -51,57 +54,78 @@ var app = {
     }
 };
 
-/** Zum Arbeiten im Browser ist der jQuery-Code hier, muss aber anschließend in die onDeviceReady
-  * Funktion verschoben werden!
-  */
-$( "#Karteiverwaltung" ).on( "pagecreate", function( event, ui ) {
-    /*
-     * TODO: Die Datei muss nur einmal ganz am Anfang geladen werden. Der Rest sollte
-     * über die "sprachen"-Variable ablaufen.
-     * !!! Wir können die sprachen.json auch im Ladebildschirm laden !!!
-     */
-    $.getJSON("data/sprachen.json", function( data ) {
-        sprachen = data['sprachen'];
-
-        var listView = '';
-        $.each(sprachen, function(i, sprache) {
-            listView += '<li>' + sprache['sprache'] + '</li>';
-        });
-
-        $("#kartei-sprachen-liste").append(listView);
-        $("#kartei-sprachen-liste").listview( "refresh" );
-
-        $("#kartei-sprachen").children()[0].setAttribute('style', 'display:none;');
-        $("#kartei-sprachen").children()[1].setAttribute('style', 'display:block;');
-    });
-});
-
-/* Kartei-hinzufügen - Page*/
-$( "#NeueKartei" ).on( "pagecreate", function( event, ui ) {
-		$("#kartei-hinzu-sprachen").hide();
-	
-		$.getJSON("data/sprachen.json", function( data ) {
-		sprachen = data['sprachen'];
-
-		var listView = '';
-		$.each(sprachen, function(i, sprache) {
-			listView += '<li>' + sprache['sprache'] + '</li>';
-		});
-		
-		listView += '<br>';
-
-		$("#kartei-hinzu-sprachen-liste").append(listView);
-		$("#kartei-hinzu-sprachen-liste").listview( "refresh" );
-
-		$("#kartei-hinzu-sprachen").children()[0].setAttribute('style', 'display:none;');
-		$("#kartei-hinzu-sprachen").children()[1].setAttribute('style', 'display:block;');
-    });
-
-	$("#sprache-waehlen").click( function(){
-
-		$("#kartei-hinzu-sprachen").slideToggle();
-	});
-});
-
 app.initialize();
 
+// Beim Laden der App, Sprachen-Datei einlesen. Diese Funktion muss für die App noch in the app.onDeviceReady verschoben werden.
+$(document).ready(function() {
+    $.getJSON('data/sprachen.json', function( data ) {
+        sprachen = data;
+    });
+});
+
+$('#Karteiverwaltung').on('pagecreate', function(event, ui) {
+    var listView = '';
+    $.each(sprachen, function(sprache) {
+        listView += '<li><a href="#Karteiverwaltung2">' + sprache + '</a></li>';
+    });
+    $('#kartei-sprachen-liste').append(listView);
+    $('#kartei-sprachen-liste').listview('refresh');
+
+    if(listView != '') {
+        $('#kartei-sprachen').children()[0].setAttribute('style', 'display:none;');
+        $('#kartei-sprachen').children()[1].setAttribute('style', 'display:block;');
+    }
+
+    // Wenn die Sprache angeklickt wird, wird die Sprache in der globalen Variable "aktuelleSprache" gesetzt.
+    $('#kartei-sprachen-liste > li').on('click', function() {
+        aktuelleSprache = $(this).text();
+    });
+});
+
+$('#Karteiverwaltung2').on( 'pagecreate', function( event, ui ) {
+    if(aktuelleSprache == null) return;
+
+    var listView = '';
+    $.each(sprachen[aktuelleSprache], function(kartei) {
+        listView += '<li><a href="#Karteiverwaltung3">' + kartei + '</a></li>';
+    });
+    $('#kartei-karteien-liste').append(listView);
+    $('#kartei-karteien-liste').listview('refresh');
+
+    if(listView != '') {
+        $('#kartei-karteien').children()[0].setAttribute('style', 'display:none;');
+        $('#kartei-karteien').children()[1].setAttribute('style', 'display:block;');
+    }
+
+    // Wenn die Kartei angeklickt wird, wird die Kartei in der globalen Variable "aktuelleKartei" gesetzt.
+    $('#kartei-karteien-liste > li').on('click', function() {
+        aktuelleKartei = $(this).text();
+    });
+});
+
+$('#Karteiverwaltung3').on( 'pagecreate', function( event, ui ) {
+    if(aktuelleKartei == null) return;
+
+    var listView = '';
+    var vokabeln = sprachen[aktuelleSprache][aktuelleKartei];
+    for(var i in vokabeln) {
+        $.each(vokabeln[i], function(vokabel, uebersetzung) {
+            listView += '<li><a href="#Karteiverwaltung4">' + vokabel + ' – ' + uebersetzung + '</a></li>';
+        });
+    }
+
+    $('#kartei-vokabeln-liste').append(listView);
+    $('#kartei-vokabeln-liste').listview('refresh');
+
+    if(listView != '') {
+        $('#kartei-vokabeln').children()[0].setAttribute('style', 'display:none;');
+        $('#kartei-vokabeln').children()[1].setAttribute('style', 'display:block;');
+    }
+
+    // Wenn die Kartei angeklickt wird, wird die Kartei in der globalen Variable "aktuelleKartei" gesetzt.
+    $('#kartei-vokabeln-liste > li').on('click', function() {
+        aktuelleVokabel = $(this).text();
+        alert("DÖDÖÖÖM");
+        return;
+    });
+});

@@ -1,7 +1,12 @@
 {
-	"sprachen": [
-		{ "id": 0, "sprache": "Englisch" },
-		{ "id": 1, "sprache": "Spanisch" },
-		{ "id": 2, "sprache": "Französisch" }
-	]
+    "Englisch": {
+        "Grundbegriffe": [
+            { "hello": "hallo" },
+            { "bye": "tschüss" }
+        ],
+        "Politik": [
+            { "European Union": "Europäische Union" },
+            { "prime minister": "Premierminister" }
+        ]
+    }
 }
