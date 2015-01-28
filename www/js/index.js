@@ -18,6 +18,7 @@
  */
 // Hier werden Datei"global" die Sprachen gespeichert aus der data/sprachen.json
 var sprachen = {};
+var sprachenGeladen = false;
 var aktuelleSprache = null;
 var aktuelleKartei = null;
 var aktuelleVokabel = null;
@@ -26,6 +27,7 @@ var app = {
     // Application Constructor
     initialize: function() {
         this.bindEvents();
+        sprachenLaden();
     },
     // Bind Event Listeners
     //
@@ -58,10 +60,17 @@ app.initialize();
 
 // Beim Laden der App, Sprachen-Datei einlesen. Diese Funktion muss für die App noch in the app.onDeviceReady verschoben werden.
 $(document).ready(function() {
+    sprachenLaden();
+});
+
+function sprachenLaden() {
+    console.log("sprachen laden");
+    if(sprachenGeladen) return;
     $.getJSON('data/sprachen.json', function( data ) {
         sprachen = data;
     });
-});
+    sprachenGeladen = true;
+}
 
 $('#Karteiverwaltung').on('pagecreate', function(event, ui) {
     var listView = '';
