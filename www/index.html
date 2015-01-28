@@ -242,16 +242,20 @@
                         <div data-role="content">
 
                             <div>
-                            	<a href="#" data-role="button" data-icon="search" id="sprache-waehlen">Sprache wählen</a><br>
-                                <div id="kartei-hinzu-sprachen">
-                                	<h2 style="display: none">Bitte wähle eine Sprache aus.</h2>
-                                    <ul id="kartei-hinzu-sprachen-liste" data-role="listview">
-                                    </ul>
+                            	<a href="#" data-role="button" data-icon="search" id="sprache-waehlen">Sprache wählen</a>
+                                <div data-role="fieldcontain" id="kartei-hinzu-sprachen">
+                                	<fieldset data-role="controlgroup" id="kartei-hinzu-sprachen-liste">
+                                    </fieldset>
                                 </div>
-                                <a href="#" data-role="button" data-icon="edit">Sprache hinzufügen</a>
+                                <a href="#" data-role="button" data-icon="edit" id="sprache-hinzu">Sprache hinzufügen</a>
+                                <div id="div-sprache-hinzu">
+                                	<label for="basic">Sprache:</label><input type="text" name="name" id="neu-sprache-name" value=""  />
+                                </div>
+                                
                                 <hr>
                                 <label for="basic">Karteiname:</label>
                                 <input type="text" name="name" id="neu-kartei-name" value=""  />
+                                
                                 <hr>
                                 <div class="kartei-action-box">
                                     <a href="#" class="ui-btn ui-corner-all ui-btn-inline ui-mini footer-button-left ui-btn-icon-left ui-icon-check">Kartei speichern</a>
