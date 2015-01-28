@@ -1,0 +1,7 @@
+{
+	"sprachen": [
+		{ "id": 0, "sprache": "Englisch" },
+		{ "id": 1, "sprache": "Spanisch" },
+		{ "id": 2, "sprache": "Französisch" }
+	]
+}

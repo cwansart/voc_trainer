@@ -16,6 +16,9 @@
  * specific language governing permissions and limitations
  * under the License.
  */
+// Hier werden Datei"global" die Sprachen gespeichert aus der data/sprachen.json
+var sprachen = {};
+
 var app = {
     // Application Constructor
     initialize: function() {
@@ -48,4 +51,30 @@ var app = {
     }
 };
 
+/** Zum Arbeiten im Browser ist der jQuery-Code hier, muss aber anschließend in die onDeviceReady
+  * Funktion verschoben werden!
+  */
+$( "#Karteiverwaltung" ).on( "pagecreate", function( event, ui ) {
+    /*
+     * TODO: Die Datei muss nur einmal ganz am Anfang geladen werden. Der Rest sollte
+     * über die "sprachen"-Variable ablaufen.
+     * !!! Wir können die sprachen.json auch im Ladebildschirm laden !!!
+     */
+    $.getJSON("data/sprachen.json", function( data ) {
+        sprachen = data['sprachen'];
+
+        var listView = '';
+        $.each(sprachen, function(i, sprache) {
+            listView += '<li>' + sprache['sprache'] + '</li>';
+        });
+
+        $("#kartei-sprachen-liste").append(listView);
+        $("#kartei-sprachen-liste").listview( "refresh" );
+
+        $("#kartei-sprachen").children()[0].setAttribute('style', 'display:none;');
+        $("#kartei-sprachen").children()[1].setAttribute('style', 'display:block;');
+    });
+});
+
 app.initialize();
+
