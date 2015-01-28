@@ -76,5 +76,32 @@ $( "#Karteiverwaltung" ).on( "pagecreate", function( event, ui ) {
     });
 });
 
+/* Kartei-hinzufügen - Page*/
+$( "#NeueKartei" ).on( "pagecreate", function( event, ui ) {
+		$("#kartei-hinzu-sprachen").hide();
+	
+		$.getJSON("data/sprachen.json", function( data ) {
+		sprachen = data['sprachen'];
+
+		var listView = '';
+		$.each(sprachen, function(i, sprache) {
+			listView += '<li>' + sprache['sprache'] + '</li>';
+		});
+		
+		listView += '<br>';
+
+		$("#kartei-hinzu-sprachen-liste").append(listView);
+		$("#kartei-hinzu-sprachen-liste").listview( "refresh" );
+
+		$("#kartei-hinzu-sprachen").children()[0].setAttribute('style', 'display:none;');
+		$("#kartei-hinzu-sprachen").children()[1].setAttribute('style', 'display:block;');
+    });
+
+	$("#sprache-waehlen").click( function(){
+
+		$("#kartei-hinzu-sprachen").slideToggle();
+	});
+});
+
 app.initialize();
 

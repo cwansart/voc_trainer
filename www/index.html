@@ -150,7 +150,7 @@
 
                             <div class="kartei-action-box">
                                 <a href="#" class="ui-btn ui-corner-all ui-btn-inline ui-mini footer-button-left ui-btn-icon-left ui-icon-delete">Entfernen</a>
-                                <a href="#" class="ui-btn ui-corner-all ui-btn-inline ui-mini footer-button-right ui-btn-icon-right ui-icon-edit">Hinzufügen</a>
+                                <a href="#NeueKartei" class="ui-btn ui-corner-all ui-btn-inline ui-mini footer-button-right ui-btn-icon-right ui-icon-edit">Hinzufügen</a>
                             </div>
                         </div><!-- /content -->
 
@@ -165,6 +165,46 @@
                         </div><!-- /footer -->
                     </div>
                     <!-- /page: Karteiverwaltung -->
+                    
+                    <!-- page: Kartei Hinzufügen -->
+                    <div data-role="page" id="NeueKartei">
+                        <div data-role="header">
+                        	<a href="index.html" data-role="button" data-icon="home" data-iconpos="notext" class="ui-btn-right"></a>
+                            <h1>Kartei Hinzufügen</h1>
+                        </div><!-- /header -->
+
+                        <div data-role="content">
+
+                            <div>
+                            	<a href="#" data-role="button" data-icon="search" id="sprache-waehlen">Sprache wählen</a><br>
+                                <div id="kartei-hinzu-sprachen">
+                                	<h2 style="display: none">Bitte wähle eine Sprache aus.</h2>
+                                    <ul id="kartei-hinzu-sprachen-liste" data-role="listview">
+                                    </ul>
+                                </div>
+                                <a href="#" data-role="button" data-icon="edit">Sprache hinzufügen</a>
+                                <hr>
+                                <label for="basic">Karteiname:</label>
+                                <input type="text" name="name" id="neu-kartei-name" value=""  />
+                                <hr>
+                                <div class="kartei-action-box">
+                                    <a href="#" class="ui-btn ui-corner-all ui-btn-inline ui-mini footer-button-left ui-btn-icon-left ui-icon-check">Kartei speichern</a>
+                                    <a href="#" class="ui-btn ui-corner-all ui-btn-inline ui-mini footer-button-right ui-btn-icon-right ui-icon-delete">Kartei verwerfen</a>
+                           		</div>
+                            </div>
+                        </div><!-- /content -->
+
+                        <div data-role="footer" data-position="fixed" >
+                            <div data-role="navbar">
+                                <ul>
+                                    <li><a href="#Anleitung" data-icon="anleitung">Anleitung</a></li>
+                                    <li><a href="#Karteiverwaltung" data-icon="karteiverwaltung">Karteiverwaltung</a></li>
+                                    <li><a href="#Einstellungen" data-icon="einstellungen">Einstellungen</a></li>
+                                </ul>
+                            </div><!-- /navbar -->
+                        </div><!-- /footer -->
+                    </div>
+                    <!-- /page: Kartei hinzufügen -->
 
                 </div>
             </div>
