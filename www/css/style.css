@@ -1,0 +1,25 @@
+@charset "utf-8";
+/* Eigene CSS-Ergänzungen/Anpassungen */
+
+.content-home{
+	margin-top: 70px;
+}
+
+.ui-listview > .ui-li-has-thumb > .ui-btn{
+	padding-left:60px !important;
+}
+
+.ui-li-has-thumb> a >img{
+	background: #FF507D !important;
+	top:16px !important;
+	left:12px !important;
+}
+
+.content-continuos-text{
+	width:auto;
+	height:auto;
+	background:#fff;
+	padding:0px 20px;
+	border:1px solid #63b059;
+	border-radius:0.5em;
+}

@@ -12,32 +12,20 @@ div[data-role="navbar"] .ui-icon-einstellungen.ui-btn-icon-top:after {
 
 /* Schaltet die Hintergrundfarbe der Icons aus. */
 div[data-role="navbar"] .ui-btn-icon-top:after {
-	background-color: transparent;
+	background-color: #FF507D;
 }
 
 /* Anleitung Icon */
 .ui-icon-anleitung:after {
-	background-image: url("../img/start-here.svg");
-}
-/* Fallback */
-.ui-nosvg .ui-icon-anleitung:after {
-	background-image: url("../img/start-here.png");
+	background-image: url("../img/app-icon-anleitung-highres.png");
 }
 
 /* Karteiverwaltung Icon */
 .ui-icon-karteiverwaltung:after {
-	background-image: url("../img/folder.svg");
-}
-/* Fallback */
-.ui-nosvg .ui-icon-karteiverwaltung:after {
-	background-image: url("../img/folder.png");
+	background-image: url("../img/app-icon-karteien-highres.png");
 }
 
 /* Einstellungen Icon */
 .ui-icon-einstellungen:after {
-	background-image: url("../img/preferences-system.svg");
-}
-/* Fallback */
-.ui-nosvg .ui-icon-einstellungen:after {
-	background-image: url("../img/preferences-system.png");
+	background-image: url("../img/app-icon-settings-highres.png");
 }

@@ -25,9 +25,11 @@
         <!-- WARNING: for iOS 7, remove the width=device-width and height=device-height attributes. See https://issues.apache.org/jira/browse/CB-4323 -->
         <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
         <link rel="stylesheet" type="text/css" href="css/jquery.mobile-1.4.5.min.css" />
+        <link rel="stylesheet" type="text/css" href="css/avocado.css" />
         <link rel="stylesheet" type="text/css" href="css/index.css" />
         <link rel="stylesheet" type="text/css" href="css/load-animation.css" />
         <link rel="stylesheet" type="text/css" href="css/custom-icons.css" />
+        <link rel="stylesheet" type="text/css" href="css/style.css" />
         <script type="text/javascript" src="cordova.js"></script>
         <script type="text/javascript" src="js/jquery-2.1.3.min.js"></script>
         <script type="text/javascript" src="js/jquery.mobile-1.4.5.min.js"></script>
@@ -48,25 +50,26 @@
                             <h1>Vokabeltrainer</h1>
                         </div><!-- /header -->
 
-                        <div data-role="content">
+                        <div data-role="content" class="content-home">
+                        	
                             <ul data-role="listview">
                                 <li>
                                     <a href="#Anleitung">
-                                        <img src="img/start-here.png" alt="Anleitung">
+                                        <img src="img/app-icon-anleitung-highres.png" alt="Anleitung">
                                         <h2>Anleitung</h2>
                                         <p>Hier findest Du eine Anleitung, wie Du wie App nutzen kannst.</p>
                                     </a>
                                 </li>
                                 <li>
                                     <a href="#Karteiverwaltung">
-                                        <img src="img/folder.png" alt="Anleitung">
+                                        <img src="img/app-icon-karteien-highres.png" alt="Anleitung">
                                         <h2>Karteiverwaltung</h2>
                                         <p>Hier kannst Du gleich mit dem Lernen gleich durchstarten.</p>
                                     </a>
                                 </li>
                                 <li>
                                     <a href="#Einstellungen">
-                                        <img src="img/preferences-system.png" alt="Einstellungen">
+                                        <img src="img/app-icon-settings-highres.png" alt="Einstellungen">
                                         <h2>Einstellungen</h2>
                                         <p>Alle Einstellungsmöglichkeiten findest Du hier.</p>
                                     </a>
@@ -79,15 +82,18 @@
                     <!-- page: Anleitung -->
                     <div data-role="page" id="Anleitung">
                         <div data-role="header">
+                        	<a href="index.html" data-role="button" data-icon="home" data-iconpos="notext" class="ui-btn-right"></a>
                             <h1>Anleitung</h1>
                         </div><!-- /header -->
 
                         <div data-role="content">
+                        	<div class="content-continuos-text">
                             <h2>Was ist Avocado?</h2>
                             <p>Avocado ist eine Vokabeltrainer-App, mit der Du neue Karteien und Vokabeln anlegen und anschließend üben kannst.</p>
 
                             <h2>Was ist die Karteiverwaltung?</h2>
                             <p>In der Karteiverwaltung kannst Du neue Karteien, also Kategorien, für deine Vokabeln hinzufügen. In diesen Karteien kannst Du wiederm neue Vokabeln einpflegen. Anschließend kannst Du eine Kartei auswählen und dessen Vokabeln lernen.</p>
+                            </div>
                         </div><!-- /content -->
 
                         <div data-role="footer" data-position="fixed" >
@@ -105,11 +111,14 @@
                     <!-- page: Einstellungen -->
                     <div data-role="page" id="Einstellungen">
                         <div data-role="header">
+                        <a href="index.html" data-role="button" data-icon="home" data-iconpos="notext" class="ui-btn-right"></a>
                             <h1>Einstellungen</h1>
                         </div><!-- /header -->
 
                         <div data-role="content">
+                        	<div class="content-continuos-text">
                             <h2>Leider gibt es hier noch nichts einzustellen! :-(</h2>
+                            </div>
                         </div><!-- /content -->
 
                         <div data-role="footer" data-position="fixed" >
@@ -127,6 +136,7 @@
                     <!-- page: Karteiverwaltung -->
                     <div data-role="page" id="Karteiverwaltung">
                         <div data-role="header">
+                        	<a href="index.html" data-role="button" data-icon="home" data-iconpos="notext" class="ui-btn-right"></a>
                             <h1>Karteiverwaltung – Sprache</h1>
                         </div><!-- /header -->
 
