@@ -1,0 +1,10 @@
+Neue Elemente zu 'var sprachen' hinzufügen:
+
+Sprache hinzufügen:
+sprachen["neueSprache"] = {};
+
+Kartei hinzufügen:
+sprachen["Russisch"]["neueKartei"] = [];
+
+Vokabel hinzufügen:
+sprachen["Russisch"]["Grußformeln"].push({"привет": "hallo"});
