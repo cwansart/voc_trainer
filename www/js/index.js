@@ -132,11 +132,10 @@ $('#Karteiverwaltung3').on( 'pagecreate', function( event, ui ) {
 
     var listView = '';
     var vokabeln = sprachen[aktuelleSprache][aktuelleKartei];
-    for(var i in vokabeln) {
-        $.each(vokabeln[i], function(vokabel, uebersetzung) {
-            listView += '<li><a href="#Karteiverwaltung4">' + vokabel + ' – ' + uebersetzung + '</a></li>';
-        });
-    }
+
+    $.each(vokabeln, function(fremdsprache, deutsch) {
+        listView += '<li><a href="#Karteiverwaltung4">' + fremdsprache + ' – ' + deutsch + '</a></li>';
+    });
 
     $('#kartei-vokabeln-liste').append(listView);
     $('#kartei-vokabeln-liste').listview('refresh');

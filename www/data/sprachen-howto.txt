@@ -4,7 +4,7 @@ Sprache hinzufügen:
 sprachen["neueSprache"] = {};
 
 Kartei hinzufügen:
-sprachen["Russisch"]["neueKartei"] = [];
+sprachen["Russisch"]["neueKartei"] = {};
 
 Vokabel hinzufügen:
-sprachen["Russisch"]["Grußformeln"].push({"привет": "hallo"});
+sprachen["Russisch"]["Grußformeln"]["привет"] = "hallo";
