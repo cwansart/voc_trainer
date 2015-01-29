@@ -99,20 +99,20 @@ $('#Karteiverwaltung').on('pagecreate', function(event, ui) {
 	$('#check-Sprachen').click( function(){
 		$('#deleteSprache').fadeToggle();
 		// TODO: wenn man auf "mehrere Markieren" klickt, müssen checkboxen zum markieren erscheinen.
-		
-		$('#deleteSprache').click( function(){
-			alert("Möchtest du wirklich die ganze Sprache löschen?");
-		});
 	});
 });
 
 $('#Karteiverwaltung2').on( 'pagecreate', function( event, ui ) {
+	$('#deleteKartei').hide();
+	
     if(aktuelleSprache == null) return;
 
     var listView = '';
     $.each(sprachen[aktuelleSprache], function(kartei) {
         listView += '<li><a href="#Karteiverwaltung3">' + kartei + '</a></li>';
     });
+	listView += '<br>';
+	
     $('#kartei-karteien-liste').append(listView);
     $('#kartei-karteien-liste').listview('refresh');
 
@@ -125,9 +125,17 @@ $('#Karteiverwaltung2').on( 'pagecreate', function( event, ui ) {
     $('#kartei-karteien-liste > li').on('click', function() {
         aktuelleKartei = $(this).text();
     });
+	
+	// Funktionen zum wählen und löschen der Karteien
+	$('#check-Kartei').click( function(){
+		$('#deleteKartei').fadeToggle();
+		// TODO: wenn man auf "mehrere Markieren" klickt, müssen checkboxen zum markieren erscheinen.
+	});
 });
 
 $('#Karteiverwaltung3').on( 'pagecreate', function( event, ui ) {
+	$('#deleteVokabel').hide();
+	
     if(aktuelleKartei == null) return;
 
     var listView = '';
@@ -136,6 +144,7 @@ $('#Karteiverwaltung3').on( 'pagecreate', function( event, ui ) {
     $.each(vokabeln, function(fremdsprache, deutsch) {
         listView += '<li><a href="#Karteiverwaltung4">' + fremdsprache + ' – ' + deutsch + '</a></li>';
     });
+	listView += '<br>';
 
     $('#kartei-vokabeln-liste').append(listView);
     $('#kartei-vokabeln-liste').listview('refresh');
@@ -151,4 +160,9 @@ $('#Karteiverwaltung3').on( 'pagecreate', function( event, ui ) {
         alert("DÖDÖÖÖM");
         return;
     });
+	
+	$('#check-Vokabel').click( function(){
+		$('#deleteVokabel').fadeToggle();
+		// TODO: wenn man auf "mehrere Markieren" klickt, müssen checkboxen zum markieren erscheinen.
+	});
 });
