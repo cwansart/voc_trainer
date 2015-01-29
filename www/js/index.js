@@ -73,10 +73,15 @@ function sprachenLaden() {
 }
 
 $('#Karteiverwaltung').on('pagecreate', function(event, ui) {
+	$('#deleteSprache').hide();
+	
     var listView = '';
     $.each(sprachen, function(sprache) {
         listView += '<li><a href="#Karteiverwaltung2">' + sprache + '</a></li>';
     });
+	
+	listView += '<br>';
+	
     $('#kartei-sprachen-liste').append(listView);
     $('#kartei-sprachen-liste').listview('refresh');
 
@@ -89,6 +94,16 @@ $('#Karteiverwaltung').on('pagecreate', function(event, ui) {
     $('#kartei-sprachen-liste > li').on('click', function() {
         aktuelleSprache = $(this).text();
     });
+	
+	// Funktionen zum wählen und löschen der Sprachen
+	$('#check-Sprachen').click( function(){
+		$('#deleteSprache').fadeToggle();
+		// TODO: wenn man auf "mehrere Markieren" klickt, müssen checkboxen zum markieren erscheinen.
+		
+		$('#deleteSprache').click( function(){
+			alert("Möchtest du wirklich die ganze Sprache löschen?");
+		});
+	});
 });
 
 $('#Karteiverwaltung2').on( 'pagecreate', function( event, ui ) {
