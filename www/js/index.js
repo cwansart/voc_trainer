@@ -111,3 +111,27 @@ $('#Karteiverwaltung').on('pagecreate', function(event, ui) {
 			}
 	});
 });
+
+$('#NeueKartei').on('pagecreate', function(event, ui) {
+	$('#div-sprache-hinzu').hide();
+	
+	 var collapsible = '';
+	 
+    collapsible += '<div data-role="collapsible"><h3>Sprachen wählen</h3>';	//div noch schließen
+	$.each(sprachen, function(sprache) {
+		collapsible += '<p><input type="radio">' + sprache + '</p>';
+	});
+	collapsible += '</div>';
+
+    $('#kartei-hinzu-sprachen-liste').append(collapsible);
+    $('#kartei-hinzu-sprachen-liste').collapsibleset('refresh');
+	
+	$('#kartei-hinzu-sprachen-liste > div > h3').click( function(){		// "Sprache hinzufügen" wird betätigt
+		$('#sprache-hinzu').slideToggle();
+	});
+	
+	$('#sprache-hinzu').click( function(){		// "Sprache wählen" wird betätigt
+		$('#div-sprache-hinzu').fadeToggle();
+		$('#kartei-hinzu-sprachen-liste').slideToggle();
+	});
+});
