@@ -105,7 +105,8 @@ $('#Karteiverwaltung').on('pagecreate', function(event, ui) {
 
     $('#kartei-sprachen-liste').children().find(':checkbox').on('click', function() {
         var einAusblendeGeschw = 400;
-        var anzahlAusgewaehlt = $(this).parent().parent().find('input:checked').length;
+        var anzahlAusgewaehlt = $('#kartei-sprachen-liste').find('input:checked').length;
+        console.log(anzahlAusgewaehlt);
         switch(anzahlAusgewaehlt) {
             case 0:
                 $('#loeschenBtn').hide(einAusblendeGeschw);
@@ -124,18 +125,6 @@ $('#Karteiverwaltung').on('pagecreate', function(event, ui) {
                 break;
         }
     })
-
-    // Funktionen zum wählen und löschen der Sprachen
-    //$('#kartei-sprachen').find(':checkbox').each
-    /*
-    $('#kartei-sprachen-liste').find(':checkbox').on('change', function(){
-        if($(this).is(':checked')) {
-            $('#loeschenBtn').fadeToggle();
-            $('#lernenBtn').fadeToggle();
-            $('#oeffnenBtn').fadeToggle();
-        }
-    });
-    */
 });
 
 $('#NeueKartei').on('pagecreate', function(event, ui) {
