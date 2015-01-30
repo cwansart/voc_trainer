@@ -73,96 +73,40 @@ function sprachenLaden() {
 }
 
 $('#Karteiverwaltung').on('pagecreate', function(event, ui) {
-	$('#deleteSprache').hide();
+	$('#loeschenBtn').hide();
+	$('#lernenBtn').hide();
+	$('#oeffnenBtn').hide();
 	
-    var listView = '';
+    var collapsible = '';
     $.each(sprachen, function(sprache) {
-        listView += '<li><a href="#Karteiverwaltung2">' + sprache + '</a></li>';
+        collapsible += '<div data-role="collapsible" data-iconpos="right"><h3>' + sprache + '</h3>';	//div noch schließen
+		
+		$.each(sprachen[sprache], function(kartei) {
+        	collapsible += '<p><input type="checkbox">' + kartei + '</p>';
+    	});
+		
+		collapsible += '</div>';
     });
-	
-	listView += '<br>';
-	
-    $('#kartei-sprachen-liste').append(listView);
-    $('#kartei-sprachen-liste').listview('refresh');
 
-    if(listView != '') {
+    $('#kartei-sprachen-liste').append(collapsible);
+    $('#kartei-sprachen-liste').collapsibleset('refresh');
+
+    if(collapsible != '') {
         $('#kartei-sprachen').children()[0].setAttribute('style', 'display:none;');
         $('#kartei-sprachen').children()[1].setAttribute('style', 'display:block;');
     }
-
-    // Wenn die Sprache angeklickt wird, wird die Sprache in der globalen Variable "aktuelleSprache" gesetzt.
-    $('#kartei-sprachen-liste > li').on('click', function() {
-        aktuelleSprache = $(this).text();
+	
+	    // Wenn die Sprache angeklickt wird, wird die Sprache in der globalen Variable "aktuelleSprache" gesetzt.
+    $('#kartei-sprachen-liste > div > h3').on('click', function() {
+        aktuelleSprache = $(this).text();	// Hier gibt es noch ein Problem: es wird zb: "Englisch click to collapse content" gespeichert.
     });
 	
 	// Funktionen zum wählen und löschen der Sprachen
-	$('#check-Sprachen').click( function(){
-		$('#deleteSprache').fadeToggle();
-		// TODO: wenn man auf "mehrere Markieren" klickt, müssen checkboxen zum markieren erscheinen.
-	});
-});
-
-$('#Karteiverwaltung2').on( 'pagecreate', function( event, ui ) {
-	$('#deleteKartei').hide();
-	
-    if(aktuelleSprache == null) return;
-
-    var listView = '';
-    $.each(sprachen[aktuelleSprache], function(kartei) {
-        listView += '<li><a href="#Karteiverwaltung3">' + kartei + '</a></li>';
-    });
-	listView += '<br>';
-	
-    $('#kartei-karteien-liste').append(listView);
-    $('#kartei-karteien-liste').listview('refresh');
-
-    if(listView != '') {
-        $('#kartei-karteien').children()[0].setAttribute('style', 'display:none;');
-        $('#kartei-karteien').children()[1].setAttribute('style', 'display:block;');
-    }
-
-    // Wenn die Kartei angeklickt wird, wird die Kartei in der globalen Variable "aktuelleKartei" gesetzt.
-    $('#kartei-karteien-liste > li').on('click', function() {
-        aktuelleKartei = $(this).text();
-    });
-	
-	// Funktionen zum wählen und löschen der Karteien
-	$('#check-Kartei').click( function(){
-		$('#deleteKartei').fadeToggle();
-		// TODO: wenn man auf "mehrere Markieren" klickt, müssen checkboxen zum markieren erscheinen.
-	});
-});
-
-$('#Karteiverwaltung3').on( 'pagecreate', function( event, ui ) {
-	$('#deleteVokabel').hide();
-	
-    if(aktuelleKartei == null) return;
-
-    var listView = '';
-    var vokabeln = sprachen[aktuelleSprache][aktuelleKartei];
-
-    $.each(vokabeln, function(fremdsprache, deutsch) {
-        listView += '<li><a href="#Karteiverwaltung4">' + fremdsprache + ' – ' + deutsch + '</a></li>';
-    });
-	listView += '<br>';
-
-    $('#kartei-vokabeln-liste').append(listView);
-    $('#kartei-vokabeln-liste').listview('refresh');
-
-    if(listView != '') {
-        $('#kartei-vokabeln').children()[0].setAttribute('style', 'display:none;');
-        $('#kartei-vokabeln').children()[1].setAttribute('style', 'display:block;');
-    }
-
-    // Wenn die Kartei angeklickt wird, wird die Kartei in der globalen Variable "aktuelleKartei" gesetzt.
-    $('#kartei-vokabeln-liste > li').on('click', function() {
-        aktuelleVokabel = $(this).text();
-        alert("DÖDÖÖÖM");
-        return;
-    });
-	
-	$('#check-Vokabel').click( function(){
-		$('#deleteVokabel').fadeToggle();
-		// TODO: wenn man auf "mehrere Markieren" klickt, müssen checkboxen zum markieren erscheinen.
+	$('#kartei-sprachen-liste').find(':checkbox').on('change', function(){	/* generiert löschen-button beim anklicken eines Elements */
+			if($(this).is(':checked')) {
+				$('#loeschenBtn').fadeToggle();
+				$('#lernenBtn').fadeToggle();
+				$('#oeffnenBtn').fadeToggle();
+			}
 	});
 });

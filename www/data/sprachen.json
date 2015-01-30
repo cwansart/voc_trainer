@@ -8,5 +8,11 @@
             "European Union": "Europäische Union",
             "prime minister": "Premierminister"
         }
+    },
+	"Spanisch": {
+        "Grundbegriffe": {
+            "hola": "hallo",
+            "hasta luego": "bis bald"
+        }
     }
 }
