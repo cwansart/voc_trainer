@@ -98,11 +98,6 @@ $('#Karteiverwaltung').on('pagecreate', function(event, ui) {
         $('#kartei-sprachen').children()[1].setAttribute('style', 'display:block;');
     }
     
-    // Wenn die Sprache angeklickt wird, wird die Sprache in der globalen Variable "aktuelleSprache" gesetzt.
-    $('#kartei-sprachen-liste > div > h3').on('click', function() {
-        aktuelleSprache = $(this).text();   // Hier gibt es noch ein Problem: es wird zb: "Englisch click to collapse content" gespeichert.
-    });
-    
     // Funktionen zum wählen und löschen der Sprachen
     $('#kartei-sprachen-liste').find(':checkbox').on('change', function(){  /* generiert löschen-button beim anklicken eines Elements */
         if($(this).is(':checked')) {
