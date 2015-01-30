@@ -117,11 +117,11 @@ $('#NeueKartei').on('pagecreate', function(event, ui) {
 	
 	 var collapsible = '';
 	 
-    collapsible += '<div data-role="collapsible"><h3>Sprachen wählen</h3>';	//div noch schließen
+    collapsible += '<div data-role="collapsible"><h3>Sprachen wählen</h3><form>';	
 	$.each(sprachen, function(sprache) {
-		collapsible += '<p><input type="radio">' + sprache + '</p>';
+		collapsible += '<p><input type="radio" name="Sprache" value="' + sprache + '">' + sprache + '</p>';	// Geht das so?
 	});
-	collapsible += '</div>';
+	collapsible += '</form></div>';
 
     $('#kartei-hinzu-sprachen-liste').append(collapsible);
     $('#kartei-hinzu-sprachen-liste').collapsibleset('refresh');
