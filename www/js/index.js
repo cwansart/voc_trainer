@@ -80,7 +80,7 @@ $('#Karteiverwaltung').on('pagecreate', function(event, ui) {
     
     var collapsible = '';
     $.each(sprachen, function(sprache) {
-        collapsible += '<div data-role="collapsible" data-iconpos="right"><h3>' + sprache + '</h3>'
+        collapsible += '<div data-role="collapsible" data-iconpos="right" data-sprache="' + sprache + '"><h3>' + sprache + '</h3>'
                     +  '<fieldset data-role="controlgroup">';   //div noch schließen
         
         $.each(sprachen[sprache], function(kartei) {
@@ -98,14 +98,22 @@ $('#Karteiverwaltung').on('pagecreate', function(event, ui) {
         $('#kartei-sprachen').children()[1].setAttribute('style', 'display:block;');
     }
     
+    // ausgewählte/ausgeklappte Sprache speichern
+    $('#kartei-sprachen-liste').children().on('collapsibleexpand', function(event, ui) {
+        aktuelleSprache = $(this).attr('data-sprache');
+    });
+
     // Funktionen zum wählen und löschen der Sprachen
-    $('#kartei-sprachen-liste').find(':checkbox').on('change', function(){  /* generiert löschen-button beim anklicken eines Elements */
+    //$('#kartei-sprachen').find(':checkbox').each
+    /*
+    $('#kartei-sprachen-liste').find(':checkbox').on('change', function(){
         if($(this).is(':checked')) {
             $('#loeschenBtn').fadeToggle();
             $('#lernenBtn').fadeToggle();
             $('#oeffnenBtn').fadeToggle();
         }
     });
+    */
 });
 
 $('#NeueKartei').on('pagecreate', function(event, ui) {
