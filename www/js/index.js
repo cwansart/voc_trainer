@@ -61,6 +61,7 @@ app.initialize();
 // Beim Laden der App, Sprachen-Datei einlesen. Diese Funktion muss für die App noch in the app.onDeviceReady verschoben werden.
 $(document).ready(function() {
     sprachenLaden();
+    $.mobile.defaultPageTransition = 'slidefade';
 });
 
 function sprachenLaden() {
