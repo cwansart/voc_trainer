@@ -24,115 +24,115 @@ var aktuelleKartei = null;
 var aktuelleVokabel = null;
 
 var app = {
-	// Application Constructor
-	initialize: function() {
-		this.bindEvents();
-		sprachenLaden();
-	},
-	// Bind Event Listeners
-	//
-	// Bind any events that are required on startup. Common events are:
-	// 'load', 'deviceready', 'offline', and 'online'.
-	bindEvents: function() {
-		document.addEventListener('deviceready', this.onDeviceReady, false);
-	},
-	// deviceready Event Handler
-	//
-	// The scope of 'this' is the event. In order to call the 'receivedEvent'
-	// function, we must explicitly call 'app.receivedEvent(...);'
-	onDeviceReady: function() {
-		app.receivedEvent('deviceready');
-	},
-	// Update DOM on a Received Event
-	receivedEvent: function(id) {
-		var parentElement = document.getElementById(id);
-		var listeningElement = parentElement.querySelector('.listening');
-		var receivedElement = parentElement.querySelector('.received');
+    // Application Constructor
+    initialize: function() {
+        this.bindEvents();
+        sprachenLaden();
+    },
+    // Bind Event Listeners
+    //
+    // Bind any events that are required on startup. Common events are:
+    // 'load', 'deviceready', 'offline', and 'online'.
+    bindEvents: function() {
+        document.addEventListener('deviceready', this.onDeviceReady, false);
+    },
+    // deviceready Event Handler
+    //
+    // The scope of 'this' is the event. In order to call the 'receivedEvent'
+    // function, we must explicitly call 'app.receivedEvent(...);'
+    onDeviceReady: function() {
+        app.receivedEvent('deviceready');
+    },
+    // Update DOM on a Received Event
+    receivedEvent: function(id) {
+        var parentElement = document.getElementById(id);
+        var listeningElement = parentElement.querySelector('.listening');
+        var receivedElement = parentElement.querySelector('.received');
 
-		listeningElement.setAttribute('style', 'display:none;');
-		receivedElement.setAttribute('style', 'display:block;');
+        listeningElement.setAttribute('style', 'display:none;');
+        receivedElement.setAttribute('style', 'display:block;');
 
-		console.log('Received Event: ' + id);
-	}
+        console.log('Received Event: ' + id);
+    }
 };
 
 app.initialize();
 
 // Beim Laden der App, Sprachen-Datei einlesen. Diese Funktion muss für die App noch in the app.onDeviceReady verschoben werden.
 $(document).ready(function() {
-	sprachenLaden();
-	$.mobile.defaultPageTransition = 'slidefade';
+    sprachenLaden();
+    $.mobile.defaultPageTransition = 'slidefade';
 });
 
 function sprachenLaden() {
-	console.log("sprachen laden");
-	if(sprachenGeladen) return;
-	$.getJSON('data/sprachen.json', function( data ) {
-		sprachen = data;
-	});
-	sprachenGeladen = true;
+    console.log("sprachen laden");
+    if(sprachenGeladen) return;
+    $.getJSON('data/sprachen.json', function( data ) {
+        sprachen = data;
+    });
+    sprachenGeladen = true;
 }
 
 $('#Karteiverwaltung').on('pagecreate', function(event, ui) {
-	$('#loeschenBtn').hide();
-	$('#lernenBtn').hide();
-	$('#oeffnenBtn').hide();
-	
-	var collapsible = '';
-	$.each(sprachen, function(sprache) {
-		collapsible += '<div data-role="collapsible" data-iconpos="right"><h3>' + sprache + '</h3>'
-					+  '<fieldset data-role="controlgroup">';	//div noch schließen
-		
-		$.each(sprachen[sprache], function(kartei) {
-			collapsible += '<label for="kartei-'+sprache+'-'+kartei+'"><input type="checkbox" data-mini="true" name="kartei-'+sprache+'-'+kartei+'" id="kartei-'+sprache+'-'+kartei+'">' + kartei + '</label>';
-		});
-		
-		collapsible += '</fieldset></div>';
-	});
+    $('#loeschenBtn').hide();
+    $('#lernenBtn').hide();
+    $('#oeffnenBtn').hide();
+    
+    var collapsible = '';
+    $.each(sprachen, function(sprache) {
+        collapsible += '<div data-role="collapsible" data-iconpos="right"><h3>' + sprache + '</h3>'
+                    +  '<fieldset data-role="controlgroup">';   //div noch schließen
+        
+        $.each(sprachen[sprache], function(kartei) {
+            collapsible += '<label for="kartei-'+sprache+'-'+kartei+'"><input type="checkbox" data-mini="true" name="kartei-'+sprache+'-'+kartei+'" id="kartei-'+sprache+'-'+kartei+'">' + kartei + '</label>';
+        });
+        
+        collapsible += '</fieldset></div>';
+    });
 
-	$('#kartei-sprachen-liste').append(collapsible);
-	$('#kartei-sprachen-liste').collapsibleset('refresh').trigger("create");
+    $('#kartei-sprachen-liste').append(collapsible);
+    $('#kartei-sprachen-liste').collapsibleset('refresh').trigger("create");
 
-	if(collapsible != '') {
-		$('#kartei-sprachen').children()[0].setAttribute('style', 'display:none;');
-		$('#kartei-sprachen').children()[1].setAttribute('style', 'display:block;');
-	}
-	
-	// Wenn die Sprache angeklickt wird, wird die Sprache in der globalen Variable "aktuelleSprache" gesetzt.
-	$('#kartei-sprachen-liste > div > h3').on('click', function() {
-		aktuelleSprache = $(this).text();	// Hier gibt es noch ein Problem: es wird zb: "Englisch click to collapse content" gespeichert.
-	});
-	
-	// Funktionen zum wählen und löschen der Sprachen
-	$('#kartei-sprachen-liste').find(':checkbox').on('change', function(){	/* generiert löschen-button beim anklicken eines Elements */
-		if($(this).is(':checked')) {
-			$('#loeschenBtn').fadeToggle();
-			$('#lernenBtn').fadeToggle();
-			$('#oeffnenBtn').fadeToggle();
-		}
-	});
+    if(collapsible != '') {
+        $('#kartei-sprachen').children()[0].setAttribute('style', 'display:none;');
+        $('#kartei-sprachen').children()[1].setAttribute('style', 'display:block;');
+    }
+    
+    // Wenn die Sprache angeklickt wird, wird die Sprache in der globalen Variable "aktuelleSprache" gesetzt.
+    $('#kartei-sprachen-liste > div > h3').on('click', function() {
+        aktuelleSprache = $(this).text();   // Hier gibt es noch ein Problem: es wird zb: "Englisch click to collapse content" gespeichert.
+    });
+    
+    // Funktionen zum wählen und löschen der Sprachen
+    $('#kartei-sprachen-liste').find(':checkbox').on('change', function(){  /* generiert löschen-button beim anklicken eines Elements */
+        if($(this).is(':checked')) {
+            $('#loeschenBtn').fadeToggle();
+            $('#lernenBtn').fadeToggle();
+            $('#oeffnenBtn').fadeToggle();
+        }
+    });
 });
 
 $('#NeueKartei').on('pagecreate', function(event, ui) {
-	$('#div-sprache-hinzu').hide();
-	
-	 var collapsible = '';
-	 
-	collapsible += '<div data-role="collapsible"><h3>Sprachen wählen</h3><form>';	
-	$.each(sprachen, function(sprache) {
-		collapsible += '<p><input type="radio" name="Sprache" value="' + sprache + '">' + sprache + '</p>';	// Geht das so?
-	});
-	collapsible += '</form></div>';
+    $('#div-sprache-hinzu').hide();
+    
+     var collapsible = '';
+     
+    collapsible += '<div data-role="collapsible"><h3>Sprachen wählen</h3><form>';   
+    $.each(sprachen, function(sprache) {
+        collapsible += '<p><input type="radio" name="Sprache" value="' + sprache + '">' + sprache + '</p>'; // Geht das so?
+    });
+    collapsible += '</form></div>';
 
-	$('#kartei-hinzu-sprachen-liste').append(collapsible);
-	$('#kartei-hinzu-sprachen-liste').collapsibleset('refresh');
-	
-	$('#kartei-hinzu-sprachen-liste > div > h3').click( function(){		// "Sprache hinzufügen" wird betätigt
-		$('#sprache-hinzu').slideToggle();
-	});
-	
-	$('#sprache-hinzu').click( function(){		// "Sprache wählen" wird betätigt
-		$('#div-sprache-hinzu').fadeToggle();
-		$('#kartei-hinzu-sprachen-liste').slideToggle();
-	});
+    $('#kartei-hinzu-sprachen-liste').append(collapsible);
+    $('#kartei-hinzu-sprachen-liste').collapsibleset('refresh');
+    
+    $('#kartei-hinzu-sprachen-liste > div > h3').click( function(){     // "Sprache hinzufügen" wird betätigt
+        $('#sprache-hinzu').slideToggle();
+    });
+    
+    $('#sprache-hinzu').click( function(){      // "Sprache wählen" wird betätigt
+        $('#div-sprache-hinzu').fadeToggle();
+        $('#kartei-hinzu-sprachen-liste').slideToggle();
+    });
 });
