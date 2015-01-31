@@ -130,6 +130,10 @@ $('#Karteiverwaltung').on('pagecreate', function(event, ui) {
 
 $('#Vokabelverwaltung').on( 'pagecreate', function( event, ui ) {	
 	$('#vokabelverw-btn-loeschen').hide();
+	
+	if(aktuelleKartei != null)	var pfad = '<h2>' + aktuelleSprache + ' - ' + aktuelleKartei + '</h2>';
+	else						var pfad = '<h2>' + aktuelleSprache + '</h2>';
+	$('#vokabelverw-div-vokListe').append(pfad);
 
     if(aktuelleKartei == null) return;
 
@@ -137,16 +141,30 @@ $('#Vokabelverwaltung').on( 'pagecreate', function( event, ui ) {
     var vokabeln = sprachen[aktuelleSprache][aktuelleKartei];
 	
 	$.each(vokabeln, function(fremdsprache, deutsch) {
-            controlGroup += '<label for="'+aktuelleSprache+'-'+aktuelleKartei+'"><input type="checkbox" value="'+fremdsprache+'" data-mini="true" name="vokabel-'+fremdsprache+'-'+deutsch+'" id="vokabel-'+fremdsprache+'-'+deutsch+'">' + fremdsprache + ' – ' + deutsch + '</label>';
-        });
+            controlGroup += '<label for="'+aktuelleSprache+'-'+aktuelleKartei+'-'+deutsch+'"><input type="checkbox" value="'+fremdsprache+'" data-mini="true" name="vokabel-'+fremdsprache+'-'+deutsch+'" id="vokabel-'+fremdsprache+'-'+deutsch+'">' + fremdsprache + ' – ' + deutsch + '</label>';
+    });
 
-    $('#vokabelverw-list-vokListe').append(controlGroup);
-    $('#vokabelverw-list-vokListe').controlgroup('refresh').trigger('create');
+    $('#vokabelverw-div-vokListe').append(controlGroup);
+    $('#vokabelverw-div-vokListe').controlgroup('refresh').trigger('create');
 
     if(controlGroup != '') {
         $('#vokabelverw-div-vokabeln').children()[0].setAttribute('style', 'display:none;');
         $('#vokabelverw-div-vokabeln').children()[1].setAttribute('style', 'display:block;');
     }
+	
+	$('#vokabelverw-div-vokListe').children().find(':checkbox').on('click', function() {
+        var einAusblendeGeschw = 400;
+		var anzahlAusgewaehlt = $('#vokabelverw-div-vokListe').find('input:checked').length;
+		
+		switch(anzahlAusgewaehlt) {
+            case 0:
+                $('#vokabelverw-btn-loeschen').hide(einAusblendeGeschw);
+                break;
+            default:
+                $('#vokabelverw-btn-loeschen').show(einAusblendeGeschw);
+                break;
+        }
+	});
 });
 
 $('#NeueKartei').on('pagecreate', function(event, ui) {
