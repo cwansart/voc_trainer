@@ -74,9 +74,9 @@ function sprachenLaden() {
 }
 
 $('#Karteiverwaltung').on('pagecreate', function(event, ui) {
-    $('#loeschenBtn').hide();
-    $('#lernenBtn').hide();
-    $('#oeffnenBtn').hide();
+    $('#karteiverw-btn-loeschen').hide();
+    $('#karteiverw-btn-lernen').hide();
+    $('#karteiverw-btn-oeffnen').hide();
     
     var collapsible = '';
     $.each(sprachen, function(sprache) {
@@ -90,45 +90,45 @@ $('#Karteiverwaltung').on('pagecreate', function(event, ui) {
         collapsible += '</fieldset></div>';
     });
 
-    $('#kartei-sprachen-liste').append(collapsible);
-    $('#kartei-sprachen-liste').collapsibleset('refresh').trigger("create");
+    $('#karteiverw-coll-sprachenListe').append(collapsible);
+    $('#karteiverw-coll-sprachenListe').collapsibleset('refresh').trigger("create");
 
     if(collapsible != '') {
-        $('#kartei-sprachen').children()[0].setAttribute('style', 'display:none;');
-        $('#kartei-sprachen').children()[1].setAttribute('style', 'display:block;');
+        $('#karteiverw-div-sprachen').children()[0].setAttribute('style', 'display:none;');
+        $('#karteiverw-div-sprachen').children()[1].setAttribute('style', 'display:block;');
     }
     
     // ausgewählte/ausgeklappte Sprache speichern
-    $('#kartei-sprachen-liste').children().on('collapsibleexpand', function(event, ui) {
+    $('#karteiverw-coll-sprachenListe').children().on('collapsibleexpand', function(event, ui) {
         aktuelleSprache = $(this).attr('data-sprache');
     });
 
-    $('#kartei-sprachen-liste').children().find(':checkbox').on('click', function() {
+    $('#karteiverw-coll-sprachenListe').children().find(':checkbox').on('click', function() {
         var einAusblendeGeschw = 400;
-        var anzahlAusgewaehlt = $('#kartei-sprachen-liste').find('input:checked').length;
+        var anzahlAusgewaehlt = $('#karteiverw-coll-sprachenListe').find('input:checked').length;
         console.log(anzahlAusgewaehlt);
         switch(anzahlAusgewaehlt) {
             case 0:
-                $('#loeschenBtn').hide(einAusblendeGeschw);
-                $('#lernenBtn').hide(einAusblendeGeschw);
-                $('#oeffnenBtn').hide(einAusblendeGeschw);
+                $('#karteiverw-btn-loeschen').hide(einAusblendeGeschw);
+                $('#karteiverw-btn-lernen').hide(einAusblendeGeschw);
+                $('#karteiverw-btn-oeffnen').hide(einAusblendeGeschw);
                 break;
             case 1:
-                $('#loeschenBtn').show(einAusblendeGeschw);
-                $('#lernenBtn').show(einAusblendeGeschw);
-                $('#oeffnenBtn').show(einAusblendeGeschw);
+                $('#karteiverw-btn-loeschen').show(einAusblendeGeschw);
+                $('#karteiverw-btn-lernen').show(einAusblendeGeschw);
+                $('#karteiverw-btn-oeffnen').show(einAusblendeGeschw);
                 break;
             default:
-                $('#loeschenBtn').show(einAusblendeGeschw);
-                $('#lernenBtn').hide(einAusblendeGeschw);
-                $('#oeffnenBtn').hide(einAusblendeGeschw);
+                $('#karteiverw-btn-loeschen').show(einAusblendeGeschw);
+                $('#karteiverw-btn-lernen').hide(einAusblendeGeschw);
+                $('#karteiverw-btn-oeffnen').hide(einAusblendeGeschw);
                 break;
         }
     })
 });
 
 $('#NeueKartei').on('pagecreate', function(event, ui) {
-    $('#div-sprache-hinzu').hide();
+    $('#neueKartei-div-spracheHinzu').hide();
     
      var collapsible = '';
      
@@ -138,15 +138,15 @@ $('#NeueKartei').on('pagecreate', function(event, ui) {
     });
     collapsible += '</form></div>';
 
-    $('#kartei-hinzu-sprachen-liste').append(collapsible);
-    $('#kartei-hinzu-sprachen-liste').collapsibleset('refresh');
+    $('#neueKartei-coll-sprachenListe').append(collapsible);
+    $('#neueKartei-coll-sprachenListe').collapsibleset('refresh');
     
-    $('#kartei-hinzu-sprachen-liste > div > h3').click( function(){     // "Sprache hinzufügen" wird betätigt
-        $('#sprache-hinzu').slideToggle();
+    $('#neueKartei-coll-sprachenListe > div > h3').click( function(){     // "Sprache hinzufügen" wird betätigt
+        $('#neueKartei-btn-spracheHinzu').slideToggle();
     });
     
-    $('#sprache-hinzu').click( function(){      // "Sprache wählen" wird betätigt
-        $('#div-sprache-hinzu').fadeToggle();
-        $('#kartei-hinzu-sprachen-liste').slideToggle();
+    $('#neueKartei-btn-spracheHinzu').click( function(){      // "Sprache wählen" wird betätigt
+        $('#neueKartei-div-spracheHinzu').fadeToggle();
+        $('#neueKartei-coll-sprachenListe').slideToggle();
     });
 });

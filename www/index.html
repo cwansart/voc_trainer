@@ -141,10 +141,10 @@
                         </div><!-- /header -->
 
                         <div role="main" class="ui-content">
-                            <div id="kartei-sprachen">
+                            <div id="karteiverw-div-sprachen">
                                 <h2>Leider sind noch keine Sprachen vorhanden!</h2>
                                 <h2 style="display: none">Bitte wähle eine Sprache aus.</h2>
-                                <div data-role="collapsibleset" id="kartei-sprachen-liste">
+                                <div data-role="collapsibleset" id="karteiverw-coll-sprachenListe">
                                 
                                 </div>
                             </div>
@@ -152,9 +152,9 @@
                            <!-- <a href="#" data-role="button" data-icon="check" id="check-Sprachen">Mehrere markieren</a>-->
                             <a href="#NeueKartei" data-role="button" data-icon="edit">Hinzufügen</a>
                             
-                            <a href="#SpracheLoeschenDialog" data-rel="dialog" class="ui-btn ui-corner-all ui-btn-inline ui-mini footer-button-left ui-btn-icon-left ui-icon-delete" id="loeschenBtn">Löschen</a>
-                            <a href="#" class="ui-btn ui-corner-all ui-btn-inline ui-mini footer-button-left ui-btn-icon-left ui-icon-delete" id="lernenBtn">Lernen</a>
-                            <a href="#Karteiverwaltung3" class="ui-btn ui-corner-all ui-btn-inline ui-mini footer-button-left ui-btn-icon-left ui-icon-search" id="oeffnenBtn">Öffnen</a>
+                            <a href="#SpracheLoeschenDialog" data-rel="dialog" class="ui-btn ui-corner-all ui-btn-inline ui-mini footer-button-left ui-btn-icon-left ui-icon-delete" id="karteiverw-btn-loeschen">Löschen</a>
+                            <a href="#" class="ui-btn ui-corner-all ui-btn-inline ui-mini footer-button-left ui-btn-icon-left ui-icon-delete" id="karteiverw-btn-lernen">Lernen</a>
+                            <a href="#Vokabelverwaltung" class="ui-btn ui-corner-all ui-btn-inline ui-mini footer-button-left ui-btn-icon-left ui-icon-search" id="karteiverw-btn-oeffnen">Öffnen</a>
                         </div><!-- /content -->
 
                         <div data-role="footer" data-position="fixed" >
@@ -183,17 +183,17 @@
                     <!-- /dialog: Karteiverwaltung - Sprache Löschen -->
                     
                     <!-- page: Karteiverwaltung3 -->
-                    <div data-role="page" id="Karteiverwaltung3">
+                    <div data-role="page" id="Vokabelverwaltung">
                         <div data-role="header">
                             <a href="index.html" data-role="button" data-icon="home" data-iconpos="notext" class="ui-btn-right"></a>
                             <h1>Karteiverwaltung – Vokabeln</h1>
                         </div><!-- /header -->
 
                         <div role="main" class="ui-content">
-                            <div id="kartei-vokabeln">
+                            <div id="vokabelverw-div-vokabeln">
                                 <h2>Leider sind noch keine Vokabeln vorhanden!</h2>
                                 <h2 style="display: none">Bitte wähle eine Vokabel aus.</h2>
-                                <ul id="kartei-vokabeln-liste" data-role="listview">
+                                <ul id="vokabelverw-list-vokListe" data-role="listview">
                                 </ul>
                             </div>
 
@@ -201,7 +201,7 @@
                             <a href="#NeueVokabel" data-role="button" data-icon="edit">Hinzufügen</a>
                             
                             <div class="kartei-action-box">
-                            	<a href="#VokabelLoeschenDialog" data-rel="dialog" class="ui-btn ui-corner-all ui-btn-inline ui-mini footer-button-left ui-btn-icon-left ui-icon-delete" id="deleteVokabel">Löschen</a>
+                            	<a href="#VokabelLoeschenDialog" data-rel="dialog" class="ui-btn ui-corner-all ui-btn-inline ui-mini footer-button-left ui-btn-icon-left ui-icon-delete" id="vokabelverw-btn-loeschen">Löschen</a>
                             </div>
                         </div><!-- /content -->
 
@@ -225,7 +225,7 @@
                         <div role="main" class="ui-content">
                         	<p>Möchtest du die gewählten Vokabeln löschen?</p>
                         	<a href="#" data-role="button">gewählte Vokabeln löschen</a>
-                            <a href="#Karteiverwaltung3" data-role="button">zurück zur Übersicht</a>
+                            <a href="#Vokabelverwaltung" data-role="button">zurück zur Übersicht</a>
                         </div>
                     </div>
                     <!-- /dialog: Karteiverwaltung - Vokabeln Löschen -->
@@ -238,17 +238,17 @@
                         </div><!-- /header -->
 
                         <div role="main" class="ui-content">
-                            <div data-role="collapsibleset" id="kartei-hinzu-sprachen-liste">
+                            <div data-role="collapsibleset" id="neueKartei-coll-sprachenListe">
                           
                             </div>
-                            <a href="#" data-role="button" data-icon="edit" id="sprache-hinzu">Sprache hinzufügen</a>
-                            <div id="div-sprache-hinzu">
-                                <label for="basic">Sprache:</label><input type="text" name="name" id="neu-sprache-name" value=""  />
+                            <a href="#" data-role="button" data-icon="edit" id="neueKartei-btn-spracheHinzu">Sprache hinzufügen</a>
+                            <div id="neueKartei-div-spracheHinzu">
+                                <label for="basic">Sprache:</label><input type="text" name="name" id="neuekartei-input-sprache" value=""  />
                             </div>
                             
                             <hr>
                             <label for="basic">Karteiname:</label>
-                            <input type="text" name="name" id="neu-kartei-name" value=""  />
+                            <input type="text" name="name" id="neuekartei-input-kartei" value=""  />
                             
                             <hr>
                             <a href="#" class="ui-btn ui-corner-all ui-btn-inline ui-mini footer-button-left ui-btn-icon-left ui-icon-check">Kartei speichern</a>
