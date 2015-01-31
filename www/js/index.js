@@ -241,6 +241,7 @@ $('#NeueKartei').on('pagecreate', function(event, ui) {
                 return;
             }
             aktuelleSprache = sprache.val();
+            sprache = sprache.val(); // bufix
         }
         else if(spracheToggle === false) {
             sprache = $('#neueKartei-input-sprache').val();
