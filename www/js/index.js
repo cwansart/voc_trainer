@@ -226,13 +226,30 @@ $('#NeueKartei').on('pagecreate', function(event, ui) {
 
     $('#neueKartei-btn-karteiSpeichern').on('click', function() {
         if(spracheToggle === true) { // aus der Liste
-            //aktuelleSprache =
+            var sprache = $('#neueKartei-coll-sprachenListe').find(':checked');
+            if(sprache.length == 0) {
+                // TODO: Das muss unbedingt noch durch ein einheitliches Schema ersetzt werden
+                alert("Du musst eine Sprache auswählen!");
+                return;
+            }
+            aktuelleSprache = sprache.val();
         }
         else if(spracheToggle === false) {
-
+            var sprache = $('#neueKartei-input-sprache').val();
+            if(sprache === '') {
+                alert("Du musst eine Sprache eingeben!");
+                return;
+            }
+            aktuelleSprache = sprache;
         }
         else {
-            // Fehlermeldung ausgeben, weil keine Sprache ausgewählt, bzw. eingegeben wurde.
+            alert("Du musst eine Sprache auswählen!");
+            return;
+        }
+
+        if($('#neueKartei-input-kartei').val() === '') {
+            alert("Du musst einen Karteinamen eingeben!");
+            return;
         }
     });
 });
