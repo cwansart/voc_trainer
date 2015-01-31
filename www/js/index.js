@@ -81,6 +81,11 @@ var app = {
                 console.log('Filesystem Error: ' + e.code);
                 break;
         }
+    },
+
+    // sprachen.js festschreiben
+    writeFile: function() {
+        // TODO muss noch geschrieben werden. ;-)
     }
 };
 
@@ -225,8 +230,11 @@ $('#NeueKartei').on('pagecreate', function(event, ui) {
     });
 
     $('#neueKartei-btn-karteiSpeichern').on('click', function() {
+        var sprache = '';
+        var kartei = '';
+
         if(spracheToggle === true) { // aus der Liste
-            var sprache = $('#neueKartei-coll-sprachenListe').find(':checked');
+            sprache = $('#neueKartei-coll-sprachenListe').find(':checked');
             if(sprache.length == 0) {
                 // TODO: Das muss unbedingt noch durch ein einheitliches Schema ersetzt werden
                 alert("Du musst eine Sprache auswählen!");
@@ -235,7 +243,7 @@ $('#NeueKartei').on('pagecreate', function(event, ui) {
             aktuelleSprache = sprache.val();
         }
         else if(spracheToggle === false) {
-            var sprache = $('#neueKartei-input-sprache').val();
+            sprache = $('#neueKartei-input-sprache').val();
             if(sprache === '') {
                 alert("Du musst eine Sprache eingeben!");
                 return;
@@ -247,10 +255,21 @@ $('#NeueKartei').on('pagecreate', function(event, ui) {
             return;
         }
 
-        if($('#neueKartei-input-kartei').val() === '') {
+        var kartei = $('#neueKartei-input-kartei').val();
+        if(kartei === '') {
             alert("Du musst einen Karteinamen eingeben!");
             return;
         }
+
+        // und zum Schluss einfügen in die Sprachen
+        if(sprachen[sprache] === undefined) {
+            sprachen[sprache] = {};
+        }
+
+        sprachen[sprache][kartei] = {};
+
+        // sprachen in sprachen.js festschreiben
+        app.writeFile();
     });
 });
 
