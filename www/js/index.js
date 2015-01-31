@@ -84,7 +84,7 @@ $('#Karteiverwaltung').on('pagecreate', function(event, ui) {
                     +  '<fieldset data-role="controlgroup">';   //div noch schließen
         
         $.each(sprachen[sprache], function(kartei) {
-            collapsible += '<label for="kartei-'+sprache+'-'+kartei+'"><input type="checkbox" data-mini="true" name="kartei-'+sprache+'-'+kartei+'" id="kartei-'+sprache+'-'+kartei+'">' + kartei + '</label>';
+            collapsible += '<label for="kartei-'+sprache+'-'+kartei+'"><input type="checkbox" value="'+kartei+'" data-mini="true" name="kartei-'+sprache+'-'+kartei+'" id="kartei-'+sprache+'-'+kartei+'">' + kartei + '</label>';
         });
         
         collapsible += '</fieldset></div>';
@@ -117,6 +117,7 @@ $('#Karteiverwaltung').on('pagecreate', function(event, ui) {
                 $('#karteiverw-btn-loeschen').show(einAusblendeGeschw);
                 $('#karteiverw-btn-lernen').show(einAusblendeGeschw);
                 $('#karteiverw-btn-oeffnen').show(einAusblendeGeschw);
+				aktuelleKartei = $('#karteiverw-coll-sprachenListe').find('input:checked').val();	// Der name der gewählten Kartei wird gespeichert
                 break;
             default:
                 $('#karteiverw-btn-loeschen').show(einAusblendeGeschw);
@@ -125,6 +126,35 @@ $('#Karteiverwaltung').on('pagecreate', function(event, ui) {
                 break;
         }
     })
+});
+
+$('#Vokabelverwaltung').on( 'pagecreate', function( event, ui ) {	
+	$('#vokabelverw-btn-loeschen').hide();
+
+    if(aktuelleKartei == null) return;
+
+    var listView = '';
+    var vokabeln = sprachen[aktuelleSprache][aktuelleKartei];
+
+    $.each(vokabeln, function(fremdsprache, deutsch) {
+        listView += '<li><a href="#Karteiverwaltung4">' + fremdsprache + ' – ' + deutsch + '</a></li>';
+    });
+	listView += '<br>';
+
+    $('#vokabelverw-list-vokListe').append(listView);
+    $('#vokabelverw-list-vokListe').listview('refresh');
+
+    if(listView != '') {
+        $('#vokabelverw-div-vokabeln').children()[0].setAttribute('style', 'display:none;');
+        $('#vokabelverw-div-vokabeln').children()[1].setAttribute('style', 'display:block;');
+    }
+
+    // Wenn die Kartei angeklickt wird, wird die Kartei in der globalen Variable "aktuelleKartei" gesetzt.
+    $('#vokabelverw-list-vokListe > li').on('click', function() {
+        aktuelleVokabel = $(this).text();
+        alert("DÖDÖÖÖM");
+        return;
+    });
 });
 
 $('#NeueKartei').on('pagecreate', function(event, ui) {
