@@ -190,3 +190,9 @@ $('#NeueKartei').on('pagecreate', function(event, ui) {
         $('#neueKartei-coll-sprachenListe').slideToggle();
     });
 });
+
+$('#NeueVokabel').on('pagecreate', function(event, ui) {
+	if(aktuelleKartei != null)	var pfad = '<h2>' + aktuelleSprache + ' - ' + aktuelleKartei + '</h2>';
+	else						var pfad = '<h2>' + aktuelleSprache + '</h2>';
+  	$('#neuevokabel-div-content').prepend(pfad);
+});
