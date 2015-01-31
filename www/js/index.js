@@ -53,6 +53,34 @@ var app = {
         receivedElement.setAttribute('style', 'display:block;');
 
         console.log('Received Event: ' + id);
+
+        var sprachenFile = cordova.file.externalApplicationStorageDirectory + 'sprachen.json';
+        window.resolveLocalFileSystemURL(sprachenFile, this.gotFile, this.failToRead);
+    },
+
+    // sprachen.json erfolgreich geladen
+    gotFile: function(fileEntry) {
+        fileEntry.file(function(file) {
+            var reader = new FileReader(file);
+            reader.onloadend(function() {
+                console.log(this.result);
+            });
+            reader.readAsText(file);
+        });
+    },
+
+    // beim Laden sind Fehler aufgetreten, oder die Datei existiert nicht.
+    failToRead: function(e) {
+        switch(e.code) {
+            case 1: // NOT_FOUND_ERR
+                // Datei nicht gefunden, dann muss sprachen leer initialisiert werden.
+                sprachen = {};
+                break;
+            default:
+                // alle Fehlercodes auf: https://developer.mozilla.org/en-US/docs/Web/API/FileError#Error_codes
+                console.log('Filesystem Error: ' + e.code);
+                break;
+        }
     }
 };
 
@@ -170,24 +198,42 @@ $('#Vokabelverwaltung').on( 'pagecreate', function( event, ui ) {
 $('#NeueKartei').on('pagecreate', function(event, ui) {
     $('#neueKartei-div-spracheHinzu').hide();
     
-     var collapsible = '';
+    var collapsible = '';
+    var spracheToggle = null;
      
-    collapsible += '<div data-role="collapsible"><h3>Sprachen wählen</h3><form>';   
+    collapsible += '<div data-role="collapsible"><h3>Sprachen wählen</h3><form><fieldset data-role="controlgroup">';   
     $.each(sprachen, function(sprache) {
-        collapsible += '<p><input type="radio" name="Sprache" value="' + sprache + '">' + sprache + '</p>'; // Geht das so?
+
+        collapsible += '<label for="neueKartei-coll-sprachenListe-radio-' + sprache + '">'
+                    +  '<input type="radio" name="Sprache" id="neueKartei-coll-sprachenListe-radio-' + sprache + '" value="' + sprache + '">'
+                    + sprache + '</label>';
     });
-    collapsible += '</form></div>';
+    collapsible += '</fieldset></form></div>';
 
     $('#neueKartei-coll-sprachenListe').append(collapsible);
-    $('#neueKartei-coll-sprachenListe').collapsibleset('refresh');
+    $('#neueKartei-coll-sprachenListe').collapsibleset('refresh').trigger('create');
     
     $('#neueKartei-coll-sprachenListe > div > h3').click( function(){     // "Sprache hinzufügen" wird betätigt
         $('#neueKartei-btn-spracheHinzu').slideToggle();
+        spracheToggle = true;
     });
     
     $('#neueKartei-btn-spracheHinzu').click( function(){      // "Sprache wählen" wird betätigt
         $('#neueKartei-div-spracheHinzu').fadeToggle();
         $('#neueKartei-coll-sprachenListe').slideToggle();
+        spracheToggle = false;
+    });
+
+    $('#neueKartei-btn-karteiSpeichern').on('click', function() {
+        if(spracheToggle === true) { // aus der Liste
+            //aktuelleSprache =
+        }
+        else if(spracheToggle === false) {
+
+        }
+        else {
+            // Fehlermeldung ausgeben, weil keine Sprache ausgewählt, bzw. eingegeben wurde.
+        }
     });
 });
 
