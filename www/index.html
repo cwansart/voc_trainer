@@ -137,7 +137,7 @@
                     <div data-role="page" id="Karteiverwaltung">
                         <div data-role="header">
                             <a href="index.html" data-role="button" data-icon="home" data-iconpos="notext" class="ui-btn-right"></a>
-                            <h1>Karteiverwaltung – Sprache</h1>
+                            <h1>Karteiverwaltung</h1>
                         </div><!-- /header -->
 
                         <div role="main" class="ui-content">
@@ -181,18 +181,18 @@
                     </div>
                     <!-- /dialog: Karteiverwaltung - Sprache Löschen -->
                     
-                    <!-- page: Karteiverwaltung3 -->
+                    <!-- page: Vokabelverwaltung -->
                     <div data-role="page" id="Vokabelverwaltung">
                         <div data-role="header">
                             <a href="index.html" data-role="button" data-icon="home" data-iconpos="notext" class="ui-btn-right"></a>
-                            <h1>Karteiverwaltung – Vokabeln</h1>
+                            <h1>Vokabelverwaltung</h1>
                         </div><!-- /header -->
 
                         <div role="main" class="ui-content">
                             <div id="vokabelverw-div-vokabeln">
                                 <h2>Leider sind noch keine Vokabeln vorhanden!</h2>
                                 <h2 style="display: none">Bitte wähle eine Vokabel aus.</h2>
-                                <fieldset id="vokabelverw-list-vokListe" data-role="controlgroup">
+                                <fieldset id="vokabelverw-div-vokListe" data-role="controlgroup">
                                 
                                 </fieldset>
                             </div>
@@ -213,7 +213,7 @@
                             </div><!-- /navbar -->
                         </div><!-- /footer -->
                     </div>
-                    <!-- /page: Karteiverwaltung3 -->
+                    <!-- /page: Vokabelverwaltung -->
                     
                     <!-- /dialog: Karteiverwaltung - Vokabeln Löschen -->
                     <div data-role="page" id="VokabelLoeschenDialog">
@@ -241,12 +241,12 @@
                             </div>
                             <a href="#" data-role="button" data-icon="edit" id="neueKartei-btn-spracheHinzu">Sprache hinzufügen</a>
                             <div id="neueKartei-div-spracheHinzu">
-                                <label for="basic">Sprache:</label><input type="text" name="name" id="neu-sprache-name" value=""  />
+                                <label for="basic">Sprache:</label><input type="text" name="name" id="neueKartei-input-sprache" value=""  />
                             </div>
                             
                             <hr>
                             <label for="basic">Karteiname:</label>
-                            <input type="text" name="name" id="neu-kartei-name" value=""  />
+                            <input type="text" name="name" id="neueKartei-input-kartei" value=""  />
                             
                             <hr>
                             <a href="#" class="ui-btn ui-corner-all ui-btn-inline ui-mini footer-button-left ui-btn-icon-left ui-icon-check">Kartei speichern</a>
@@ -264,6 +264,37 @@
                         </div><!-- /footer -->
                     </div>
                     <!-- /page: Kartei hinzufügen -->
+                    
+                    <!-- /page: Vokabel hinzufügen -->
+                    <div data-role="page" id="NeueVokabel">
+                    	<div data-role="header">
+                        	<a href="index.html" data-role="button" data-icon="home" data-iconpos="notext" class="ui-btn-right"></a>
+                            <h1>Vokabel Hinzufügen</h1>
+                        </div><!-- /header -->
+                        
+                        <div role="main" class="ui-content" id="neuevokabel-div-content">
+                        	<label for="basic">Deutsch:</label>
+                            <input type="text" name="name" id="neueVokabel-input-deutsch" value=""  />
+                            <label for="basic">Übersetzung:</label>
+                            <input type="text" name="name" id="neueVokabel-input-uebersetzung" value=""  />
+                            <hr>
+                            (Hinweis? oder soll ich das erstmal weglassen? Ich glaube es wäre auch gut, wenn man gleich mehrere anlegen könnte.. da müssen wir uns nur überlegen wie)
+                            <hr>
+                            <a href="#" class="ui-btn ui-corner-all ui-btn-inline ui-mini footer-button-left ui-btn-icon-left ui-icon-check">Vokabel speichern</a>
+                            <a href="#" class="ui-btn ui-corner-all ui-btn-inline ui-mini footer-button-right ui-btn-icon-left ui-icon-delete">Vokabel verwerfen</a>
+                        </div>
+                        
+                        <div data-role="footer" data-position="fixed" >
+                            <div data-role="navbar">
+                                <ul>
+                                    <li><a href="#Anleitung" data-icon="anleitung">Anleitung</a></li>
+                                    <li><a href="#Karteiverwaltung" data-icon="karteiverwaltung">Karteiverwaltung</a></li>
+                                    <li><a href="#Einstellungen" data-icon="einstellungen">Einstellungen</a></li>
+                                </ul>
+                            </div><!-- /navbar -->
+                        </div><!-- /footer -->
+                    </div>
+                    <!-- /page: Vokabel hinzufügen -->
 
                 </div>
             </div>
