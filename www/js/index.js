@@ -133,28 +133,20 @@ $('#Vokabelverwaltung').on( 'pagecreate', function( event, ui ) {
 
     if(aktuelleKartei == null) return;
 
-    var listView = '';
+    var controlGroup = '';
     var vokabeln = sprachen[aktuelleSprache][aktuelleKartei];
+	
+	$.each(vokabeln, function(fremdsprache, deutsch) {
+            controlGroup += '<label for="'+aktuelleSprache+'-'+aktuelleKartei+'"><input type="checkbox" value="'+fremdsprache+'" data-mini="true" name="vokabel-'+fremdsprache+'-'+deutsch+'" id="vokabel-'+fremdsprache+'-'+deutsch+'">' + fremdsprache + ' – ' + deutsch + '</label>';
+        });
 
-    $.each(vokabeln, function(fremdsprache, deutsch) {
-        listView += '<li><a href="#Karteiverwaltung4">' + fremdsprache + ' – ' + deutsch + '</a></li>';
-    });
-	listView += '<br>';
+    $('#vokabelverw-list-vokListe').append(controlGroup);
+    $('#vokabelverw-list-vokListe').controlgroup('refresh').trigger('create');
 
-    $('#vokabelverw-list-vokListe').append(listView);
-    $('#vokabelverw-list-vokListe').listview('refresh');
-
-    if(listView != '') {
+    if(controlGroup != '') {
         $('#vokabelverw-div-vokabeln').children()[0].setAttribute('style', 'display:none;');
         $('#vokabelverw-div-vokabeln').children()[1].setAttribute('style', 'display:block;');
     }
-
-    // Wenn die Kartei angeklickt wird, wird die Kartei in der globalen Variable "aktuelleKartei" gesetzt.
-    $('#vokabelverw-list-vokListe > li').on('click', function() {
-        aktuelleVokabel = $(this).text();
-        alert("DÖDÖÖÖM");
-        return;
-    });
 });
 
 $('#NeueKartei').on('pagecreate', function(event, ui) {
