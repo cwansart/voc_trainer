@@ -148,22 +148,18 @@ $('#Karteiverwaltung').on('pagecreate', function(event, ui) {
     var collapsible = '';
     $.each(sprachen, function(sprache) {
         collapsible += '<div data-role="collapsible" data-iconpos="right" data-sprache="' + sprache + '"><h3>' + sprache + '</h3>'
-                    +  '<fieldset data-role="controlgroup">';   //div noch schließen
-        
+                    +  '<fieldset data-role="controlgroup">';   //div noch schließen 
         $.each(sprachen[sprache], function(kartei) {
             collapsible += '<label for="kartei-'+sprache+'-'+kartei+'"><input type="checkbox" value="'+kartei+'" data-mini="true" name="kartei-'+sprache+'-'+kartei+'" id="kartei-'+sprache+'-'+kartei+'">' + kartei + '</label>';
         });
-        
         collapsible += '</fieldset></div>';
     });
+	
+	if(collapsible != '') 	$('#karteiverw-h2-keineSprachen').hide();
+	else					$('#karteiverw-h2-spracheWaehlen').hide();
 
     $('#karteiverw-coll-sprachenListe').append(collapsible);
     $('#karteiverw-coll-sprachenListe').collapsibleset('refresh').trigger("create");
-
-    if(collapsible != '') {
-        $('#karteiverw-div-sprachen').children()[0].setAttribute('style', 'display:none;');
-        $('#karteiverw-div-sprachen').children()[1].setAttribute('style', 'display:block;');
-    }
     
     // ausgewählte/ausgeklappte Sprache speichern
     $('#karteiverw-coll-sprachenListe').children().on('collapsibleexpand', function(event, ui) {
@@ -213,11 +209,9 @@ $('#Vokabelverwaltung').on( 'pagecreate', function( event, ui ) {
 
     $('#vokabelverw-div-vokListe').append(controlGroup);
     $('#vokabelverw-div-vokListe').controlgroup('refresh').trigger('create');
-
-    if(controlGroup != '') {
-        $('#vokabelverw-div-vokabeln').children()[0].setAttribute('style', 'display:none;');
-        $('#vokabelverw-div-vokabeln').children()[1].setAttribute('style', 'display:block;');
-    }
+	
+	if(controlGroup != '')	$('#vokabelverw-h2-keineVokabeln').hide();
+	else					$('#vokabelverw-h2-vokabelnWaehlen').hide();
 	
 	$('#vokabelverw-div-vokListe').children().find(':checkbox').on('click', function() {
         var einAusblendeGeschw = 400;
