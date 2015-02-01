@@ -137,9 +137,16 @@ var app = {
 
                 // Blob-Konstruktor ist nicht überall verfügbar. Wir müssen prüfen, ob Android 4.1 schon über den Konstruktor verfügt; falls nicht sollten wir den BlobBuilder verwenden
                 //var sprachenBlob = new Blob([JSON.stringify(sprachen)], {type: 'text/plain'});
-                var blob = new WebKitBlobBuilder();
-                blob.append(JSON.stringify(sprachen));
-                fileWriter.write(blob.getBlob());
+                var blob = null;
+                if(window.WebKitBlobBuilder === undefined) {
+                    blob = new Blob([JSON.stringify(sprachen)], {type: 'text/plain'});
+                }
+                else {
+                    var builder = new WebKitBlobBuilder();
+                    builder.append(JSON.stringify(sprachen));
+                    blob = builder.getBlob();
+                }
+                fileWriter.write(blob);
             }, app.errorHandler);
         }, app.errorHandler);
     },
