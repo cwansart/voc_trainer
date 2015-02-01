@@ -346,9 +346,9 @@ $('#NeueKartei').on('pagecreate', function(event, ui) {
 $('#NeueVokabel').on('pagecreate', function(event, ui) {
 	$('#neueVokabel-div-hinweis').hide();
 	
-	if(aktuelleKartei != null)	var pfad = '<h2>' + aktuelleSprache + ' - ' + aktuelleKartei + '</h2>';
-	else						var pfad = '<h2>' + aktuelleSprache + '</h2>';
-  	$('#neuevokabel-div-content').prepend(pfad);
+	if(aktuelleKartei != null)	var ueberschrift = aktuelleSprache + ' – ' + aktuelleKartei;
+	else						var ueberschrift = aktuelleSprache;
+  	$('#neuevokabel-div-content > h2').append(pfad);
 
     $('#neueVokabel-btn-vokabelSpeichern').on('click', function() {
         var deutsch = $('#neueVokabel-input-deutsch').val();
