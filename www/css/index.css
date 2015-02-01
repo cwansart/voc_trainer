@@ -96,3 +96,16 @@ html head + body .ui-btn.ui-btn-a.ui-btn-active{
 	color: #333 /*{a-active-color}*/;
 	text-shadow: 0 /*{a-active-shadow-x}*/ 1px /*{a-active-shadow-y}*/ 0 /*{a-active-shadow-radius}*/ #F3F3F3 /*{a-active-shadow-color}*/;
 }
+
+.hinweis{
+	color:#FF507D !important;
+	font-size:1.25em;
+	margin: 0 auto;
+	width:225px;
+	height:auto;
+	cursor:default;
+}
+
+.hinweis:hover{
+	background-color:#fff !important;
+}

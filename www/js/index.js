@@ -339,6 +339,8 @@ $('#NeueKartei').on('pagecreate', function(event, ui) {
 });
 
 $('#NeueVokabel').on('pagecreate', function(event, ui) {
+	$('#neueVokabel-div-hinweis').hide();
+	
 	if(aktuelleKartei != null)	var pfad = '<h2>' + aktuelleSprache + ' - ' + aktuelleKartei + '</h2>';
 	else						var pfad = '<h2>' + aktuelleSprache + '</h2>';
   	$('#neuevokabel-div-content').prepend(pfad);
@@ -348,12 +350,18 @@ $('#NeueVokabel').on('pagecreate', function(event, ui) {
         var uebersetzung = $('#neueVokabel-input-uebersetzung').val();
 
         if(deutsch === '') {
-            alert('Du musst ein Deusches Wort eintippen!');
+            $('#neueVokabel-div-hinweis').fadeToggle();
+			$('#neuevokabel-div-content').find('#neueVokabel-input-deutsch').on('click', function(){
+				$('#neueVokabel-div-hinweis').hide();
+			});
             return;
         }
         
         if(uebersetzung === '') {
-            alert('Du musst eine Übersetzung eintippen!');
+            $('#neueVokabel-div-hinweis').fadeToggle();
+			$('#neuevokabel-div-content').find('#neueVokabel-input-uebersetzung').on('click', function(){
+				$('#neueVokabel-div-hinweis').hide();
+			});
             return;
         }
 
