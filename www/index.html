@@ -155,6 +155,10 @@
                             <a href="#" class="ui-btn ui-corner-all ui-btn-inline ui-mini footer-button-left ui-btn-icon-left ui-icon-delete" id="karteiverw-btn-lernen">Lernen</a>
                             <a href="#Vokabelverwaltung" class="ui-btn ui-corner-all ui-btn-inline ui-mini footer-button-left ui-btn-icon-left ui-icon-search" id="karteiverw-btn-oeffnen">Öffnen</a>
                         </div><!-- /content -->
+                        <div id="karteiverw-div-hinweis">
+                            <hr>
+                            <a href="#" class="a-hinweis ui-btn ui-corner-all ui-btn-icon-left ui-icon-alert">Die gewählten Sprachen<br>wurden gelöscht!</a>
+                        </div>
 
                         <div data-role="footer" data-position="fixed" >
                             <div data-role="navbar">
@@ -175,7 +179,7 @@
                         </div><!-- /header -->
                         <div role="main" class="ui-content">
                         	<p>Wenn du eine Kartei löschst werden sämtliche Vokabeln mitgelöscht.</p>
-                        	<a href="#" data-role="button">gewählte Karteien löschen</a>
+                        	<a href="#Karteiverwaltung" data-role="button" id="spracheLoeschen-btn-loeschen">gewählte Karteien löschen</a>
                             <a href="#Karteiverwaltung" data-role="button">zurück zur Übersicht</a>
                         </div>
                     </div>
@@ -201,6 +205,10 @@
                             <div class="kartei-action-box">
                             	<a href="#VokabelLoeschenDialog" data-rel="dialog" class="ui-btn ui-corner-all ui-btn-inline ui-mini footer-button-left ui-btn-icon-left ui-icon-delete" id="vokabelverw-btn-loeschen">Löschen</a>
                             </div>
+                            <div id="vokabelverw-div-hinweis">
+                                <hr>
+                                <a href="#" class="a-hinweis ui-btn ui-corner-all ui-btn-icon-left ui-icon-alert">Die gewählten Vokabeln<br>wurden gelöscht!</a>
+                       		 </div>
                         </div><!-- /content -->
 
                         <div data-role="footer" data-position="fixed" >
@@ -222,7 +230,7 @@
                         </div><!-- /header -->
                         <div role="main" class="ui-content">
                         	<p>Möchtest du die gewählten Vokabeln löschen?</p>
-                        	<a href="#" data-role="button">gewählte Vokabeln löschen</a>
+                        	<a href="#Vokabelverwaltung" data-role="button" id="vokabelLoeschen-btn-loeschen">gewählte Vokabeln löschen</a>
                             <a href="#Vokabelverwaltung" data-role="button">zurück zur Übersicht</a>
                         </div>
                     </div>

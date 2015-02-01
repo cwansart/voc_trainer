@@ -175,6 +175,7 @@ function sprachenLaden() {
 }
 
 $('#Karteiverwaltung').on('pagecreate', function(event, ui) {
+	$('#karteiverw-div-hinweis').hide();
     $('#karteiverw-btn-loeschen').hide();
     $('#karteiverw-btn-lernen').hide();
     $('#karteiverw-btn-oeffnen').hide();
@@ -227,6 +228,7 @@ $('#Karteiverwaltung').on('pagecreate', function(event, ui) {
 
 $('#Vokabelverwaltung').on( 'pagecreate', function( event, ui ) {	
 	$('#vokabelverw-btn-loeschen').hide();
+	$('#vokabelverw-div-hinweis').hide();
 	
 	if(aktuelleKartei != null)	var pfad = '<h2>' + aktuelleSprache + ' - ' + aktuelleKartei + '</h2>';
 	else						var pfad = '<h2>' + aktuelleSprache + '</h2>';
@@ -264,7 +266,7 @@ $('#Vokabelverwaltung').on( 'pagecreate', function( event, ui ) {
 
 $('#NeueKartei').on('pagecreate', function(event, ui) {
     $('#neueKartei-div-spracheHinzu').hide();
-	$('#neueKartei-div-hinweis').hide();
+	$('#neueKartei-div-hinweis').hide();;
     
     var collapsible = '';
     var spracheToggle = null;
@@ -376,4 +378,16 @@ $('#NeueVokabel').on('pagecreate', function(event, ui) {
         sprachen[aktuelleSprache][aktuelleKartei][uebersetzung] = deutsch;
         app.writeFile();
     });
+});
+
+$('#SpracheLoeschenDialog').on('pagecreate', function(){
+	$('#spracheLoeschen-btn-loeschen').click( function(){
+			$('#karteiverw-div-hinweis').show().delay(2000).fadeOut(500);
+	});
+});
+
+$('#VokabelLoeschenDialog').on('pagecreate', function(){
+	$('#vokabelLoeschen-btn-loeschen').click( function(){
+			$('#vokabelverw-div-hinweis').show().delay(2000).fadeOut(500);
+	});
 });
