@@ -98,11 +98,30 @@ var app = {
 
         // Speicher anfordern
         var speicherGroesse = 1024*1024*5; // 5 MiB
-        navigator.webkitPersistentStorage.requestQuota(speicherGroesse, function(grantedBytes) {
-          window.requestFileSystem(PERSISTENT, grantedBytes, app.onInitFs, app.errorHandler);
-        }, function(e) {
-          console.log('Error', e);
-        });
+        // window.webkitStorageInfo soll veraltet sein, jedoch existiert die navigator-Variante nicht auf älteren Geräten
+        if(navigator.webkitPersistentStorage === undefined) {
+            if(window.webkitStorageInfo === undefined) {
+                window.requestFileSystem(PERSISTENT, speicherGroesse, app.onInitFs, app.errorHandler);
+            }
+            else {
+                /*
+                window.webkitStorageInfo.requestQuota(PERSISTENT, speicherGroesse, function(grantedBytes) {
+                    window.requestFileSystem(PERSISTENT, grantedBytes, onInitFs, errorHandler);
+                }, function(e) {
+                  console.log('Error', e);
+                  alert('speicher anfordern: ' + e.code);
+                });
+                */
+                alert("Das sollte nicht passieren! Bitte melden!");
+            }
+        }
+        else {
+            navigator.webkitPersistentStorage.requestQuota(speicherGroesse, function(grantedBytes) {
+              window.requestFileSystem(PERSISTENT, grantedBytes, app.onInitFs, app.errorHandler);
+            }, function(e) {
+              console.log('Error', e);
+            });
+        }
     },
 
     onInitFs: function(fs) {
@@ -116,8 +135,11 @@ var app = {
                     console.log('Schreiben fehlgeschlagen: ' + e.toString());
                 };
 
-                var sprachenBlob = new Blob([JSON.stringify(sprachen)], {type: 'text/plain'});
-                fileWriter.write(sprachenBlob);
+                // Blob-Konstruktor ist nicht überall verfügbar. Wir müssen prüfen, ob Android 4.1 schon über den Konstruktor verfügt; falls nicht sollten wir den BlobBuilder verwenden
+                //var sprachenBlob = new Blob([JSON.stringify(sprachen)], {type: 'text/plain'});
+                var blob = new WebKitBlobBuilder();
+                blob.append(JSON.stringify(sprachen));
+                fileWriter.write(blob.getBlob());
             }, app.errorHandler);
         }, app.errorHandler);
     },
