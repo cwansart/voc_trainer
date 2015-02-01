@@ -264,13 +264,13 @@ $('#Vokabelverwaltung').on( 'pagecreate', function( event, ui ) {
 
 $('#NeueKartei').on('pagecreate', function(event, ui) {
     $('#neueKartei-div-spracheHinzu').hide();
+	$('#neueKartei-div-hinweis').hide();
     
     var collapsible = '';
     var spracheToggle = null;
      
     collapsible += '<div data-role="collapsible"><h3>Sprachen wählen</h3><form><fieldset data-role="controlgroup">';   
     $.each(sprachen, function(sprache) {
-
         collapsible += '<label for="neueKartei-coll-sprachenListe-radio-' + sprache + '">'
                     +  '<input type="radio" name="Sprache" id="neueKartei-coll-sprachenListe-radio-' + sprache + '" value="' + sprache + '">'
                     + sprache + '</label>';
@@ -282,12 +282,12 @@ $('#NeueKartei').on('pagecreate', function(event, ui) {
 	
 	if($.isEmptyObject(sprachen))	$('#neueKartei-coll-sprachenListe').hide();	// Noch keine Sprachen vorhanden
     
-    $('#neueKartei-coll-sprachenListe > div > h3').click( function(){     // "Sprache hinzufügen" wird betätigt
+    $('#neueKartei-coll-sprachenListe > div > h3').click( function(){     // "Sprache wählen" wird betätigt
         $('#neueKartei-btn-spracheHinzu').slideToggle();
         spracheToggle = true;
     });
     
-    $('#neueKartei-btn-spracheHinzu').click( function(){      // "Sprache wählen" wird betätigt
+    $('#neueKartei-btn-spracheHinzu').click( function(){      // "Sprache hinzufügen" wird betätigt
         $('#neueKartei-div-spracheHinzu').fadeToggle();
         if(!$.isEmptyObject(sprachen))	$('#neueKartei-coll-sprachenListe').slideToggle();
         spracheToggle = false;
@@ -300,8 +300,8 @@ $('#NeueKartei').on('pagecreate', function(event, ui) {
         if(spracheToggle === true) { // aus der Liste
             sprache = $('#neueKartei-coll-sprachenListe').find(':checked');
             if(sprache.length == 0) {
-                // TODO: Das muss unbedingt noch durch ein einheitliches Schema ersetzt werden
-                alert("Du musst eine Sprache auswählen!");
+                //alert("Du musst eine Sprache auswählen!");
+				$('#neueKartei-div-hinweis').slideToggle();
                 return;
             }
             aktuelleSprache = sprache.val();
@@ -310,19 +310,22 @@ $('#NeueKartei').on('pagecreate', function(event, ui) {
         else if(spracheToggle === false) {
             sprache = $('#neueKartei-input-sprache').val();
             if(sprache === '') {
-                alert("Du musst eine Sprache eingeben!");
+                //alert("Du musst eine Sprache eingeben!");
+				$('#neueKartei-div-hinweis').slideToggle();
                 return;
             }
             aktuelleSprache = sprache;
         }
         else {
-            alert("Du musst eine Sprache auswählen!");
+            //alert("Du musst eine Sprache auswählen!");
+			$('#neueKartei-div-hinweis').slideToggle();
             return;
         }
 
         var kartei = $('#neueKartei-input-kartei').val();
         if(kartei === '') {
-            alert("Du musst einen Karteinamen eingeben!");
+            //alert("Du musst einen Karteinamen eingeben!");
+			$('#neueKartei-div-hinweis').slideToggle();
             return;
         }
 
