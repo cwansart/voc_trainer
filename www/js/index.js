@@ -63,7 +63,12 @@ var app = {
         fileEntry.file(function(file) {
             var reader = new FileReader(file);
             reader.onloadend = function() {
-                sprachen = JSON.parse(this.result);
+                if(this.result === '') {
+                    sprachen = {};
+                }
+                else {
+                    sprachen = JSON.parse(this.result);
+                }
                 console.log("Dateien gelesen");
                 // Ab hier könnte der Splashscreen wieder deaktiviert werden.
             };
