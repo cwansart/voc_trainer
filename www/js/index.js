@@ -27,7 +27,7 @@ var app = {
     // Application Constructor
     initialize: function() {
         this.bindEvents();
-        sprachenLaden();
+        //sprachenLaden();
     },
     // Bind Event Listeners
     //
@@ -54,17 +54,19 @@ var app = {
 
         console.log('Received Event: ' + id);
 
-        var sprachenFile = cordova.file.externalApplicationStorageDirectory + 'sprachen.json';
-        window.resolveLocalFileSystemURL(sprachenFile, this.gotFile, this.failToRead);
+        app.sprachenFile = cordova.file.externalApplicationStorageDirectory + 'sprachen.json';
+        window.resolveLocalFileSystemURL(app.sprachenFile, this.gotFile, this.failToRead);
     },
 
     // sprachen.json erfolgreich geladen
     gotFile: function(fileEntry) {
         fileEntry.file(function(file) {
             var reader = new FileReader(file);
-            reader.onloadend(function() {
-                console.log(this.result);
-            });
+            reader.onloadend = function() {
+                sprachen = JSON.parse(this.result);
+                console.log("Dateien gelesen");
+                // Ab hier könnte der Splashscreen wieder deaktiviert werden.
+            };
             reader.readAsText(file);
         });
     },
@@ -75,6 +77,7 @@ var app = {
             case 1: // NOT_FOUND_ERR
                 // Datei nicht gefunden, dann muss sprachen leer initialisiert werden.
                 sprachen = {};
+                console.log("sprachen.json nicht vorhanden");
                 break;
             default:
                 // alle Fehlercodes auf: https://developer.mozilla.org/en-US/docs/Web/API/FileError#Error_codes
@@ -85,8 +88,36 @@ var app = {
 
     // sprachen.js festschreiben
     writeFile: function() {
-        // TODO muss noch geschrieben werden. ;-)
-    }
+        // Speicher anfordern
+        var speicherGroesse = 1024*1024*5; // 5 MiB
+        navigator.webkitPersistentStorage.requestQuota(speicherGroesse, function(grantedBytes) {
+          window.requestFileSystem(PERSISTENT, grantedBytes, app.onInitFs, app.errorHandler);
+        }, function(e) {
+          console.log('Error', e);
+        });
+    },
+
+    onInitFs: function(fs) {
+        fs.root.getFile(app.sprachenFile.substr(7), {create: true}, function(fileEntry) {
+            fileEntry.createWriter(function(fileWriter) {
+                fileWriter.onwriteend = function(e) {
+                    console.log("sprachen.json geschrieben")
+                };
+
+                fileWriter.onerror = function(e) {
+                    console.log('Schreiben fehlgeschlagen: ' + e.toString());
+                };
+
+                var sprachenBlob = new Blob([JSON.stringify(sprachen)], {type: 'text/plain'});
+                fileWriter.write(sprachenBlob);
+            }, app.errorHandler);
+        }, app.errorHandler);
+    },
+
+    errorHandler: function(e) {
+        console.log(e.code);
+    },
+
 };
 
 app.initialize();
