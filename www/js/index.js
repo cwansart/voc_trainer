@@ -88,6 +88,9 @@ var app = {
 
     // sprachen.js festschreiben
     writeFile: function() {
+        // Prüfen ob Schreibefunktion vorhanden (Browser meckert)
+        if(window.requestFileSystem === undefined) return;
+
         // Speicher anfordern
         var speicherGroesse = 1024*1024*5; // 5 MiB
         navigator.webkitPersistentStorage.requestQuota(speicherGroesse, function(grantedBytes) {
@@ -309,4 +312,23 @@ $('#NeueVokabel').on('pagecreate', function(event, ui) {
 	if(aktuelleKartei != null)	var pfad = '<h2>' + aktuelleSprache + ' - ' + aktuelleKartei + '</h2>';
 	else						var pfad = '<h2>' + aktuelleSprache + '</h2>';
   	$('#neuevokabel-div-content').prepend(pfad);
+
+    $('#neueVokabel-btn-vokabelSpeichern').on('click', function() {
+        var deutsch = $('#neueVokabel-input-deutsch').val();
+        var uebersetzung = $('#neueVokabel-input-uebersetzung').val();
+
+        if(deutsch === '') {
+            alert('Du musst ein Deusches Wort eintippen!');
+            return;
+        }
+        
+        if(uebersetzung === '') {
+            alert('Du musst eine Übersetzung eintippen!');
+            return;
+        }
+
+        sprachen[aktuelleSprache][aktuelleKartei][uebersetzung] = {};
+        sprachen[aktuelleSprache][aktuelleKartei][uebersetzung] = deutsch;
+        app.writeFile();
+    });
 });
