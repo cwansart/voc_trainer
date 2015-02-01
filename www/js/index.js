@@ -348,7 +348,7 @@ $('#NeueVokabel').on('pagecreate', function(event, ui) {
 	
 	if(aktuelleKartei != null)	var ueberschrift = aktuelleSprache + ' – ' + aktuelleKartei;
 	else						var ueberschrift = aktuelleSprache;
-  	$('#neuevokabel-div-content > h2').append(pfad);
+  	$('#neuevokabel-div-content > h2').append(ueberschrift);
 
     $('#neueVokabel-btn-vokabelSpeichern').on('click', function() {
         var deutsch = $('#neueVokabel-input-deutsch').val();
