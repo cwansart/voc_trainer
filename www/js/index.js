@@ -251,6 +251,8 @@ $('#NeueKartei').on('pagecreate', function(event, ui) {
 
     $('#neueKartei-coll-sprachenListe').append(collapsible);
     $('#neueKartei-coll-sprachenListe').collapsibleset('refresh').trigger('create');
+	
+	if($.isEmptyObject(sprachen))	$('#neueKartei-coll-sprachenListe').hide();	// Noch keine Sprachen vorhanden
     
     $('#neueKartei-coll-sprachenListe > div > h3').click( function(){     // "Sprache hinzufügen" wird betätigt
         $('#neueKartei-btn-spracheHinzu').slideToggle();
@@ -259,7 +261,7 @@ $('#NeueKartei').on('pagecreate', function(event, ui) {
     
     $('#neueKartei-btn-spracheHinzu').click( function(){      // "Sprache wählen" wird betätigt
         $('#neueKartei-div-spracheHinzu').fadeToggle();
-        $('#neueKartei-coll-sprachenListe').slideToggle();
+        if(!$.isEmptyObject(sprachen))	$('#neueKartei-coll-sprachenListe').slideToggle();
         spracheToggle = false;
     });
 
