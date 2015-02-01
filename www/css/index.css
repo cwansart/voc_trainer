@@ -100,6 +100,7 @@ html head + body .ui-btn.ui-btn-a.ui-btn-active{
 .hinweis{
 	color:#FF507D !important;
 	font-size:1.25em;
+	border: 1px solid #FF507D !important;
 	margin: 0 auto;
 	width:225px;
 	height:auto;
@@ -108,4 +109,10 @@ html head + body .ui-btn.ui-btn-a.ui-btn-active{
 
 .hinweis:hover{
 	background-color:#fff !important;
+}
+
+.inputText{
+	box-shadow: 0 0 12px #ff507d;
+	-webkit-box-shadow: 0 0 12px #ff507d;
+	border:1px solid #ff507d !important;
 }

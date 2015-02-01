@@ -351,16 +351,20 @@ $('#NeueVokabel').on('pagecreate', function(event, ui) {
 
         if(deutsch === '') {
             $('#neueVokabel-div-hinweis').fadeToggle();
+			$('#neueVokabel-input-deutsch').addClass("inputText");
 			$('#neuevokabel-div-content').find('#neueVokabel-input-deutsch').on('click', function(){
 				$('#neueVokabel-div-hinweis').hide();
+				$('#neueVokabel-input-deutsch').removeClass("inputText");
 			});
             return;
         }
         
         if(uebersetzung === '') {
             $('#neueVokabel-div-hinweis').fadeToggle();
+			$('#neueVokabel-input-uebersetzung').addClass("inputText");
 			$('#neuevokabel-div-content').find('#neueVokabel-input-uebersetzung').on('click', function(){
 				$('#neueVokabel-div-hinweis').hide();
+				$('#neueVokabel-input-uebersetzung').removeClass("inputText");
 			});
             return;
         }
