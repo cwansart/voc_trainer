@@ -209,7 +209,9 @@ $('#Karteiverwaltung').on('pagecreate', function(event, ui) {
         collapsible += '<div data-role="collapsible" data-iconpos="right" data-sprache="' + sprache + '"><h3>' + sprache + '</h3>'
                     +  '<fieldset data-role="controlgroup">';   //div noch schließen 
         $.each(sprachen[sprache], function(kartei) {
-            collapsible += '<label for="kartei-'+sprache+'-'+kartei+'"><input type="checkbox" value="'+kartei+'" data-mini="true" name="kartei-'+sprache+'-'+kartei+'" id="kartei-'+sprache+'-'+kartei+'">' + kartei + '</label>';
+            collapsible += '<label for="kartei-' + id(sprache, kartei) +'">'
+                        +  '<input type="checkbox" value="' + kartei + '" data-mini="true" id="kartei-' + id(sprache, kartei) + '">'
+                        +   kartei + '</label>';
         });
         collapsible += '</fieldset></div>';
     });
@@ -264,7 +266,9 @@ $('#Vokabelverwaltung').on( 'pagecreate', function( event, ui ) {
     var vokabeln = sprachen[aktuelleSprache][aktuelleKartei];
 	
 	$.each(vokabeln, function(fremdsprache, deutsch) {
-            controlGroup += '<label for="'+aktuelleSprache+'-'+aktuelleKartei+'-'+deutsch+'"><input type="checkbox" value="'+fremdsprache+'" data-mini="true" name="vokabel-'+fremdsprache+'-'+deutsch+'" id="vokabel-'+fremdsprache+'-'+deutsch+'">' + fremdsprache + ' – ' + deutsch + '</label>';
+            controlGroup += '<label for="vokabel-' + id(fremdsprache, deutsch) +'">'
+                         +  '<input type="checkbox" value="'+fremdsprache+'" data-mini="true" '
+                         +  'id="vokabel-'+ id(fremdsprache, deutsch) +'">' + fremdsprache + ' – ' + deutsch + '</label>';
     });
 
     $('#vokabelverw-div-vokListe').append(controlGroup);
@@ -299,7 +303,7 @@ $('#NeueKartei').on('pagecreate', function(event, ui) {
     collapsible += '<div data-role="collapsible"><h3>Sprachen wählen</h3><form><fieldset data-role="controlgroup">';   
     $.each(sprachen, function(sprache) {
         collapsible += '<label for="neueKartei-coll-sprachenListe-radio-' + sprache + '">'
-                    +  '<input type="radio" name="Sprache" id="neueKartei-coll-sprachenListe-radio-' + sprache + '" value="' + sprache + '">'
+                    +  '<input type="radio" id="neueKartei-coll-sprachenListe-radio-' + sprache + '" value="' + sprache + '">'
                     + sprache + '</label>';
     });
     collapsible += '</fieldset></form></div>';
@@ -431,3 +435,19 @@ $('#VokabelLoeschenDialog').on('pagecreate', function(){
 			$('#vokabelverw-div-hinweis').show().delay(2000).fadeOut(500);
 	});
 });
+
+// erstellt eine ID bestehend aus den übergebenen Parametern
+function id(sprache, kartei, vokabel) {
+    var r = '';
+    if(sprache !== undefined) {
+        r = sprache;
+    }
+    if(kartei !== undefined) {
+        r += '-' + kartei;
+    }
+    if(vokabel !== undefined) {
+        r += '-' + vokabel;
+    }
+    // ersetze Leerzeichen (s = spaces) mit Bindestrichen
+    return r.replace(/\s/g, '-');
+}
