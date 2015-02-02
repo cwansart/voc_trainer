@@ -6,7 +6,7 @@
  * dargstellt werden. */
 div[data-role="navbar"] .ui-icon-anleitung.ui-btn-icon-top:after,
 div[data-role="navbar"] .ui-icon-karteiverwaltung.ui-btn-icon-top:after,
-div[data-role="navbar"] .ui-icon-einstellungen.ui-btn-icon-top:after {
+div[data-role="navbar"] .ui-icon-lernfortschritt.ui-btn-icon-top:after {
 	background-size: 100%;
 }
 
@@ -25,7 +25,7 @@ div[data-role="navbar"] .ui-btn-icon-top:after {
 	background-image: url("../img/app-icon-karteien-highres.png");
 }
 
-/* Einstellungen Icon */
-.ui-icon-einstellungen:after {
-	background-image: url("../img/app-icon-settings-highres.png");
+/* Lernfortschritt Icon */
+.ui-icon-lernfortschritt:after {
+	background-image: url("../img/app-icon-lernfortschritt-highres.png");
 }
