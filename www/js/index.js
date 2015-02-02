@@ -290,7 +290,7 @@ $('#Vokabelverwaltung').on( 'pagecreate', function( event, ui ) {
 
 $('#NeueKartei').on('pagecreate', function(event, ui) {
     $('#neueKartei-div-spracheHinzu').hide();
-	$('#neueKartei-div-hinweis').hide();;
+	$('#neueKartei-div-warnung').hide();;
     
     var collapsible = '';
     var spracheToggle = null;
@@ -327,7 +327,7 @@ $('#NeueKartei').on('pagecreate', function(event, ui) {
             sprache = $('#neueKartei-coll-sprachenListe').find(':checked');
             if(sprache.length == 0) {
                 //alert("Du musst eine Sprache auswählen!");
-				$('#neueKartei-div-hinweis').slideToggle();
+				$('#neueKartei-div-warnung').slideToggle();
                 return;
             }
             aktuelleSprache = sprache.val();
@@ -337,21 +337,21 @@ $('#NeueKartei').on('pagecreate', function(event, ui) {
             sprache = $('#neueKartei-input-sprache').val();
             if(sprache === '') {
                 //alert("Du musst eine Sprache eingeben!");
-				$('#neueKartei-div-hinweis').slideToggle();
+				$('#neueKartei-div-warnung').slideToggle();
                 return;
             }
             aktuelleSprache = sprache;
         }
         else {
             //alert("Du musst eine Sprache auswählen!");
-			$('#neueKartei-div-hinweis').slideToggle();
+			$('#neueKartei-div-warnung').slideToggle();
             return;
         }
 
         var kartei = $('#neueKartei-input-kartei').val();
         if(kartei === '') {
             //alert("Du musst einen Karteinamen eingeben!");
-			$('#neueKartei-div-hinweis').slideToggle();
+			$('#neueKartei-div-warnung').slideToggle();
             return;
         }
 
@@ -372,7 +372,7 @@ $('#NeueKartei').on('pagecreate', function(event, ui) {
 });
 
 $('#NeueVokabel').on('pagecreate', function(event, ui) {
-	$('#neueVokabel-div-hinweis').hide();
+	$('#neueVokabel-div-warnung').hide();
 	
 	if(aktuelleKartei != null)	var ueberschrift = aktuelleSprache + ' – ' + aktuelleKartei;
 	else						var ueberschrift = aktuelleSprache;
@@ -383,20 +383,20 @@ $('#NeueVokabel').on('pagecreate', function(event, ui) {
         var uebersetzung = $('#neueVokabel-input-uebersetzung').val();
 
         if(deutsch === '') {
-            $('#neueVokabel-div-hinweis').fadeToggle();
+            $('#neueVokabel-div-warnung').fadeIn(500);
 			$('#neueVokabel-input-deutsch').addClass("inputText");
 			$('#neuevokabel-div-content').find('#neueVokabel-input-deutsch').on('click', function(){
-				$('#neueVokabel-div-hinweis').hide();
+				$('#neueVokabel-div-warnung').fadeOut(500);
 				$('#neueVokabel-input-deutsch').removeClass("inputText");
 			});
             return;
         }
         
         if(uebersetzung === '') {
-            $('#neueVokabel-div-hinweis').fadeToggle();
+            $('#neueVokabel-div-warnung').fadeIn(500);
 			$('#neueVokabel-input-uebersetzung').addClass("inputText");
 			$('#neuevokabel-div-content').find('#neueVokabel-input-uebersetzung').on('click', function(){
-				$('#neueVokabel-div-hinweis').hide();
+				$('#neueVokabel-div-warnung').fadeOut(500);
 				$('#neueVokabel-input-uebersetzung').removeClass("inputText");
 			});
             return;

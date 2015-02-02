@@ -97,7 +97,7 @@ html head + body .ui-btn.ui-btn-a.ui-btn-active{
 	text-shadow: 0 /*{a-active-shadow-x}*/ 1px /*{a-active-shadow-y}*/ 0 /*{a-active-shadow-radius}*/ #F3F3F3 /*{a-active-shadow-color}*/;
 }
 
-.a-hinweis{
+.a-warnung, .a-hinweis{
 	color:#FF507D !important;
 	font-size:1.25em;
 	border: 1px solid #FF507D !important;
@@ -107,7 +107,11 @@ html head + body .ui-btn.ui-btn-a.ui-btn-active{
 	cursor:default;
 }
 
-.a-hinweis:hover{
+.a-hinweis{
+	color:#63B059 !important;
+}
+
+.a-hinweis:hover, .a-warnung:hover{
 	background-color:#fff !important;
 }
 
