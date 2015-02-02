@@ -109,10 +109,16 @@ html head + body .ui-btn.ui-btn-a.ui-btn-active{
 
 .a-hinweis{
 	color:#63B059 !important;
+	border: 1px solid #63B059 !important;
 }
 
 .a-hinweis:hover, .a-warnung:hover{
 	background-color:#fff !important;
+}
+
+#neueKartei-div-hinweis > .ui-btn-icon-left:after, #neueVokabel-div-hinweis > .ui-btn-icon-left:after{
+	background-color: #63B059;
+	background-color: rgba(99,176,89,1);
 }
 
 .inputText{

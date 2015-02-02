@@ -290,7 +290,8 @@ $('#Vokabelverwaltung').on( 'pagecreate', function( event, ui ) {
 
 $('#NeueKartei').on('pagecreate', function(event, ui) {
     $('#neueKartei-div-spracheHinzu').hide();
-	$('#neueKartei-div-warnung').hide();;
+	$('#neueKartei-div-warnung').hide();
+	$('#neueKartei-div-hinweis').hide();
     
     var collapsible = '';
     var spracheToggle = null;
@@ -351,10 +352,7 @@ $('#NeueKartei').on('pagecreate', function(event, ui) {
             aktuelleSprache = sprache;
         }
         else {
-            $('#neueKartei-div-warnung').fadeIn(500);
-			$('#neueKartei-div-content').find('#neueKartei-btn-spracheHinzu').on('click', function(){ // Sobald der Button geklickt wird (BUG: hier müsste man eig. den Button ODER das Collapsible clicken können
-				$('#neueKartei-div-warnung').fadeOut(500);
-			});	
+            $('#neueKartei-div-warnung').fadeIn(500).delay(2000).fadeOut(500);	// Das ist eher eine Notlösung	
             return;
         }
 
@@ -373,20 +371,18 @@ $('#NeueKartei').on('pagecreate', function(event, ui) {
         if(sprachen[sprache] === undefined) {
             sprachen[sprache] = {};
         }
-
         sprachen[sprache][kartei] = {};
 
         // sprachen in sprachen.js festschreiben
         app.writeFile(function() {
-            // Wenn die Datei geschrieben wurde, zur Übersicht zurückkehren.
-
-            history.back();
+            $('#neueKartei-div-hinweis').fadeIn(500).delay(2000).fadeOut(500);
         });
     });
 });
 
 $('#NeueVokabel').on('pagecreate', function(event, ui) {
 	$('#neueVokabel-div-warnung').hide();
+	$('#neueVokabel-div-hinweis').hide();
 	
 	if(aktuelleKartei != null)	var ueberschrift = aktuelleSprache + ' – ' + aktuelleKartei;
 	else						var ueberschrift = aktuelleSprache;
@@ -419,8 +415,7 @@ $('#NeueVokabel').on('pagecreate', function(event, ui) {
         sprachen[aktuelleSprache][aktuelleKartei][uebersetzung] = {};
         sprachen[aktuelleSprache][aktuelleKartei][uebersetzung] = deutsch;
         app.writeFile(function() {
-            // Wenn die Datei geschrieben wurde, zur Übersicht zurückkehren.
-            history.back();
+            $('#neueVokabel-div-hinweis').fadeIn(500).delay(2000).fadeOut(500);
         });
     });
 });
