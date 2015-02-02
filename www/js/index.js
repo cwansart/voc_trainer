@@ -388,8 +388,7 @@ $('#NeueVokabel').on('pagecreate', function(event, ui) {
 	$('#neueVokabel-div-warnung').hide();
 	$('#neueVokabel-div-hinweis').hide();
 	
-	if(aktuelleKartei != null)	var ueberschrift = aktuelleSprache + ' – ' + aktuelleKartei;
-	else						var ueberschrift = aktuelleSprache;
+	var ueberschrift = aktuelleSprache + ' – ' + aktuelleKartei;
   	$('#neuevokabel-div-content > h2').append(ueberschrift);
 
     $('#neueVokabel-btn-vokabelSpeichern').on('click', function() {
@@ -422,6 +421,11 @@ $('#NeueVokabel').on('pagecreate', function(event, ui) {
             $('#neueVokabel-div-hinweis').fadeIn(500).delay(2000).fadeOut(500);
         });
     });
+});
+
+$('#Lernen').on('pagecreate', function(event, ui) {
+	var ueberschrift = aktuelleSprache + ' – ' + aktuelleKartei;
+  	$('#lernen-div-content > h2').append(ueberschrift);
 });
 
 $('#SpracheLoeschenDialog').on('pagecreate', function(){

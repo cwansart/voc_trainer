@@ -159,7 +159,7 @@
                             <a href="#NeueKartei" data-role="button" data-icon="edit">Neue Kartei</a>
                             
                             <a href="#SpracheLoeschenDialog" data-rel="dialog" class="ui-btn ui-corner-all ui-btn-inline ui-mini footer-button-left ui-btn-icon-left ui-icon-delete" id="karteiverw-btn-loeschen">Löschen</a>
-                            <a href="#" class="ui-btn ui-corner-all ui-btn-inline ui-mini footer-button-left ui-btn-icon-left ui-icon-eye" id="karteiverw-btn-lernen">Lernen</a>
+                            <a href="#Lernen" class="ui-btn ui-corner-all ui-btn-inline ui-mini footer-button-left ui-btn-icon-left ui-icon-eye" id="karteiverw-btn-lernen">Lernen</a>
                             <a href="#Vokabelverwaltung" class="ui-btn ui-corner-all ui-btn-inline ui-mini footer-button-left ui-btn-icon-left ui-icon-plus" id="karteiverw-btn-oeffnen">Öffnen</a>
                         </div><!-- /content -->
                         <div id="karteiverw-div-hinweis">
@@ -326,6 +326,44 @@
                         </div><!-- /footer -->
                     </div>
                     <!-- /page: Vokabel hinzufügen -->
+                    
+                    <!-- /page: Vokabel hinzufügen -->
+                    <div data-role="page" id="Lernen">
+                    	<div data-role="header">
+                        	<a href="index.html" data-role="button" data-icon="home" data-iconpos="notext" class="ui-btn-right"></a>
+                            <a href="#Karteiverwaltung" data-role="button" data-icon="back" data-iconpos="notext" class="ui-btn-left"></a>
+                            <h1>Lernen</h1>
+                        </div><!-- /header -->
+                        
+                        <div role="main" class="ui-content" id="lernen-div-content">
+                        	<h2></h2>
+                            <hr>
+                            
+                            <div id="lernen-div-karte">
+                            	<div id="lernen-div-karteHead">
+                                	test
+                                </div>
+                                <div id="lernen-div-karteBody">
+                                	<label for="">Übersetzung:</label>
+                                	<input type="text" name="name" id="lernen-input-uebersetzung" value="" /> 
+                                </div>
+                                <div id="lernen-div-karteFoot">
+									test
+                                </div>  
+                            </div>
+                        </div>
+                        <hr>
+                        
+                        <div data-role="footer" data-position="fixed" >
+                            <div data-role="navbar">
+                                <ul>
+                                    <li><a href="#Anleitung" data-icon="anleitung">Anleitung</a></li>
+                                    <li><a href="#Karteiverwaltung" data-icon="karteiverwaltung">Karteiverwaltung</a></li>
+                                    <li><a href="#Lernfortschritt" data-icon="lernfortschritt">Lernfortschritt</a></li>
+                                </ul>
+                            </div><!-- /navbar -->
+                        </div><!-- /footer -->
+                   </div>
 
                 </div>
             </div>
