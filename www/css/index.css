@@ -116,7 +116,7 @@ html head + body .ui-btn.ui-btn-a.ui-btn-active{
 	background-color:#fff !important;
 }
 
-#neueKartei-div-hinweis > .ui-btn-icon-left:after, #neueVokabel-div-hinweis > .ui-btn-icon-left:after{
+#neueKartei-div-hinweis > .ui-btn-icon-left:after, #neueVokabel-div-hinweis > .ui-btn-icon-left:after, #karteiverw-div-hinweis > .ui-btn-icon-left:after, #vokabelverw-div-hinweis > .ui-btn-icon-left:after {
 	background-color: #63B059;
 	background-color: rgba(99,176,89,1);
 }
