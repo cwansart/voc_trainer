@@ -254,10 +254,12 @@ $('#Karteiverwaltung').on('pageshow', function(event, ui) {
     })
 });
 
-$('#Vokabelverwaltung').on( 'pagecreate', function( event, ui ) {	
+$('#Vokabelverwaltung').on( 'pageshow', function( event, ui ) {	
 	$('#vokabelverw-btn-loeschen').hide();
 	$('#vokabelverw-div-hinweis').hide();
-	
+
+    $('#vokabelverw-div-vokListe').empty();
+
 	if(aktuelleKartei != null)	var pfad = '<h2>' + aktuelleSprache + ' - ' + aktuelleKartei + '</h2>';
 	else		$( ".selector" ).on( "pagecontainercreate", function( event, ui ) {} );				var pfad = '<h2>' + aktuelleSprache + '</h2>';
 	$('#vokabelverw-div-vokListe').append(pfad);
