@@ -16,7 +16,8 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-// Hier werden Datei"global" die Sprachen gespeichert aus der data/sprachen.json
+// Hier werden Datei"global" die Sprachen gespeichert aus der
+// data/sprachen.json
 var sprachen = {};
 var sprachenGeladen = false;
 var aktuelleSprache = null;
@@ -27,6 +28,7 @@ var app = {
     // Application Constructor
     initialize: function() {
         this.bindEvents();
+        this.writeCallback = null;
         //sprachenLaden();
     },
     // Bind Event Listeners
@@ -92,13 +94,23 @@ var app = {
     },
 
     // sprachen.js festschreiben
-    writeFile: function() {
+    writeFile: function(callback) {
+        // könnte problematisch sein, wenn writeFile direkt hinterinander
+        // aufgerufen wird, und das Speichern einfach zu lange braucht.
+        this.writeCallback = (callback === undefined)? null : callback;
+
         // Prüfen ob Schreibefunktion vorhanden (Browser meckert)
-        if(window.requestFileSystem === undefined) return;
+        if(window.requestFileSystem === undefined) {
+            if(this.writeCallback != null) {
+                this.writeCallback();
+            }
+            return;
+        }
 
         // Speicher anfordern
         var speicherGroesse = 1024*1024*5; // 5 MiB
-        // window.webkitStorageInfo soll veraltet sein, jedoch existiert die navigator-Variante nicht auf älteren Geräten
+        // window.webkitStorageInfo soll veraltet sein, jedoch existiert
+        // die navigator-Variante nicht auf älteren Geräten
         if(navigator.webkitPersistentStorage === undefined) {
             if(window.webkitStorageInfo === undefined) {
                 window.requestFileSystem(PERSISTENT, speicherGroesse, app.onInitFs, app.errorHandler);
@@ -125,17 +137,28 @@ var app = {
     },
 
     onInitFs: function(fs) {
+        var me = this;
         fs.root.getFile(app.sprachenFile.substr(7), {create: true}, function(fileEntry) {
             fileEntry.createWriter(function(fileWriter) {
                 fileWriter.onwriteend = function(e) {
-                    console.log("sprachen.json geschrieben")
+                    console.log("sprachen.json geschrieben");
+                    if(me.writeCallback != null) {
+                        var cb = me.writeCallback;
+                        cb();
+                    }
                 };
 
                 fileWriter.onerror = function(e) {
                     console.log('Schreiben fehlgeschlagen: ' + e.toString());
+                    if(me.writeCallback != null) {
+                        var cb = me.writeCallback;
+                        cb();
+                    }
                 };
 
-                // Blob-Konstruktor ist nicht überall verfügbar. Wir müssen prüfen, ob Android 4.1 schon über den Konstruktor verfügt; falls nicht sollten wir den BlobBuilder verwenden
+                // Blob-Konstruktor ist nicht überall verfügbar. Wir müssen
+                // prüfen, ob Android 4.1 schon über den Konstruktor verfügt;
+                // falls nicht sollten wir den BlobBuilder verwenden
                 //var sprachenBlob = new Blob([JSON.stringify(sprachen)], {type: 'text/plain'});
                 var blob = null;
                 if(window.WebKitBlobBuilder === undefined) {
@@ -159,7 +182,8 @@ var app = {
 
 app.initialize();
 
-// Beim Laden der App, Sprachen-Datei einlesen. Diese Funktion muss für die App noch in the app.onDeviceReady verschoben werden.
+// Beim Laden der App, Sprachen-Datei einlesen. Diese Funktion muss für die App
+// noch in the app.onDeviceReady verschoben werden.
 $(document).ready(function() {
     sprachenLaden();
     $.mobile.defaultPageTransition = 'slidefade';
@@ -231,7 +255,7 @@ $('#Vokabelverwaltung').on( 'pagecreate', function( event, ui ) {
 	$('#vokabelverw-div-hinweis').hide();
 	
 	if(aktuelleKartei != null)	var pfad = '<h2>' + aktuelleSprache + ' - ' + aktuelleKartei + '</h2>';
-	else						var pfad = '<h2>' + aktuelleSprache + '</h2>';
+	else		$( ".selector" ).on( "pagecontainercreate", function( event, ui ) {} );				var pfad = '<h2>' + aktuelleSprache + '</h2>';
 	$('#vokabelverw-div-vokListe').append(pfad);
 
     if(aktuelleKartei == null) return;
@@ -339,7 +363,11 @@ $('#NeueKartei').on('pagecreate', function(event, ui) {
         sprachen[sprache][kartei] = {};
 
         // sprachen in sprachen.js festschreiben
-        app.writeFile();
+        app.writeFile(function() {
+            // Wenn die Datei geschrieben wurde, zur Übersicht zurückkehren.
+
+            history.back();
+        });
     });
 });
 
@@ -376,7 +404,10 @@ $('#NeueVokabel').on('pagecreate', function(event, ui) {
 
         sprachen[aktuelleSprache][aktuelleKartei][uebersetzung] = {};
         sprachen[aktuelleSprache][aktuelleKartei][uebersetzung] = deutsch;
-        app.writeFile();
+        app.writeFile(function() {
+            // Wenn die Datei geschrieben wurde, zur Übersicht zurückkehren.
+            history.back();
+        });
     });
 });
 
