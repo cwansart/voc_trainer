@@ -198,12 +198,14 @@ function sprachenLaden() {
     sprachenGeladen = true;
 }
 
-$('#Karteiverwaltung').on('pagecreate', function(event, ui) {
+$('#Karteiverwaltung').on('pageshow', function(event, ui) {
 	$('#karteiverw-div-hinweis').hide();
     $('#karteiverw-btn-loeschen').hide();
     $('#karteiverw-btn-lernen').hide();
     $('#karteiverw-btn-oeffnen').hide();
     
+    $('#karteiverw-coll-sprachenListe').empty();
+
     var collapsible = '';
     $.each(sprachen, function(sprache) {
         collapsible += '<div data-role="collapsible" data-iconpos="right" data-sprache="' + sprache + '"><h3>' + sprache + '</h3>'
