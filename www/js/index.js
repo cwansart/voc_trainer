@@ -326,8 +326,12 @@ $('#NeueKartei').on('pagecreate', function(event, ui) {
         if(spracheToggle === true) { // aus der Liste
             sprache = $('#neueKartei-coll-sprachenListe').find(':checked');
             if(sprache.length == 0) {
-                //alert("Du musst eine Sprache auswählen!");
-				$('#neueKartei-div-warnung').slideToggle();
+				$('#neueKartei-div-warnung').fadeIn(500);
+				$('#neueKartei-coll-sprachenListe').addClass('div-markiert');
+				$('#neueKartei-coll-sprachenListe').find(':radio').on('click', function(){	// Sobald ein Radiobutton geklickt wird, verschwindet der Hinweis
+					$('#neueKartei-div-warnung').fadeOut(500);
+					$('#neueKartei-coll-sprachenListe').removeClass('div-markiert');
+				});
                 return;
             }
             aktuelleSprache = sprache.val();
@@ -336,22 +340,32 @@ $('#NeueKartei').on('pagecreate', function(event, ui) {
         else if(spracheToggle === false) {
             sprache = $('#neueKartei-input-sprache').val();
             if(sprache === '') {
-                //alert("Du musst eine Sprache eingeben!");
-				$('#neueKartei-div-warnung').slideToggle();
+				$('#neueKartei-div-warnung').fadeIn(500);
+				$('#neueKartei-input-sprache').addClass("inputText");
+				$('#neueKartei-div-content').find('#neueKartei-input-sprache').on('click', function(){	// Sobald das input-field (Sprache) geklickt wird, verschwindet der Hinweis
+					$('#neueKartei-div-warnung').fadeOut(500);
+					$('#neueKartei-input-sprache').removeClass("inputText");
+				});
                 return;
             }
             aktuelleSprache = sprache;
         }
         else {
-            //alert("Du musst eine Sprache auswählen!");
-			$('#neueKartei-div-warnung').slideToggle();
+            $('#neueKartei-div-warnung').fadeIn(500);
+			$('#neueKartei-div-content').find('#neueKartei-btn-spracheHinzu').on('click', function(){ // Sobald der Button geklickt wird (BUG: hier müsste man eig. den Button ODER das Collapsible clicken können
+				$('#neueKartei-div-warnung').fadeOut(500);
+			});	
             return;
         }
 
         var kartei = $('#neueKartei-input-kartei').val();
         if(kartei === '') {
-            //alert("Du musst einen Karteinamen eingeben!");
-			$('#neueKartei-div-warnung').slideToggle();
+			$('#neueKartei-div-warnung').fadeIn(500);
+			$('#neueKartei-input-kartei').addClass("inputText");
+			$('#neueKartei-div-content').find('#neueKartei-input-kartei').on('click', function(){	// Sobald das input-field (Kartei) geklickt wird, verschwindet der Hinweis
+				$('#neueKartei-div-warnung').fadeOut(500);
+				$('#neueKartei-input-kartei').removeClass("inputText");
+			});
             return;
         }
 

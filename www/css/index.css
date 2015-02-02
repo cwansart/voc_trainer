@@ -120,3 +120,9 @@ html head + body .ui-btn.ui-btn-a.ui-btn-active{
 	-webkit-box-shadow: 0 0 12px #ff507d;
 	border:1px solid #ff507d !important;
 }
+
+.div-markiert{
+	box-shadow: 0 0 12px #ff507d;
+	-webkit-box-shadow: 0 0 12px #ff507d;
+	border:1px solid #ff507d !important;
+}
