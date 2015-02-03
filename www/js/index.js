@@ -209,7 +209,7 @@ function sprachenLaden() {
     sprachenGeladen = true;
 }
 
-$('#Karteiverwaltung').on('pageshow', function(event, ui) {
+$('#Karteiverwaltung').on('pagebeforeshow', function(event, ui) {
     $('#Karteiverwaltung').children().off();
     $('#karteiverw-coll-sprachenListe').children().off();
     $('#karteiverw-coll-sprachenListe').children().find(':checkbox').off();
@@ -272,7 +272,7 @@ $('#Karteiverwaltung').on('pageshow', function(event, ui) {
     })
 });
 
-$('#Vokabelverwaltung').on( 'pageshow', function( event, ui ) { 
+$('#Vokabelverwaltung').on( 'pagebeforeshow', function( event, ui ) { 
     $('#vokabelverw-div-vokListe').children().find(':checkbox').off();
 
     $('#vokabelverw-liste').empty();
@@ -312,7 +312,7 @@ $('#Vokabelverwaltung').on( 'pageshow', function( event, ui ) {
     });
 });
 
-$('#NeueKartei').on('pageshow', function(event, ui) {
+$('#NeueKartei').on('pagebeforeshow', function(event, ui) {
     $('#neueKartei-coll-sprachenListe').off();
     $('#neueKartei-btn-spracheHinzu').off();
     $('#neueKartei-input-kartei').off();
@@ -419,7 +419,7 @@ $('#NeueKartei').on('pageshow', function(event, ui) {
     });
 });
 
-$('#NeueVokabel').on('pageshow', function(event, ui) {
+$('#NeueVokabel').on('pagebeforeshow', function(event, ui) {
     $('#neueVokabel-btn-vokabelSpeichern').off();
     $('#neueVokabel-input-deutsch').off();
     $('#neueVokabel-input-uebersetzung').off();
