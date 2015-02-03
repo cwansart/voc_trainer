@@ -204,7 +204,9 @@ $('#Karteiverwaltung').on('pageshow', function(event, ui) {
     $('#karteiverw-btn-lernen').hide();
     $('#karteiverw-btn-oeffnen').hide();
 
-    $('#Karteiverwaltung').off();
+    $('#Karteiverwaltung').children().off();
+    $('#karteiverw-coll-sprachenListe').children().off();
+    $('#karteiverw-coll-sprachenListe').children().find(':checkbox').off();
     
     $('#karteiverw-coll-sprachenListe').empty();
 
@@ -268,12 +270,12 @@ $('#Vokabelverwaltung').on( 'pageshow', function( event, ui ) {
     $('#vokabelverw-btn-loeschen').hide();
     $('#vokabelverw-div-hinweis').hide();
 
-    $('Vokabelverwaltung').off();
+    $('#vokabelverw-div-vokListe').children().find(':checkbox').off();
 
     $('#vokabelverw-liste').empty();
 
     if(aktuelleKartei != null)  var pfad = '<h2>' + aktuelleSprache + ' - ' + aktuelleKartei + '</h2>';
-    else        $( ".selector" ).on( "pagecontainercreate", function( event, ui ) {} );             var pfad = '<h2>' + aktuelleSprache + '</h2>';
+    else var pfad = '<h2>' + aktuelleSprache + '</h2>';
 
     if(aktuelleKartei == null) return;
 
@@ -312,8 +314,12 @@ $('#NeueKartei').on('pageshow', function(event, ui) {
     $('#neueKartei-div-warnung').hide();
     $('#neueKartei-div-hinweis').hide();
 
+    $('#neueKartei-coll-sprachenListe').off();
+    $('#neueKartei-btn-spracheHinzu').off();
+    $('#neueKartei-input-kartei').off();
+    $('#neueKartei-input-sprache').off();
+
     $('#neueKartei-coll-sprachenListe').empty();
-    $('#NeueKartei').off();
 
     $('#neueKartei-coll-sprachenListe').show();
     $('#neueKartei-btn-spracheHinzu').show();
@@ -335,6 +341,7 @@ $('#NeueKartei').on('pageshow', function(event, ui) {
     if($.isEmptyObject(sprachen))   $('#neueKartei-coll-sprachenListe').hide(); // Noch keine Sprachen vorhanden
     
     $('#neueKartei-coll-sprachenListe').on('collapsibleexpand', function(){     // "Sprache wählen" wird betätigt
+        console.log("Knut");
         $('#neueKartei-btn-spracheHinzu').slideUp();
         spracheToggle = true;
     });
@@ -411,12 +418,19 @@ $('#NeueKartei').on('pageshow', function(event, ui) {
     });
 });
 
-$('#NeueVokabel').on('pagecreate', function(event, ui) {
+$('#NeueVokabel').on('pageshow', function(event, ui) {
     $('#neueVokabel-div-warnung').hide();
     $('#neueVokabel-div-hinweis').hide();
+
+    $('#neueVokabel-btn-vokabelSpeichern').off();
+    $('#neueVokabel-input-deutsch').off();
+    $('#neueVokabel-input-uebersetzung').off();
+
+    $('#neueVokabel-input-deutsch').val('');
+    $('#neueVokabel-input-uebersetzung').val('');
     
     var ueberschrift = aktuelleSprache + ' – ' + aktuelleKartei;
-    $('#neuevokabel-div-content > h2').append(ueberschrift);
+    $('#neuevokabel-div-content > h2').empty().append(ueberschrift);
 
     $('#neueVokabel-btn-vokabelSpeichern').on('click', function() {
         var deutsch = $('#neueVokabel-input-deutsch').val();
