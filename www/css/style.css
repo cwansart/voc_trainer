@@ -139,7 +139,7 @@ html head + body .ui-btn.ui-btn-a.ui-btn-active{
 }
 
 #lernen-div-karteBody p{
-	color:#999;
+	color:#666;
 }
 
 #lernen-div-karteFoot{
@@ -162,4 +162,12 @@ html head + body .ui-btn.ui-btn-a.ui-btn-active{
 
 #lernen-div-footRechts{
 	border-radius:0 0 0.5em 0;
+}
+
+.richtig{
+	background:#63B059;
+}
+
+.falsch{
+	background:#FF507D;
 }
