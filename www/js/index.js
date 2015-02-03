@@ -229,8 +229,16 @@ $('#Karteiverwaltung').on('pageshow', function(event, ui) {
         aktuelleSprache = $(this).attr('data-sprache');
     });
 
+    var einAusblendeGeschw = 400;
+    $('#karteiverw-coll-sprachenListe').children().on('collapsiblecollapse', function(event, ui) {
+        $(this).find('input:checked').attr('checked', false);
+        $(this).find('input[type="checkbox"]').checkboxradio('refresh');
+        $('#karteiverw-btn-loeschen').hide(einAusblendeGeschw);
+        $('#karteiverw-btn-lernen').hide(einAusblendeGeschw);
+        $('#karteiverw-btn-oeffnen').hide(einAusblendeGeschw);
+    });
+
     $('#karteiverw-coll-sprachenListe').children().find(':checkbox').on('click', function() {
-        var einAusblendeGeschw = 400;
         var anzahlAusgewaehlt = $('#karteiverw-coll-sprachenListe').find('input:checked').length;
         console.log(anzahlAusgewaehlt);
         switch(anzahlAusgewaehlt) {
