@@ -463,6 +463,11 @@ $('#NeueVokabel').on('pageshow', function(event, ui) {
 });
 
 $('#Lernen').on('pagecreate', function(event, ui) {
+	var vokabeln = vokabelArray(aktuelleSprache, aktuelleKartei, anzahlVokabeln(aktuelleSprache, aktuelleKartei));	// Vokabeln werden als 2-Dim Array gespeichert
+	$('#lernen-div-karteBody p').hide();
+	$('#lernen-div-anzahl').html('Anzahl: 1 / ' + anzahlVokabeln(aktuelleSprache, aktuelleKartei));	// ggf. durch append() ersetze. wird allerdings eh immer überschrieben
+	$('#lernen-div-karteHead p').append(vokabeln[0][0]);
+
     var ueberschrift = aktuelleSprache + ' – ' + aktuelleKartei;
     $('#lernen-div-content > h2').append(ueberschrift);
 });
@@ -493,4 +498,28 @@ function id(sprache, kartei, vokabel) {
     }
     // ersetze Leerzeichen (s = spaces) mit Bindestrichen
     return r.replace(/\s/g, '-');
+}
+
+function anzahlVokabeln(sprache, kartei){
+	var anzahlVokabeln =0;
+	$.each(sprachen[sprache], function(kartei) {
+		anzahlVokabeln++;
+	});
+	return anzahlVokabeln;
+}
+
+function vokabelArray(sprache, kartei, anzahlVokabeln){
+	var x =0;
+	var y = 0;
+	var vokabelnArray = new Array(anzahlVokabeln);
+	var vokabeln = sprachen[sprache][kartei];
+    
+    $.each(vokabeln, function(fremdsprache, deutsch) {
+		vokabelnArray[x] = new Array(2);
+		vokabelnArray[x][y] = fremdsprache;
+		vokabelnArray[x][++y] = deutsch;
+		++x;
+		y = 0;
+	});
+	return vokabelnArray
 }
