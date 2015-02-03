@@ -25,7 +25,7 @@
 }
 
 hr{
-	margin:50px 0 50px 0;
+	margin:30px 0 30px 0;
 }
 
 
@@ -91,11 +91,26 @@ html head + body .ui-btn.ui-btn-a.ui-btn-active{
 	border:1px solid #ff507d !important;
 }
 
+/* Style auf der Lernen-Page */
+
+#lernen-div-metainfo p{
+	width:50%;
+	float:left;
+	margin:-20px 0 30px 0;
+	font-size:1.5em;
+	font-weight:bold;
+}
+
+#lernen-div-zeit{
+	text-align:right;
+}
+
 #lernen-div-karte{
-	margin:0 auto;
-	width:40%;
+	clear:both;
+	margin:0 auto 30px;
+	width:60%;
 	min-width:250px;
-	height:auto;
+	height:280px;
 	background:#fff;
 	border:1px solid #FF9EB7;
 	border-radius:0.5em;
@@ -104,27 +119,47 @@ html head + body .ui-btn.ui-btn-a.ui-btn-active{
 #lernen-div-karteHead{
 	border-radius:0.5em 0.5em 0 0;
 	border-bottom:1px solid #FF9EB7;
-	font-size:1.5em;
-	line-height:2em;
-	text-align:center;
-	font-weight:bold;
 	background-color:#EDEDED;
 	height:40px;
 }
 
-#lernen-div-karteBody{ 
+#lernen-div-karteHead p{
+	font-size:1.5em;
+	line-height:2em;
 	text-align:center;
-	height:120px;;
+	font-weight:bold;
+	margin: 0px;
+}
+
+#lernen-div-karteBody{
+	padding-top:48px; 
+	text-align:center;
+	height:110px;;
 	margin:20px;
+}
+
+#lernen-div-karteBody p{
+	color:#999;
 }
 
 #lernen-div-karteFoot{
 	border-radius:0 0 0.5em 0.5em;
 	border-top:1px solid #FF9EB7;
-	font-size:1.5em;
-	line-height:2em;
 	text-align:center;
-	font-weight:bold;
 	background-color:#EDEDED;
 	height:40px;
+}
+
+#lernen-div-footLinks, #lernen-div-footRechts{
+	width:50%;
+	float:left;
+	height:40px;
+}
+
+#lernen-div-footLinks{
+	border-radius:0 0 0 0.5em;
+}
+
+#lernen-div-footRechts{
+	border-radius:0 0 0.5em 0;
 }

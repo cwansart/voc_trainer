@@ -325,7 +325,7 @@
                     </div>
                     <!-- /page: Vokabel hinzufügen -->
                     
-                    <!-- /page: Vokabel hinzufügen -->
+                    <!-- /page: Lernen -->
                     <div data-role="page" id="Lernen">
                         <div data-role="header">
                             <a href="index.html" data-role="button" data-icon="home" data-iconpos="notext" class="ui-btn-right"></a>
@@ -336,21 +336,31 @@
                         <div role="main" class="ui-content" id="lernen-div-content">
                             <h2></h2>
                             <hr>
+							<div id="lernen-div-metainfo">
+								<p id="lernen-div-anzahl">Anzahl: 1/23</p>
+								<p id="lernen-div-zeit">Zeit: 01:35</p>
+							</div>
                             
                             <div id="lernen-div-karte">
                                 <div id="lernen-div-karteHead">
-                                    test
+                                    <p>to speak</p>
                                 </div>
                                 <div id="lernen-div-karteBody">
-                                    <label for="">Übersetzung:</label>
-                                    <input type="text" name="name" id="lernen-input-uebersetzung" value="" /> 
+                                    <input type="text" name="name" value="" placeholder="Übersetzung eingeben .."/> <br>
+									<p>(lösung wird eingeblendet)</p>
                                 </div>
                                 <div id="lernen-div-karteFoot">
-                                    test
+                                    <div id="lernen-div-footLinks"><img src="img/icon-vokKarte-richtig.png"></div>
+									<div id="lernen-div-footRechts"><img src="img/icon-vokKarte-falsch.png"></div>
                                 </div>  
                             </div>
+							<div align="right">
+								<a href="#" class="ui-btn ui-corner-all ui-btn-inline ui-mini" id="lernen-btn-pruefen">prüfen</a>
+							</div>
                         </div>
                         <hr>
+						<a href="#" class="ui-btn ui-corner-all ui-btn-inline ui-mini ui-btn-icon-left ui-icon-carat-r" id="lernen-btn-start">start</a>
+						<a href="#" class="ui-btn ui-corner-all ui-btn-inline ui-mini ui-btn-icon-left ui-icon-recycle" id="lernen-btn-mischen">mischen</a>
                         
                         <div data-role="footer" data-position="fixed" >
                             <div data-role="navbar">
@@ -360,8 +370,9 @@
                                     <li><a href="#Lernfortschritt" data-icon="lernfortschritt">Lernfortschritt</a></li>
                                 </ul>
                             </div><!-- /navbar -->
-                        </div><!-- /footer -->
+                    	</div><!-- /footer -->
                    </div>
+                   <!-- /page: Lernen -->
 
                 </div>
             </div>
