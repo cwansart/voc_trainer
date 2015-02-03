@@ -269,9 +269,9 @@ $('#Vokabelverwaltung').on( 'pageshow', function( event, ui ) {
     var vokabeln = sprachen[aktuelleSprache][aktuelleKartei];
     
     $.each(vokabeln, function(fremdsprache, deutsch) {
-            controlGroup += '<label for="vokabel-' + id(fremdsprache, deutsch) +'">'
-                         +  '<input type="checkbox" value="'+fremdsprache+'" data-mini="true" '
-                         +  'id="vokabel-'+ id(fremdsprache, deutsch) +'">' + fremdsprache + ' – ' + deutsch + '</label>';
+        controlGroup += '<label for="vokabel-' + id(fremdsprache, deutsch) +'">'
+                     +  '<input type="checkbox" value="'+fremdsprache+'" data-mini="true" '
+                     +  'id="vokabel-'+ id(fremdsprache, deutsch) +'">' + fremdsprache + ' – ' + deutsch + '</label>';
     });
 
     $('#vokabelverw-liste').append(controlGroup).trigger('create');
@@ -439,7 +439,7 @@ $('#SpracheLoeschenDialog').on('pagecreate', function(){
 
 $('#VokabelLoeschenDialog').on('pagecreate', function(){
     $('#vokabelLoeschen-btn-loeschen').click( function(){
-            $('#vokabelverw-div-hinweis').show().delay(2000).fadeOut(500);
+        $('#vokabelverw-div-hinweis').show().delay(2000).fadeOut(500);
     });
 });
 
