@@ -324,9 +324,14 @@ $('#NeueKartei').on('pagecreate', function(event, ui) {
     
     if($.isEmptyObject(sprachen))   $('#neueKartei-coll-sprachenListe').hide(); // Noch keine Sprachen vorhanden
     
-    $('#neueKartei-coll-sprachenListe > div > h3').click( function(){     // "Sprache wählen" wird betätigt
-        $('#neueKartei-btn-spracheHinzu').slideToggle();
+    $('#neueKartei-coll-sprachenListe').on('collapsibleexpand', function(){     // "Sprache wählen" wird betätigt
+        $('#neueKartei-btn-spracheHinzu').slideUp();
         spracheToggle = true;
+    });
+
+    $('#neueKartei-coll-sprachenListe').on('collapsiblecollapse', function(){     // "Sprache wählen" wird betätigt
+        $('#neueKartei-btn-spracheHinzu').slideDown();
+        spracheToggle = false;
     });
     
     $('#neueKartei-btn-spracheHinzu').click( function(){      // "Sprache hinzufügen" wird betätigt
