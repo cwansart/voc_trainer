@@ -320,6 +320,8 @@ $('#NeueKartei').on('pageshow', function(event, ui) {
     $('#neueKartei-input-sprache').off();
 
     $('#neueKartei-coll-sprachenListe').empty();
+    $('#neueKartei-input-kartei').val('');
+    $('#neueKartei-input-sprache').val('');#NeueKartei
 
     $('#neueKartei-coll-sprachenListe').show();
     $('#neueKartei-btn-spracheHinzu').show();
