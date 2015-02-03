@@ -303,10 +303,17 @@ $('#Vokabelverwaltung').on( 'pageshow', function( event, ui ) {
     });
 });
 
-$('#NeueKartei').on('pagecreate', function(event, ui) {
+$('#NeueKartei').on('pageshow', function(event, ui) {
     $('#neueKartei-div-spracheHinzu').hide();
     $('#neueKartei-div-warnung').hide();
     $('#neueKartei-div-hinweis').hide();
+
+    $('#neueKartei-coll-sprachenListe').empty();
+    $('#neueKartei-coll-sprachenListe').off();
+    $('#neueKartei-btn-spracheHinzu').off();
+
+    $('#neueKartei-coll-sprachenListe').show();
+    $('#neueKartei-btn-spracheHinzu').show();
     
     var collapsible = '';
     var spracheToggle = null;
