@@ -203,6 +203,8 @@ $('#Karteiverwaltung').on('pageshow', function(event, ui) {
     $('#karteiverw-btn-loeschen').hide();
     $('#karteiverw-btn-lernen').hide();
     $('#karteiverw-btn-oeffnen').hide();
+
+    $('#Karteiverwaltung').off();
     
     $('#karteiverw-coll-sprachenListe').empty();
 
@@ -266,6 +268,8 @@ $('#Vokabelverwaltung').on( 'pageshow', function( event, ui ) {
     $('#vokabelverw-btn-loeschen').hide();
     $('#vokabelverw-div-hinweis').hide();
 
+    $('Vokabelverwaltung').off();
+
     $('#vokabelverw-liste').empty();
 
     if(aktuelleKartei != null)  var pfad = '<h2>' + aktuelleSprache + ' - ' + aktuelleKartei + '</h2>';
@@ -309,8 +313,7 @@ $('#NeueKartei').on('pageshow', function(event, ui) {
     $('#neueKartei-div-hinweis').hide();
 
     $('#neueKartei-coll-sprachenListe').empty();
-    $('#neueKartei-coll-sprachenListe').off();
-    $('#neueKartei-btn-spracheHinzu').off();
+    $('#NeueKartei').off();
 
     $('#neueKartei-coll-sprachenListe').show();
     $('#neueKartei-btn-spracheHinzu').show();
@@ -348,6 +351,7 @@ $('#NeueKartei').on('pageshow', function(event, ui) {
     });
 
     $('#neueKartei-btn-karteiSpeichern').on('click', function() {
+
         var sprache = '';
         var kartei = '';
 
