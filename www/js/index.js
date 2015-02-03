@@ -237,6 +237,7 @@ $('#Karteiverwaltung').on('pagebeforeshow', function(event, ui) {
     // ausgewählte/ausgeklappte Sprache speichern
     $('#karteiverw-coll-sprachenListe').children().on('collapsibleexpand', function(event, ui) {
         aktuelleSprache = $(this).attr('data-sprache');
+        console.log('Aktuelle Sprache gesetzt: ' + aktuelleSprache);
     });
 
     var einAusblendeGeschw = 400;
@@ -269,7 +270,7 @@ $('#Karteiverwaltung').on('pagebeforeshow', function(event, ui) {
                 $('#karteiverw-btn-oeffnen').hide(einAusblendeGeschw);
                 break;
         }
-    })
+    });
 });
 
 $('#Vokabelverwaltung').on( 'pagebeforeshow', function( event, ui ) { 
@@ -477,9 +478,27 @@ $('#Lernen').on('pagecreate', function(event, ui) {
 	lernen(x, y, vokNr, anzVokabeln, vokabeln);
 });
 
-$('#SpracheLoeschenDialog').on('pagecreate', function(){
-    $('#spracheLoeschen-btn-loeschen').click( function(){
+$('#SpracheLoeschenDialog').on('pagebeforeshow', function(){
+    $('#spracheLoeschen-btn-loeschen').on('click', function() {
+        var abgehakteBoxen = $('#karteiverw-coll-sprachenListe').find('input:checkbox:checked');
+        $.each(abgehakteBoxen, function(i, checkbox) {
+            var kartei = $(checkbox).val();
+            if(sprachen[aktuelleSprache] !== undefined && sprachen[aktuelleSprache][kartei] !== undefined) {
+                delete sprachen[aktuelleSprache][kartei];
+            }
+        });
+
+        var checkboxenSprache = $('#karteiverw-coll-sprachenListe div[data-sprache="' + aktuelleSprache + '"]').find('input:checkbox');
+        if(abgehakteBoxen.length == checkboxenSprache.length) {
+            if(sprachen[aktuelleSprache] !== undefined) {
+                delete sprachen[aktuelleSprache];
+            }
+        }
+
+        app.writeFile(function() {
+            // hier müssten wir noch prüfen, ob das Schreiben geklappt hat, oder nicht
             $('#karteiverw-div-hinweis').show().delay(2000).fadeOut(500);
+        });
     });
 });
 
