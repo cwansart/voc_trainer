@@ -504,7 +504,21 @@ $('#SpracheLoeschenDialog').on('pagebeforeshow', function(){
 
 $('#VokabelLoeschenDialog').on('pagecreate', function(){
     $('#vokabelLoeschen-btn-loeschen').click( function(){
-        $('#vokabelverw-div-hinweis').show().delay(2000).fadeOut(500);
+        var abgehakteBoxen = $('#vokabelverw-div-vokListe').find('input:checkbox:checked');
+        $.each(abgehakteBoxen, function(i, checkbox) {
+            var vokabel = $(checkbox).val();
+            if(sprachen[aktuelleSprache] !== undefined &&
+               sprachen[aktuelleSprache][aktuelleKartei] !== undefined &&
+               sprachen[aktuelleSprache][aktuelleKartei][vokabel] !== undefined) {
+
+                delete sprachen[aktuelleSprache][aktuelleKartei][vokabel];
+            }
+        });
+
+        app.writeFile(function() {
+            // hier müssten wir noch prüfen, ob das Schreiben geklappt hat, oder nicht
+            $('#vokabelverw-div-hinweis').show().delay(2000).fadeOut(500);
+        });
     });
 });
 
