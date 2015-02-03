@@ -258,15 +258,14 @@ $('#Vokabelverwaltung').on( 'pageshow', function( event, ui ) {
 	$('#vokabelverw-btn-loeschen').hide();
 	$('#vokabelverw-div-hinweis').hide();
 
-    $('#vokabelverw-div-vokListe').empty();
+    $('#vokabelverw-liste').empty();
 
 	if(aktuelleKartei != null)	var pfad = '<h2>' + aktuelleSprache + ' - ' + aktuelleKartei + '</h2>';
 	else		$( ".selector" ).on( "pagecontainercreate", function( event, ui ) {} );				var pfad = '<h2>' + aktuelleSprache + '</h2>';
-	$('#vokabelverw-div-vokListe').append(pfad);
 
     if(aktuelleKartei == null) return;
 
-    var controlGroup = '';
+    var controlGroup = '<fieldset id="vokabelverw-div-vokListe" data-role="controlgroup">';
     var vokabeln = sprachen[aktuelleSprache][aktuelleKartei];
 	
 	$.each(vokabeln, function(fremdsprache, deutsch) {
@@ -275,8 +274,8 @@ $('#Vokabelverwaltung').on( 'pageshow', function( event, ui ) {
                          +  'id="vokabel-'+ id(fremdsprache, deutsch) +'">' + fremdsprache + ' – ' + deutsch + '</label>';
     });
 
-    $('#vokabelverw-div-vokListe').append(controlGroup);
-    $('#vokabelverw-div-vokListe').controlgroup('refresh').trigger('create');
+    $('#vokabelverw-liste').append(controlGroup).trigger('create');
+    $('#vokabelverw-div-vokListe').prepend(pfad);
 	
 	if(controlGroup != '')	$('#vokabelverw-h2-keineVokabeln').hide();
 	else					$('#vokabelverw-h2-vokabelnWaehlen').hide();
