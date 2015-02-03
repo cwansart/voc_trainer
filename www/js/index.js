@@ -187,6 +187,17 @@ app.initialize();
 $(document).ready(function() {
     sprachenLaden();
     $.mobile.defaultPageTransition = 'slidefade';
+	$('#karteiverw-div-hinweis').hide();	// verstecken sämtlicher Inhalte, die anfangs nicht erscheinen sollen.
+    $('#karteiverw-btn-loeschen').hide();
+    $('#karteiverw-btn-lernen').hide();
+    $('#karteiverw-btn-oeffnen').hide();
+	$('#vokabelverw-btn-loeschen').hide();
+    $('#vokabelverw-div-hinweis').hide();
+	$('#neueKartei-div-spracheHinzu').hide();
+    $('#neueKartei-div-warnung').hide();
+    $('#neueKartei-div-hinweis').hide();
+	$('#neueVokabel-div-warnung').hide();
+    $('#neueVokabel-div-hinweis').hide();
 });
 
 function sprachenLaden() {
@@ -199,11 +210,6 @@ function sprachenLaden() {
 }
 
 $('#Karteiverwaltung').on('pageshow', function(event, ui) {
-    $('#karteiverw-div-hinweis').hide();
-    $('#karteiverw-btn-loeschen').hide();
-    $('#karteiverw-btn-lernen').hide();
-    $('#karteiverw-btn-oeffnen').hide();
-
     $('#Karteiverwaltung').children().off();
     $('#karteiverw-coll-sprachenListe').children().off();
     $('#karteiverw-coll-sprachenListe').children().find(':checkbox').off();
@@ -267,9 +273,6 @@ $('#Karteiverwaltung').on('pageshow', function(event, ui) {
 });
 
 $('#Vokabelverwaltung').on( 'pageshow', function( event, ui ) { 
-    $('#vokabelverw-btn-loeschen').hide();
-    $('#vokabelverw-div-hinweis').hide();
-
     $('#vokabelverw-div-vokListe').children().find(':checkbox').off();
 
     $('#vokabelverw-liste').empty();
@@ -310,10 +313,6 @@ $('#Vokabelverwaltung').on( 'pageshow', function( event, ui ) {
 });
 
 $('#NeueKartei').on('pageshow', function(event, ui) {
-    $('#neueKartei-div-spracheHinzu').hide();
-    $('#neueKartei-div-warnung').hide();
-    $('#neueKartei-div-hinweis').hide();
-
     $('#neueKartei-coll-sprachenListe').off();
     $('#neueKartei-btn-spracheHinzu').off();
     $('#neueKartei-input-kartei').off();
@@ -321,7 +320,7 @@ $('#NeueKartei').on('pageshow', function(event, ui) {
 
     $('#neueKartei-coll-sprachenListe').empty();
     $('#neueKartei-input-kartei').val('');
-    $('#neueKartei-input-sprache').val('');#NeueKartei
+    $('#neueKartei-input-sprache').val('');
 
     $('#neueKartei-coll-sprachenListe').show();
     $('#neueKartei-btn-spracheHinzu').show();
@@ -421,9 +420,6 @@ $('#NeueKartei').on('pageshow', function(event, ui) {
 });
 
 $('#NeueVokabel').on('pageshow', function(event, ui) {
-    $('#neueVokabel-div-warnung').hide();
-    $('#neueVokabel-div-hinweis').hide();
-
     $('#neueVokabel-btn-vokabelSpeichern').off();
     $('#neueVokabel-input-deutsch').off();
     $('#neueVokabel-input-uebersetzung').off();
