@@ -463,7 +463,7 @@ $('#NeueVokabel').on('pagebeforeshow', function(event, ui) {
     });
 });
 
-$('#Lernen').on('pagecreate', function(event, ui) {
+$('#Lernen').on('pageshow', function(event, ui) {
 	var anzVokabeln = anzahlVokabeln(aktuelleSprache, aktuelleKartei);
 	var vokabeln = vokabelArray(aktuelleSprache, aktuelleKartei, anzVokabeln);	// Vokabeln werden als 2-Dim Array gespeichert
 	var ueberschrift = aktuelleSprache + ' – ' + aktuelleKartei;
@@ -560,6 +560,7 @@ function vokabelArray(sprache, kartei, anzahlVokabeln){
 }
 
 function lernen(x, y, vokNr, anzVokabeln, vokabeln){
+	$('#lernen-btn-pruefen').off();
 	$('#lernen-div-anzahl').html('Anzahl: ' + vokNr + ' / ' + anzVokabeln);	// z.B. anzahl: 1/4
 	$('#lernen-div-karteHead p').html(vokabeln[x][y]);	// Vokabel erscheint
     
@@ -574,7 +575,7 @@ function lernen(x, y, vokNr, anzVokabeln, vokabeln){
 			}, 3000);
 		}
 		else{														// Falsche Lösung wurde eingegeben
-			$('#lernen-div-karteBody p').html('Leider falsch! Lösung: ' + vokabeln[x][++y]);
+			$('#lernen-div-karteBody p').html('Leider falsch! Lösung: ' + vokabeln[x][y]);
 			$('#lernen-div-footRechts').addClass('falsch');
 			$('#lernen-div-karteBody p').fadeIn(500).delay(2000).fadeOut(500);
 			setTimeout(function(){
