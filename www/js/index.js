@@ -198,6 +198,7 @@ $(document).ready(function() {
     $('#neueKartei-div-hinweis').hide();
 	$('#neueVokabel-div-warnung').hide();
     $('#neueVokabel-div-hinweis').hide();
+	$('#lernen-div-karteBody p').hide();
 });
 
 function sprachenLaden() {
@@ -251,7 +252,6 @@ $('#Karteiverwaltung').on('pagebeforeshow', function(event, ui) {
 
     $('#karteiverw-coll-sprachenListe').children().find(':checkbox').on('click', function() {
         var anzahlAusgewaehlt = $('#karteiverw-coll-sprachenListe').find('input:checked').length;
-        console.log(anzahlAusgewaehlt);
         switch(anzahlAusgewaehlt) {
             case 0:
                 $('#karteiverw-btn-loeschen').hide(einAusblendeGeschw);
@@ -467,12 +467,18 @@ $('#Lernen').on('pageshow', function(event, ui) {
 	var anzVokabeln = anzahlVokabeln(aktuelleSprache, aktuelleKartei);
 	var vokabeln = vokabelArray(aktuelleSprache, aktuelleKartei, anzVokabeln);	// Vokabeln werden als 2-Dim Array gespeichert
 	var ueberschrift = aktuelleSprache + ' – ' + aktuelleKartei;
-	var punkte = 0;
-
+	var punkte = new Number(0);
+	
+	$('#lernen-div-anzahl').html('Anzahl: 0 / ' + anzVokabeln);
 	$('#lernen-div-content > h2').append(ueberschrift);
-	$('#lernen-div-karteBody p').hide();
 
-	lernen(0, 0, 1, anzVokabeln, vokabeln);
+	$('#lernen-btn-start').click( function(){
+		$('#lernen-btn-start').fadeOut(500);
+		$('#lernen-btn-mischen').fadeOut(500);
+		var timerID = zeit();
+		lernen(0, 0, 1, anzVokabeln, vokabeln, timerID, punkte);
+	});
+	
 });
 
 $('#SpracheLoeschenDialog').on('pagebeforeshow', function(){
@@ -537,7 +543,7 @@ function id(sprache, kartei, vokabel) {
 
 function anzahlVokabeln(sprache, kartei){
 	var anzahlVokabeln =0;
-	$.each(sprachen[sprache], function(kartei) {
+	$.each(sprachen[sprache][kartei], function() {
 		++anzahlVokabeln;
 	});
 	return anzahlVokabeln;
@@ -559,19 +565,28 @@ function vokabelArray(sprache, kartei, anzahlVokabeln){
 	return vokabelnArray
 }
 
-function lernen(x, y, vokNr, anzVokabeln, vokabeln){
+function lernen(x, y, vokNr, anzVokabeln, vokabeln, timerID, punkte){
 	$('#lernen-btn-pruefen').off();
-	$('#lernen-div-anzahl').html('Anzahl: ' + vokNr + ' / ' + anzVokabeln);	// z.B. anzahl: 1/4
-	$('#lernen-div-karteHead p').html(vokabeln[x][y]);	// Vokabel erscheint
+	$('#lernen-div-anzahl').html('Anzahl: ' + vokNr + ' / ' + anzVokabeln);	
+	$('#lernen-div-karteHead p').html(vokabeln[x][y]);
     
 	$('#lernen-btn-pruefen').click( function(){
 		if($('#lernen-input-loesung').val() === vokabeln[x][++y]){	// Richtige Lösung wurde eingegeben
+			punkte++;
 			$('#lernen-div-karteBody p').html('Richtig! :)');
 			$('#lernen-div-footLinks').addClass('richtig');
 			$('#lernen-div-karteBody p').fadeIn(500).delay(2000).fadeOut(500);
 			setTimeout(function(){
 				$('#lernen-div-footLinks').removeClass('richtig');
-				if(vokNr < anzVokabeln)		{lernen(++x, 0, ++vokNr, anzVokabeln, vokabeln);}
+				if(vokNr < anzVokabeln){		
+					lernen(++x, 0, ++vokNr, anzVokabeln, vokabeln, timerID, punkte);
+				}else{				// Keine Vokabeln mehr vorhanden
+					$('#lernen-btn-start').fadeIn(500);
+					$('#lernen-btn-mischen').fadeIn(500);
+					clearInterval(timerID);
+					timerID = null;	
+					return punkte;				
+				}
 			}, 3000);
 		}
 		else{														// Falsche Lösung wurde eingegeben
@@ -580,8 +595,28 @@ function lernen(x, y, vokNr, anzVokabeln, vokabeln){
 			$('#lernen-div-karteBody p').fadeIn(500).delay(2000).fadeOut(500);
 			setTimeout(function(){
 				$('#lernen-div-footRechts').removeClass('falsch');
-				if(vokNr < anzVokabeln)		{lernen(++x, 0, ++vokNr, anzVokabeln, vokabeln);}
+				if(vokNr < anzVokabeln){
+					lernen(++x, 0, ++vokNr, anzVokabeln, vokabeln, timerID, punkte);
+				}else{				// Keine Vokabeln mehr vorhanden
+					$('#lernen-btn-start').fadeIn(500);
+					$('#lernen-btn-mischen').fadeIn(500);
+					clearInterval(timerID);
+					timerID = null;
+					return punkte;
+				}
 			 }, 3000);
 		}
 	});
+}
+
+function zeit(){
+	var minuten = 0;
+	var sekunden = 0;
+	var timerID = setInterval(function(){
+		if(sekunden < 59)	sekunden++;
+		else				sekunden = 0;
+		if(sekunden == 0)	minuten++;
+		$('#lernen-div-zeit').html('Zeit: ' + minuten + ':' + sekunden);
+	}, 1000);
+	return timerID;
 }

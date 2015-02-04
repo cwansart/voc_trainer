@@ -2,7 +2,9 @@
     "Englisch": {
         "Grundbegriffe": {
             "hello": "hallo",
-            "bye": "tschüss"
+            "bye": "tschüss",
+			"bla": "blubb",
+			"bli": "blobb"
         },
         "Politik": {
             "European Union": "Europäische Union",
