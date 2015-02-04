@@ -467,15 +467,12 @@ $('#Lernen').on('pagecreate', function(event, ui) {
 	var anzVokabeln = anzahlVokabeln(aktuelleSprache, aktuelleKartei);
 	var vokabeln = vokabelArray(aktuelleSprache, aktuelleKartei, anzVokabeln);	// Vokabeln werden als 2-Dim Array gespeichert
 	var ueberschrift = aktuelleSprache + ' – ' + aktuelleKartei;
-	var x = 0;
-	var y = 0;
 	var punkte = 0;
-	var vokNr = 1;
 
 	$('#lernen-div-content > h2').append(ueberschrift);
 	$('#lernen-div-karteBody p').hide();
 
-	lernen(x, y, vokNr, anzVokabeln, vokabeln);
+	lernen(0, 0, 1, anzVokabeln, vokabeln);
 });
 
 $('#SpracheLoeschenDialog').on('pagebeforeshow', function(){
@@ -541,7 +538,7 @@ function id(sprache, kartei, vokabel) {
 function anzahlVokabeln(sprache, kartei){
 	var anzahlVokabeln =0;
 	$.each(sprachen[sprache], function(kartei) {
-		anzahlVokabeln++;
+		++anzahlVokabeln;
 	});
 	return anzahlVokabeln;
 }
@@ -563,38 +560,27 @@ function vokabelArray(sprache, kartei, anzahlVokabeln){
 }
 
 function lernen(x, y, vokNr, anzVokabeln, vokabeln){
-	$('#lernen-div-anzahl').html('Anzahl: ' + vokNr + ' / ' + anzVokabeln);
-	$('#lernen-div-karteHead p').html(vokabeln[x][y]);
+	$('#lernen-div-anzahl').html('Anzahl: ' + vokNr + ' / ' + anzVokabeln);	// z.B. anzahl: 1/4
+	$('#lernen-div-karteHead p').html(vokabeln[x][y]);	// Vokabel erscheint
     
 	$('#lernen-btn-pruefen').click( function(){
-		if($('#lernen-input-loesung').val() == vokabeln[x][++y]){	// Richtige Lösung wurde eingegeben
+		if($('#lernen-input-loesung').val() === vokabeln[x][++y]){	// Richtige Lösung wurde eingegeben
 			$('#lernen-div-karteBody p').html('Richtig! :)');
 			$('#lernen-div-footLinks').addClass('richtig');
 			$('#lernen-div-karteBody p').fadeIn(500).delay(2000).fadeOut(500);
-			if(vokNr < anzVokabeln){	
-				setTimeout(function(){
-					$('#lernen-div-footLinks').removeClass('richtig');
-					lernen(++x, 0, ++vokNr, anzVokabeln, vokabeln)
-				}, 3000);
-			}else{
-				setTimeout(function(){
-					$('#lernen-div-footLinks').removeClass('richtig');
-				}, 3000);
-			}
-		}else{														// Falsche Lösung wurde eingegeben
+			setTimeout(function(){
+				$('#lernen-div-footLinks').removeClass('richtig');
+				if(vokNr < anzVokabeln)		{lernen(++x, 0, ++vokNr, anzVokabeln, vokabeln);}
+			}, 3000);
+		}
+		else{														// Falsche Lösung wurde eingegeben
 			$('#lernen-div-karteBody p').html('Leider falsch! Lösung: ' + vokabeln[x][++y]);
 			$('#lernen-div-footRechts').addClass('falsch');
 			$('#lernen-div-karteBody p').fadeIn(500).delay(2000).fadeOut(500);
-			if(vokNr < anzVokabeln){	
-				setTimeout(function(){
-					$('#lernen-div-footRechts').removeClass('falsch');
-					lernen(++x, 0, ++vokNr, anzVokabeln, vokabeln)
-				}, 3000);
-			}else{
-				setTimeout(function(){
-					$('#lernen-div-footRechts').removeClass('falsch');
-				}, 3000);
-			}
+			setTimeout(function(){
+				$('#lernen-div-footRechts').removeClass('falsch');
+				if(vokNr < anzVokabeln)		{lernen(++x, 0, ++vokNr, anzVokabeln, vokabeln);}
+			 }, 3000);
 		}
 	});
 }
