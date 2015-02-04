@@ -187,17 +187,7 @@ app.initialize();
 $(document).ready(function() {
     sprachenLaden();
     $.mobile.defaultPageTransition = 'slidefade';
-	$('#karteiverw-div-hinweis').hide();	// verstecken sämtlicher Inhalte, die anfangs nicht erscheinen sollen.
-    $('#karteiverw-btn-loeschen').hide();
-    $('#karteiverw-btn-lernen').hide();
-    $('#karteiverw-btn-oeffnen').hide();
-	$('#vokabelverw-btn-loeschen').hide();
-    $('#vokabelverw-div-hinweis').hide();
 	$('#neueKartei-div-spracheHinzu').hide();
-    $('#neueKartei-div-warnung').hide();
-    $('#neueKartei-div-hinweis').hide();
-	$('#neueVokabel-div-warnung').hide();
-    $('#neueVokabel-div-hinweis').hide();
 });
 
 function sprachenLaden() {
@@ -215,6 +205,11 @@ $('#Karteiverwaltung').on('pagebeforeshow', function(event, ui) {
     $('#karteiverw-coll-sprachenListe').children().find(':checkbox').off();
     
     $('#karteiverw-coll-sprachenListe').empty();
+
+	$('#karteiverw-div-hinweis').hide();	// verstecken sämtlicher Inhalte, die anfangs nicht erscheinen sollen.
+    $('#karteiverw-btn-loeschen').hide();
+    $('#karteiverw-btn-lernen').hide();
+    $('#karteiverw-btn-oeffnen').hide();
 
     var collapsible = '';
     $.each(sprachen, function(sprache) {
@@ -278,6 +273,9 @@ $('#Vokabelverwaltung').on( 'pagebeforeshow', function( event, ui ) {
 
     $('#vokabelverw-liste').empty();
 
+	$('#vokabelverw-btn-loeschen').hide();
+    $('#vokabelverw-div-hinweis').hide();
+
     if(aktuelleKartei != null)  var pfad = '<h2>' + aktuelleSprache + ' - ' + aktuelleKartei + '</h2>';
     else var pfad = '<h2>' + aktuelleSprache + '</h2>';
 
@@ -326,6 +324,9 @@ $('#NeueKartei').on('pagebeforeshow', function(event, ui) {
     $('#neueKartei-coll-sprachenListe').show();
     $('#neueKartei-btn-spracheHinzu').show();
     
+    $('#neueKartei-div-warnung').hide();
+    $('#neueKartei-div-hinweis').hide();
+
     var collapsible = '';
     var spracheToggle = null;
      
@@ -428,6 +429,9 @@ $('#NeueVokabel').on('pagebeforeshow', function(event, ui) {
     $('#neueVokabel-input-deutsch').val('');
     $('#neueVokabel-input-uebersetzung').val('');
     
+	$('#neueVokabel-div-warnung').hide();
+    $('#neueVokabel-div-hinweis').hide();
+
     var ueberschrift = aktuelleSprache + ' – ' + aktuelleKartei;
     $('#neuevokabel-div-content > h2').empty().append(ueberschrift);
 
