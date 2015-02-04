@@ -23,6 +23,7 @@ var sprachenGeladen = false;
 var aktuelleSprache = null;
 var aktuelleKartei = null;
 var aktuelleVokabel = null;
+var zeigeInfo = false;
 
 var app = {
     // Application Constructor
@@ -206,7 +207,13 @@ $('#Karteiverwaltung').on('pagebeforeshow', function(event, ui) {
     
     $('#karteiverw-coll-sprachenListe').empty();
 
-	$('#karteiverw-div-hinweis').hide();	// verstecken sämtlicher Inhalte, die anfangs nicht erscheinen sollen.
+    if(zeigeInfo) {
+        $('#karteiverw-div-hinweis').show();
+        zeigeInfo = false;
+    }
+    else {
+        $('#karteiverw-div-hinweis').hide();
+    }
     $('#karteiverw-btn-loeschen').hide();
     $('#karteiverw-btn-lernen').hide();
     $('#karteiverw-btn-oeffnen').hide();
@@ -273,7 +280,13 @@ $('#Vokabelverwaltung').on( 'pagebeforeshow', function( event, ui ) {
     $('#vokabelverw-liste').empty();
 
 	$('#vokabelverw-btn-loeschen').hide();
-    $('#vokabelverw-div-hinweis').hide();
+    if(zeigeInfo) {
+        $('#vokabelverw-div-hinweis').show();
+        zeigeInfo = false;
+    }
+    else {
+        $('#vokabelverw-div-hinweis').hide();
+    }
 
     if(aktuelleKartei != null)  var pfad = '<h2>' + aktuelleSprache + ' - ' + aktuelleKartei + '</h2>';
     else var pfad = '<h2>' + aktuelleSprache + '</h2>';
@@ -415,6 +428,7 @@ $('#NeueKartei').on('pagebeforeshow', function(event, ui) {
 
         // sprachen in sprachen.js festschreiben
         app.writeFile(function() {
+            zeigeInfo = true;
             $('#neueKartei-div-hinweis').fadeIn(500).delay(2000).fadeOut(500);
         });
     });
@@ -461,6 +475,7 @@ $('#NeueVokabel').on('pagebeforeshow', function(event, ui) {
         sprachen[aktuelleSprache][aktuelleKartei][uebersetzung] = {};
         sprachen[aktuelleSprache][aktuelleKartei][uebersetzung] = deutsch;
         app.writeFile(function() {
+            zeigeInfo = true;
             $('#neueVokabel-div-hinweis').fadeIn(500).delay(2000).fadeOut(500);
         });
     });
@@ -502,6 +517,7 @@ $('#SpracheLoeschenDialog').on('pagebeforeshow', function(){
         }
 
         app.writeFile(function() {
+            zeigeInfo = true;
             // hier müssten wir noch prüfen, ob das Schreiben geklappt hat, oder nicht
             $('#karteiverw-div-hinweis').show().delay(2000).fadeOut(500);
         });
@@ -523,6 +539,7 @@ $('#VokabelLoeschenDialog').on('pagecreate', function(){
 
         app.writeFile(function() {
             // hier müssten wir noch prüfen, ob das Schreiben geklappt hat, oder nicht
+            zeigeInfo = true;
             $('#vokabelverw-div-hinweis').show().delay(2000).fadeOut(500);
         });
     });
