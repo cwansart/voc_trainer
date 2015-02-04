@@ -188,14 +188,6 @@ $(document).ready(function() {
     sprachenLaden();
     $.mobile.defaultPageTransition = 'slidefade';
 	$('#neueKartei-div-spracheHinzu').hide();
-<<<<<<< HEAD
-    $('#neueKartei-div-warnung').hide();
-    $('#neueKartei-div-hinweis').hide();
-	$('#neueVokabel-div-warnung').hide();
-    $('#neueVokabel-div-hinweis').hide();
-	$('#lernen-div-karteBody p').hide();
-=======
->>>>>>> e393296a436dc18957308ba465bb10c44a08f24f
 });
 
 function sprachenLaden() {
