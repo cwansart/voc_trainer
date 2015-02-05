@@ -1,0 +1,21 @@
+Lernfortschritt mit json speichern:
+
+{
+    "Englisch": {
+        "Grundbegriffe": {
+            "2015-02-05-Englisch-Deutsch": "84%, 2:34 Minuten",
+            "2015-02-05-Deutsch-Englisch": "59%, 3:2 Minuten"
+        }
+    },
+    "Spanisch": {
+        "Grundbegriffe": {
+            "2015-02-06-Spanisch-Deutsch": "23%, 6:22 Minuten"
+        }
+    }
+}
+
+------------------------------------------------------------------------
+
+Lernfortschritt mit dem localStorage speichern:
+
+"2015-02-05-Englisch-Grundbegriffe-Englisch-Deutsch":"84%, 2:34 Minuten"
