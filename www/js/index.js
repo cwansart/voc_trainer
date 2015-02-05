@@ -33,7 +33,7 @@ var app = {
     // Application Constructor
     initialize: function() {
         this.bindEvents();
-        this.writeCallback = null;
+        app.writeCallback = null;
         //sprachenLaden();
     },
     // Bind Event Listeners
@@ -99,12 +99,12 @@ var app = {
     writeFile: function(callback) {
         // könnte problematisch sein, wenn writeFile direkt hinterinander
         // aufgerufen wird, und das Speichern einfach zu lange braucht.
-        this.writeCallback = (callback === undefined)? null : callback;
+        app.writeCallback = (callback === undefined)? null : callback;
 
         // Prüfen ob Schreibefunktion vorhanden (Browser meckert)
         if(window.requestFileSystem === undefined) {
-            if(this.writeCallback != null) {
-                this.writeCallback();
+            if(app.writeCallback != null) {
+                app.writeCallback();
             }
             return;
         }
@@ -139,22 +139,19 @@ var app = {
     },
 
     onInitFs: function(fs) {
-        var me = this;
         fs.root.getFile(app.sprachenFile.substr(7), {create: true}, function(fileEntry) {
             fileEntry.createWriter(function(fileWriter) {
                 fileWriter.onwriteend = function(e) {
                     console.log("sprachen.json geschrieben");
-                    if(me.writeCallback != null) {
-                        var cb = me.writeCallback;
-                        cb();
+                    if(app.writeCallback != null) {
+                        app.writeCallback();
                     }
                 };
 
                 fileWriter.onerror = function(e) {
                     console.log('Schreiben fehlgeschlagen: ' + e.toString());
-                    if(me.writeCallback != null) {
-                        var cb = me.writeCallback;
-                        cb();
+                    if(app.writeCallback != null) {
+                        app.writeCallback();
                     }
                 };
 
@@ -473,9 +470,12 @@ $('#NeueVokabel').on('pagebeforeshow', function(event, ui) {
             return;
         }
 
+        console.log("Vokabel hinzugefügt");
         sprachen[aktuelleSprache][aktuelleKartei][uebersetzung] = {};
         sprachen[aktuelleSprache][aktuelleKartei][uebersetzung] = deutsch;
+        console.log("Speichere Vokabel");
         app.writeFile(function() {
+            console.log("Vokabel gespeichert");
             zeigeInfo = true;
             $('#neueVokabel-div-hinweis').fadeIn(500).delay(2000).fadeOut(500);
         });
