@@ -659,6 +659,21 @@ function pruefeAnzahl(x, vokNr, anzVokabeln, vokabeln, timerID){
 		timerID = null;
 		punkte = parseInt(punkte / (anzVokabeln * 2) * 100);
 		varZeit = $('#lernen-div-zeit').html();
+
+        var ergebnisseIndex = (new Date()).toLocaleString() + '-' + id(aktuelleSprache, aktuelleKartei);
+        var ergebnissWert = punkte + ', ' + varZeit + ' Minuten';
+
+        var aktuellerSpeicher = localStorage.aktuellerSpeicher === undefined ? 0 : parseInt(localStorage.aktuellerSpeicher);
+
+        var ergebnisse = localStorage.ergebnisse === undefined ? [] : JSON.parse(localStorage.ergebnisse);
+        console.log(ergebnisse);
+        ergebnisse[aktuellerSpeicher] = { 'index': ergebnisseIndex, 'wert': ergebnissWert };
+
+        aktuellerSpeicher = ++aktuellerSpeicher % 10; // maximal 10 Einträge speichern
+        localStorage.aktuellerSpeicher = aktuellerSpeicher;
+
+        localStorage.ergebnisse = JSON.stringify(ergebnisse);
+
 		window.location = '#Lernfortschritt';		// Weiterleitung auf den Lernfortschritt, wenn kartei fertig gelernt
 	}
 }
