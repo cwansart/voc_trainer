@@ -494,13 +494,16 @@ $('#Lernen').on('pageshow', function(event, ui) {
 	punkte = 0;	
 	varZeit = '';
 	sprachenUmkehren = false;
-	$('#lernen-btn-richtung').off();
+	$('#lernen-btn-richtung').off().text('Fremdsprache - Deutsch');
 	
 	$('#lernen-div-anzahl').html('Anzahl: 0 / ' + anzVokabeln);
 	$('#lernen-div-content > h2').html(ueberschrift);
 
 	$('#lernen-btn-richtung').click( function(){	// Lern-Richtung wird umgekehrt
 		sprachenUmkehren = (sprachenUmkehren == false) ? true : false;
+		$(this).text(function(i, text){
+			return text === "Fremdsprache - Deutsch" ? "Deutsch - Fremdsprache" : "Fremdsprache - Deutsch";
+		});
 	});
 
 	$('#lernen-btn-start').click( function(){
