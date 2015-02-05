@@ -610,53 +610,63 @@ function lernen(x, y, vokNr, anzVokabeln, vokabeln, timerID){		// Die Methode is
 	if(!sprachenUmkehren)	$('#lernen-div-karteHead p').html(vokabeln[x][y]);
 	else					$('#lernen-div-karteHead p').html(vokabeln[x][++y]);
     
-	$('#lernen-btn-pruefen').click( function(){
+	$('#lernen-btn-pruefen').click( function(){	
 		if(sprachenUmkehren)		y = (-1);
-		if($('#lernen-input-loesung').val() === vokabeln[x][++y]){	// Richtige Lösung wurde eingegeben
-			punkte++;
+		var val = $('#lernen-input-loesung').val();
+		var vok = vokabeln[x][++y];
+
+		if(val === vok){								// Richtige Lösung wurde eingegeben (2 Punkte hierfür)
+			punkte += 2;
 			$('#lernen-div-karteBody p').html('Richtig! :)');
 			$('#lernen-div-footLinks').addClass('richtig');
 			$('#lernen-div-karteBody p').fadeIn(500).delay(2000).fadeOut(500);
 			setTimeout(function(){
 				$('#lernen-div-footLinks').removeClass('richtig');
-				if(vokNr < anzVokabeln){		
-					lernen(++x, 0, ++vokNr, anzVokabeln, vokabeln, timerID);
-				}
-				else{				// Keine Vokabeln mehr vorhanden
-					$('#lernen-btn-start').fadeIn(500);
-					$('#lernen-btn-richtung').fadeIn(500);
-					clearInterval(timerID);
-					timerID = null;	
-					punkte = parseInt(punkte / anzVokabeln * 100);
-					varZeit = $('#lernen-div-zeit').html();
-					window.location = '#Lernfortschritt';			// Weiterleitung auf den Lernfortschritt, wenn kartei fertig gelernt			
-				}
+				pruefeAnzahl(x, vokNr, anzVokabeln, vokabeln, timerID);
 			}, 3000);
 		}
-		else{
-			if(sprachenUmkehren)		y = 0;													// Falsche Lösung wurde eingegeben
+		else if(soundex(val) === soundex(vok)){			// Ähnliche Lösung wurde eingegeben (1 Punkt hierfür)
+			console.log('y: ' + y);
+			punkte++;
+			if(sprachenUmkehren)		y = 0;
+			$('#lernen-div-karteBody p').html('Fast! Richtige Lösung: ' + vokabeln[x][y]);
+			$('#lernen-div-footLinks').addClass('fast');
+			$('#lernen-div-karteBody p').fadeIn(500).delay(2000).fadeOut(500);
+			setTimeout(function(){
+				$('#lernen-div-footLinks').removeClass('fast');
+				pruefeAnzahl(x, vokNr, anzVokabeln, vokabeln, timerID);
+			}, 3000);
+		}
+		else{											// Falsche Lösung wurde eingegeben (0 Punkte hierfür)
+			if(sprachenUmkehren)		y = 0;													
 			$('#lernen-div-karteBody p').html('Leider falsch! Lösung: ' + vokabeln[x][y]);
 			$('#lernen-div-footRechts').addClass('falsch');
 			$('#lernen-div-karteBody p').fadeIn(500).delay(2000).fadeOut(500);
 			setTimeout(function(){
 				$('#lernen-div-footRechts').removeClass('falsch');
-				if(vokNr < anzVokabeln){
-					lernen(++x, 0, ++vokNr, anzVokabeln, vokabeln, timerID);
-				}
-				else{				// Keine Vokabeln mehr vorhanden
-					$('#lernen-btn-start').fadeIn(500);
-					$('#lernen-btn-richtung').fadeIn(500);
-					clearInterval(timerID);
-					timerID = null;
-					punkte = parseInt(punkte / anzVokabeln * 100);
-					varZeit = $('#lernen-div-zeit').html();
-					window.location = '#Lernfortschritt';		// Weiterleitung auf den Lernfortschritt, wenn kartei fertig gelernt
-				}
+				pruefeAnzahl(x, vokNr, anzVokabeln, vokabeln, timerID);
 			 }, 3000);
 		}
 	});
 }
 
+// Hilfsfunktion für lernen-Methode. prüft, ob noch Vokabeln vorhanden und leitet weitere Schritte ein.
+function pruefeAnzahl(x, vokNr, anzVokabeln, vokabeln, timerID){
+	if(vokNr < anzVokabeln){
+		lernen(++x, 0, ++vokNr, anzVokabeln, vokabeln, timerID);
+	}
+	else{				// Keine Vokabeln mehr vorhanden
+		$('#lernen-btn-start').fadeIn(500);
+		$('#lernen-btn-richtung').fadeIn(500);
+		clearInterval(timerID);
+		timerID = null;
+		punkte = parseInt(punkte / (anzVokabeln * 2) * 100);
+		varZeit = $('#lernen-div-zeit').html();
+		window.location = '#Lernfortschritt';		// Weiterleitung auf den Lernfortschritt, wenn kartei fertig gelernt
+	}
+}
+
+// Gibt die Zeit im Lernmodus aus
 function zeit(){
 	var minuten = 0;
 	var sekunden = 0;
@@ -668,3 +678,27 @@ function zeit(){
 	}, 1000);
 	return timerID;
 }
+
+// zum Vergleichen, ob Wörter ähnlich sind
+var soundex = function (s) {
+	var a = s.toLowerCase().split(''),
+	f = a.shift(),
+	r = '',
+	codes = {
+		a: '', e: '', i: '', o: '', u: '',
+		b: 1, f: 1, p: 1, v: 1,
+		c: 2, g: 2, j: 2, k: 2, q: 2, s: 2, x: 2, z: 2,
+		d: 3, t: 3,
+		l: 4,
+		m: 5, n: 5,
+		r: 6
+	};
+	r = f +
+		a
+		.map(function (v, i, a) { return codes[v] })
+		.filter(function (v, i, a) {
+		return ((i === 0) ? v !== codes[f] : v !== a[i - 1]);
+	})
+	.join('');
+	return (r + '000').slice(0, 4).toUpperCase();
+};  

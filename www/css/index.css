@@ -220,6 +220,10 @@ html head + body .ui-btn.ui-btn-a.ui-btn-active{
 	background:#63B059;
 }
 
+.fast{
+	background:#a1d79a;
+}
+
 .falsch{
 	background:#FF507D;
 }
