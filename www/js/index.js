@@ -27,6 +27,7 @@ var zeigeInfo = false;
 // Variablen für den Lernmodus
 var punkte = 0;
 var varZeit = '';
+var sprachenUmkehren = false;
 
 var app = {
     // Application Constructor
@@ -488,19 +489,26 @@ $('#Lernen').on('pageshow', function(event, ui) {
 	var anzVokabeln = anzahlVokabeln(aktuelleSprache, aktuelleKartei);
 	var vokabeln = vokabelArray(aktuelleSprache, aktuelleKartei, anzVokabeln);	// Vokabeln werden als 2-Dim Array gespeichert
 	var ueberschrift = aktuelleSprache + ' – ' + aktuelleKartei;
-	punkte = 0;		// erreichte Punkte werden in lernen() gezähl und anschließend in Prozent gewandelt
+
+	//zurücksetzen
+	punkte = 0;	
 	varZeit = '';
+	sprachenUmkehren = false;
+	$('#lernen-btn-richtung').off();
 	
 	$('#lernen-div-anzahl').html('Anzahl: 0 / ' + anzVokabeln);
-	$('#lernen-div-content > h2').append(ueberschrift);
+	$('#lernen-div-content > h2').html(ueberschrift);
+
+	$('#lernen-btn-richtung').click( function(){	// Lern-Richtung wird umgekehrt
+		sprachenUmkehren = (sprachenUmkehren == false) ? true : false;
+	});
 
 	$('#lernen-btn-start').click( function(){
 		$('#lernen-btn-start').fadeOut(500);
-		$('#lernen-btn-mischen').fadeOut(500);
+		$('#lernen-btn-richtung').fadeOut(500);
 		var timerID = zeit();
 		lernen(0, 0, 1, anzVokabeln, vokabeln, timerID);
 	});
-	
 });
 
 $('#Lernfortschritt').on('pageshow', function(event, ui) {
@@ -593,12 +601,14 @@ function vokabelArray(sprache, kartei, anzahlVokabeln){
 	return vokabelnArray
 }
 
-function lernen(x, y, vokNr, anzVokabeln, vokabeln, timerID){
+function lernen(x, y, vokNr, anzVokabeln, vokabeln, timerID){		// Die Methode ist echt hässlich und vollgestopft. evtl noch mal überarbeiten.
 	$('#lernen-btn-pruefen').off();
-	$('#lernen-div-anzahl').html('Anzahl: ' + vokNr + ' / ' + anzVokabeln);	
-	$('#lernen-div-karteHead p').html(vokabeln[x][y]);
+	$('#lernen-div-anzahl').html('Anzahl: ' + vokNr + ' / ' + anzVokabeln);
+	if(!sprachenUmkehren)	$('#lernen-div-karteHead p').html(vokabeln[x][y]);
+	else					$('#lernen-div-karteHead p').html(vokabeln[x][++y]);
     
 	$('#lernen-btn-pruefen').click( function(){
+		if(sprachenUmkehren)		y = (-1);
 		if($('#lernen-input-loesung').val() === vokabeln[x][++y]){	// Richtige Lösung wurde eingegeben
 			punkte++;
 			$('#lernen-div-karteBody p').html('Richtig! :)');
@@ -611,7 +621,7 @@ function lernen(x, y, vokNr, anzVokabeln, vokabeln, timerID){
 				}
 				else{				// Keine Vokabeln mehr vorhanden
 					$('#lernen-btn-start').fadeIn(500);
-					$('#lernen-btn-mischen').fadeIn(500);
+					$('#lernen-btn-richtung').fadeIn(500);
 					clearInterval(timerID);
 					timerID = null;	
 					punkte = parseInt(punkte / anzVokabeln * 100);
@@ -620,7 +630,8 @@ function lernen(x, y, vokNr, anzVokabeln, vokabeln, timerID){
 				}
 			}, 3000);
 		}
-		else{														// Falsche Lösung wurde eingegeben
+		else{
+			if(sprachenUmkehren)		y = 0;													// Falsche Lösung wurde eingegeben
 			$('#lernen-div-karteBody p').html('Leider falsch! Lösung: ' + vokabeln[x][y]);
 			$('#lernen-div-footRechts').addClass('falsch');
 			$('#lernen-div-karteBody p').fadeIn(500).delay(2000).fadeOut(500);
@@ -631,7 +642,7 @@ function lernen(x, y, vokNr, anzVokabeln, vokabeln, timerID){
 				}
 				else{				// Keine Vokabeln mehr vorhanden
 					$('#lernen-btn-start').fadeIn(500);
-					$('#lernen-btn-mischen').fadeIn(500);
+					$('#lernen-btn-richtung').fadeIn(500);
 					clearInterval(timerID);
 					timerID = null;
 					punkte = parseInt(punkte / anzVokabeln * 100);
