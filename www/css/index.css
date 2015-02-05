@@ -52,21 +52,205 @@ div[data-role="footer"] {
     text-transform: none ;
 }
 
-.kartei-action-box {
-    display: inline-block;
-    position: relative;
-    width: 100%;
-    height: 60px;
+/* ************************* Eigene CSS-Ergänzungen/Anpassungen ************************* */
+
+.content-home{
+	margin-top: 70px;
 }
 
-/* Hiermit können wir die Hinzufügen und Entfernen-Buttons unten, oberhalb des
- * Footer. Jedoch ist dann kein Abstand links und rechts zu sehen. */
-/*
-.kartei-action-box {
-    left: 0;
-    right: 0;
-    position: fixed;
-    z-index: 1000;
-    bottom: 60px;
+.ui-listview > .ui-li-has-thumb > .ui-btn{
+	padding-left:60px !important;
 }
-*/
+
+.ui-li-has-thumb> a >img{
+	background: #FF507D !important;
+	top:16px !important;
+	left:12px !important;
+}
+
+.content-continuos-text{
+	width:auto;
+	height:auto;
+	background:#fff;
+	padding:0px 20px;
+	border:1px solid #63b059;
+	border-radius:0.5em;
+}
+
+hr{
+	margin:30px 0 30px 0;
+}
+
+.kartei-action-box > .ui-btn {
+    position: absolute;
+    margin: 0px;
+    top: auto;
+    bottom: 0.24em;
+}
+
+.kartei-action-box > .footer-button-right {
+    right: 0;
+}
+
+.kartei-action-box > .footer-button-left {
+    left: 0;
+}
+
+.ui-page-theme-a .ui-btn.ui-btn-active,
+html .ui-bar-a .ui-btn.ui-btn-active,
+html .ui-body-a .ui-btn.ui-btn-active,
+html body .ui-group-theme-a .ui-btn.ui-btn-active,
+html head + body .ui-btn.ui-btn-a.ui-btn-active{
+	background-color: #fff /*{a-active-background-color}*/;
+	border-color: #ff507d /*{a-active-border}*/;
+	color: #333 /*{a-active-color}*/;
+	text-shadow: 0 /*{a-active-shadow-x}*/ 1px /*{a-active-shadow-y}*/ 0 /*{a-active-shadow-radius}*/ #F3F3F3 /*{a-active-shadow-color}*/;
+}
+
+.a-warnung, .a-hinweis{
+	color:#FF507D !important;
+	font-size:1.25em;
+	border: 1px solid #FF507D !important;
+	margin: 0 auto;
+	width:225px;
+	height:auto;
+	cursor:default;
+}
+
+.a-hinweis{
+	color:#63B059 !important;
+	border: 1px solid #63B059 !important;
+}
+
+.a-hinweis:hover, .a-warnung:hover{
+	background-color:#fff !important;
+}
+
+#neueKartei-div-hinweis > .ui-btn-icon-left:after, #neueVokabel-div-hinweis > .ui-btn-icon-left:after, #karteiverw-div-hinweis > .ui-btn-icon-left:after, #vokabelverw-div-hinweis > .ui-btn-icon-left:after {
+	background-color: #63B059;
+	background-color: rgba(99,176,89,1);
+}
+
+.inputText{
+	box-shadow: 0 0 12px #ff507d;
+	-webkit-box-shadow: 0 0 12px #ff507d;
+	border:1px solid #ff507d !important;
+}
+
+.div-markiert{
+	box-shadow: 0 0 12px #ff507d;
+	-webkit-box-shadow: 0 0 12px #ff507d;
+	border:1px solid #ff507d !important;
+}
+
+/* Style auf der Lernen-Page */
+
+#lernen-div-metainfo p{
+	width:50%;
+	float:left;
+	margin:-20px 0 30px 0;
+	font-size:1.5em;
+	font-weight:bold;
+}
+
+#lernen-div-zeit{
+	text-align:right;
+}
+
+#lernen-div-karte{
+	clear:both;
+	margin:0 auto 30px;
+	width:60%;
+	min-width:250px;
+	height:280px;
+	background:#fff;
+	border:1px solid #FF9EB7;
+	border-radius:0.5em;
+}
+
+#lernen-div-karteHead{
+	border-radius:0.5em 0.5em 0 0;
+	border-bottom:1px solid #FF9EB7;
+	background-color:#EDEDED;
+	height:40px;
+}
+
+#lernen-div-karteHead p{
+	font-size:1.5em;
+	line-height:2em;
+	text-align:center;
+	font-weight:bold;
+	margin: 0px;
+}
+
+#lernen-div-karteBody{
+	padding-top:48px; 
+	text-align:center;
+	height:110px;;
+	margin:20px;
+}
+
+#lernen-div-karteBody p{
+	color:#666;
+}
+
+#lernen-div-karteFoot{
+	border-radius:0 0 0.5em 0.5em;
+	border-top:1px solid #FF9EB7;
+	text-align:center;
+	background-color:#EDEDED;
+	height:40px;
+}
+
+#lernen-div-footLinks, #lernen-div-footRechts{
+	width:50%;
+	float:left;
+	height:40px;
+}
+
+#lernen-div-footLinks{
+	border-radius:0 0 0 0.5em;
+}
+
+#lernen-div-footRechts{
+	border-radius:0 0 0.5em 0;
+}
+
+.richtig{
+	background:#63B059;
+}
+
+.falsch{
+	background:#FF507D;
+}
+
+/* ************************* Einbinden eigener Icons ************************* */
+
+/* Fix für eigen Icons in der Navbar, da diese sonst zu groß
+ * dargstellt werden. */
+div[data-role="navbar"] .ui-icon-anleitung.ui-btn-icon-top:after,
+div[data-role="navbar"] .ui-icon-karteiverwaltung.ui-btn-icon-top:after,
+div[data-role="navbar"] .ui-icon-lernfortschritt.ui-btn-icon-top:after {
+	background-size: 100%;
+}
+
+/* Schaltet die Hintergrundfarbe der Icons aus. */
+div[data-role="navbar"] .ui-btn-icon-top:after {
+	background-color: #FF507D;
+}
+
+/* Anleitung Icon */
+.ui-icon-anleitung:after {
+	background-image: url("../img/app-icon-anleitung-highres.png");
+}
+
+/* Karteiverwaltung Icon */
+.ui-icon-karteiverwaltung:after {
+	background-image: url("../img/app-icon-karteien-highres.png");
+}
+
+/* Lernfortschritt Icon */
+.ui-icon-lernfortschritt:after {
+	background-image: url("../img/app-icon-lernfortschritt-highres.png");
+}
+
