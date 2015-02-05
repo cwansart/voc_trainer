@@ -52,13 +52,6 @@ var app = {
     },
     // Update DOM on a Received Event
     receivedEvent: function(id) {
-        var parentElement = document.getElementById(id);
-        var listeningElement = parentElement.querySelector('.listening');
-        var receivedElement = parentElement.querySelector('.received');
-
-        listeningElement.setAttribute('style', 'display:none;');
-        receivedElement.setAttribute('style', 'display:block;');
-
         console.log('Received Event: ' + id);
 
         app.sprachenFile = cordova.file.externalApplicationStorageDirectory + 'sprachen.json';
@@ -77,7 +70,8 @@ var app = {
                     sprachen = JSON.parse(this.result);
                 }
                 console.log("Dateien gelesen");
-                // Ab hier könnte der Splashscreen wieder deaktiviert werden.
+                $('.listening').attr('style', 'display: none;');
+                $('.received').attr('style', 'display: block;');
             };
             reader.readAsText(file);
         });
@@ -90,9 +84,12 @@ var app = {
                 // Datei nicht gefunden, dann muss sprachen leer initialisiert werden.
                 sprachen = {};
                 console.log("sprachen.json nicht vorhanden");
+                $('.listening').attr('style', 'display: none;');
+                $('.received').attr('style', 'display: block;');
                 break;
             default:
                 // alle Fehlercodes auf: https://developer.mozilla.org/en-US/docs/Web/API/FileError#Error_codes
+                alert("Es ist ein Fehler beim Laden aufgetreten. Bitte kontaktiere die Entwickler!");
                 console.log('Filesystem Error: ' + e.code);
                 break;
         }
