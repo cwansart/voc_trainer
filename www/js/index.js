@@ -418,7 +418,7 @@ $('#NeueKartei').on('pagebeforeshow', function(event, ui) {
     collapsible += '<div data-role="collapsible"><h3>Sprachen wählen</h3><form><fieldset data-role="controlgroup">';   
     $.each(sprachen, function(sprache) {
         collapsible += '<label for="neueKartei-coll-sprachenListe-radio-' + sprache + '">'
-                    +  '<input type="radio" id="neueKartei-coll-sprachenListe-radio-' + sprache + '" value="' + sprache + '">'
+                    +  '<input type="radio" id="neueKartei-coll-sprachenListe-radio-' + sprache + '" name="sprache" value="' + sprache + '">'
                     + sprache + '</label>';
     });
     collapsible += '</fieldset></form></div>';
