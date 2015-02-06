@@ -185,20 +185,25 @@ var nachrichtTyp = Object.freeze({
 });
 
 var nachricht = {
-    inhalt: function(typ, text, dauer) {
+    inhalt: function(typ, text, dauerEinblenden, dauerAusblenden) {
         if(typ === undefined && text === undefined) {
             return;
+        }
+
+        if(this.typ !== undefined && this.text !== undefined) {
+            nachricht.entfernen();
         }
 
         this.typ = typ;
         this.text = text;
         
-        if(dauer !== undefined) {
-            this.dauer = dauer;
+        if(dauerEinblenden !== undefined) {
+            this.dauerEin = dauerEinblenden;
         }
 
-        console.log('typ: ' + this.typ);
-        console.log('text: ' + this.text);
+        if(dauerAusblenden !== undefined) {
+            this.dauerAus = dauerAusblenden;
+        }
     },
 
     // prueft ob inhalt ungleich null ist und zeigt die entsprechende
@@ -213,25 +218,30 @@ var nachricht = {
         var dialog = $('<div></div>').attr('id', 'nachrichten-dialog');
         var link = $('<a></a>').attr('class', 'ui-btn ui-corner-all ui-btn-icon-left ui-icon-alert').attr('href', '#');
 
-        link.text(this.text);
+        link.html(this.text);
 
         switch(this.typ) {
             case nachrichtTyp.WARNUNG:
                 link.addClass('a-warnung');
-                console.log('warnung');
                 break;
             case nachrichtTyp.INFORMATION:
-                console.log('hinweis');
                 link.addClass('a-hinweis');
                 dialog.addClass('div-hinweis');
                 break;
         }
 
-        if(this.dauer !== undefined) {
-            var dauer = parseInt(this.dauer);
+        if(this.dauerEin !== undefined) {
+            var dauer = parseInt(this.dauerEin);
             dialog.hide();
-            dialog.fadeIn(dauer)
-            dialog.fadeOut(dauer*3, nachricht.leere);
+            
+            if(this.dauerAus === undefined) {
+                dialog.fadeIn(dauer).delay(2000);
+            }
+            else {
+                var dauer2 = parseInt(this.dauerAus);
+                dialog.fadeIn(dauer).delay(2000).fadeOut(dauer2);
+                nachricht.entfernen();
+            }
         }
 
         dialog.append(link);
@@ -245,8 +255,15 @@ var nachricht = {
         this.dauer = undefined;
     },
 
-    entfernen: function() {
-        $('#nachrichten-dialog').remove();
+    entfernen: function(dauer) {
+        if(dauer !== undefined) {
+            $('#nachrichten-dialog').fadeOut(dauer, function() {
+                $('#nachrichten-dialog').remove();
+            });
+        }
+        else {
+            $('#nachrichten-dialog').remove();
+        }
     }
 };
 
@@ -276,13 +293,6 @@ $('#Karteiverwaltung').on('pagebeforeshow', function(event, ui) {
     
     $('#karteiverw-coll-sprachenListe').empty();
 
-    if(zeigeInfo) {
-        $('#karteiverw-div-hinweis').show();
-        zeigeInfo = false;
-    }
-    else {
-        $('#karteiverw-div-hinweis').hide();
-    }
     $('#karteiverw-btn-loeschen').hide();
     $('#karteiverw-btn-lernen').hide();
     $('#karteiverw-btn-oeffnen').hide();
@@ -351,13 +361,8 @@ $('#Vokabelverwaltung').on( 'pagebeforeshow', function( event, ui ) {
     $('#vokabelverw-liste').empty();
 
 	$('#vokabelverw-btn-loeschen').hide();
-    if(zeigeInfo) {
-        $('#vokabelverw-div-hinweis').show();
-        zeigeInfo = false;
-    }
-    else {
-        $('#vokabelverw-div-hinweis').hide();
-    }
+
+    nachricht.pruefenUndAnzeigen();
 
     if(aktuelleKartei != null)  var pfad = '<h2>' + aktuelleSprache + ' - ' + aktuelleKartei + '</h2>';
     else var pfad = '<h2>' + aktuelleSprache + '</h2>';
@@ -407,9 +412,6 @@ $('#NeueKartei').on('pagebeforeshow', function(event, ui) {
     $('#neueKartei-coll-sprachenListe').show();
     $('#neueKartei-btn-spracheHinzu').show();
     
-    $('#neueKartei-div-warnung').hide();
-    $('#neueKartei-div-hinweis').hide();
-
     var collapsible = '';
     var spracheToggle = null;
      
@@ -447,14 +449,16 @@ $('#NeueKartei').on('pagebeforeshow', function(event, ui) {
 
         var sprache = '';
         var kartei = '';
+        var fehlermeldung = 'Du musst eine Sprache <br>wählen/eingeben und einen <br>Karteinamen eingeben!';
 
         if(spracheToggle === true) { // aus der Liste
             sprache = $('#neueKartei-coll-sprachenListe').find(':checked');
             if(sprache.length == 0) {
-                $('#neueKartei-div-warnung').fadeIn(500);
+                nachricht.inhalt(nachrichtTyp.WARNUNG, fehlermeldung, 500);
+                nachricht.pruefenUndAnzeigen();
                 $('#neueKartei-coll-sprachenListe').addClass('div-markiert');
                 $('#neueKartei-coll-sprachenListe').find(':radio').on('click', function(){  // Sobald ein Radiobutton geklickt wird, verschwindet der Hinweis
-                    $('#neueKartei-div-warnung').fadeOut(500);
+                    nachricht.entfernen(500);
                     $('#neueKartei-coll-sprachenListe').removeClass('div-markiert');
                 });
                 return;
@@ -465,28 +469,34 @@ $('#NeueKartei').on('pagebeforeshow', function(event, ui) {
         else if(spracheToggle === false) {
             sprache = $('#neueKartei-input-sprache').val();
             if(sprache === '') {
-                $('#neueKartei-div-warnung').fadeIn(500);
+                nachricht.inhalt(nachrichtTyp.WARNUNG, fehlermeldung, 500);
+                nachricht.pruefenUndAnzeigen();
                 $('#neueKartei-input-sprache').addClass("inputText");
                 $('#neueKartei-div-content').find('#neueKartei-input-sprache').on('click', function(){  // Sobald das input-field (Sprache) geklickt wird, verschwindet der Hinweis
-                    $('#neueKartei-div-warnung').fadeOut(500);
+                    nachricht.entfernen(500);
                     $('#neueKartei-input-sprache').removeClass("inputText");
                 });
                 return;
             }
             aktuelleSprache = sprache;
         }
+        // Wird der Teil überhaupt benötigt?!
+        /*
         else {
-            $('#neueKartei-div-warnung').fadeIn(500).delay(2000).fadeOut(500);  
+            nachricht.inhalt(nachrichtTyp.WARNUNG, 'Du musst eine Sprache<br>und einen Karteinamen<br>eingeben!', 500, 500);
+            nachricht.pruefenUndAnzeigen();
             return;
         }
+        */
 
         var kartei = $('#neueKartei-input-kartei').val();
 		aktuelleKartei = $('#neueKartei-input-kartei').val();
         if(kartei === '') {
-            $('#neueKartei-div-warnung').fadeIn(500);
+            nachricht.inhalt(nachrichtTyp.WARNUNG, fehlermeldung, 500);
+            nachricht.pruefenUndAnzeigen();
             $('#neueKartei-input-kartei').addClass("inputText");
             $('#neueKartei-div-content').find('#neueKartei-input-kartei').on('click', function(){   // Sobald das input-field (Kartei) geklickt wird, verschwindet der Hinweis
-                $('#neueKartei-div-warnung').fadeOut(500);
+                nachricht.entfernen(500);
                 $('#neueKartei-input-kartei').removeClass("inputText");
             });
             return;
@@ -500,8 +510,8 @@ $('#NeueKartei').on('pagebeforeshow', function(event, ui) {
 
         // sprachen in sprachen.js festschreiben
         app.writeFile(function() {
-            zeigeInfo = true;
-            $('#neueKartei-div-hinweis').fadeIn(500).delay(2000).fadeOut(500);
+            nachricht.inhalt(nachrichtTyp.INFORMATION, 'Die Kartei wurde<br>erfolgreich gespeichert', 500, 500);
+            nachricht.pruefenUndAnzeigen();
 			setTimeout(function(){			// Nachdem der Hinweis verschwindet, kann man direkt Vokabeln hinzufügen
 				window.location = '#NeueVokabel';
 			}, 3000);
@@ -516,9 +526,6 @@ $('#NeueVokabel').on('pagebeforeshow', function(event, ui) {
 
     $('#neueVokabel-input-deutsch').val('');
     $('#neueVokabel-input-uebersetzung').val('');
-    
-	$('#neueVokabel-div-warnung').hide();
-    $('#neueVokabel-div-hinweis').hide();
 
     var ueberschrift = aktuelleSprache + ' – ' + aktuelleKartei;
     $('#neuevokabel-div-content > h2').empty().append(ueberschrift);
@@ -526,22 +533,25 @@ $('#NeueVokabel').on('pagebeforeshow', function(event, ui) {
     $('#neueVokabel-btn-vokabelSpeichern').on('click', function() {
         var deutsch = $('#neueVokabel-input-deutsch').val();
         var uebersetzung = $('#neueVokabel-input-uebersetzung').val();
+        var fehlermeldung = 'Bitte gib ein deutsches Wort<br>und eine Übersetzung ein!';
 
         if(deutsch === '') {
-            $('#neueVokabel-div-warnung').fadeIn(500);
+            nachricht.inhalt(nachrichtTyp.WARNUNG, fehlermeldung, 500);
+            nachricht.pruefenUndAnzeigen();
             $('#neueVokabel-input-deutsch').addClass("inputText");
             $('#neuevokabel-div-content').find('#neueVokabel-input-deutsch').on('click', function(){
-                $('#neueVokabel-div-warnung').fadeOut(500);
+                nachricht.entfernen(500);
                 $('#neueVokabel-input-deutsch').removeClass("inputText");
             });
             return;
         }
         
         if(uebersetzung === '') {
-            $('#neueVokabel-div-warnung').fadeIn(500);
+            nachricht.inhalt(nachrichtTyp.WARNUNG, fehlermeldung, 500);
+            nachricht.pruefenUndAnzeigen();
             $('#neueVokabel-input-uebersetzung').addClass("inputText");
             $('#neuevokabel-div-content').find('#neueVokabel-input-uebersetzung').on('click', function(){
-                $('#neueVokabel-div-warnung').fadeOut(500);
+                nachricht.entfernen(500);
                 $('#neueVokabel-input-uebersetzung').removeClass("inputText");
             });
             return;
@@ -552,9 +562,8 @@ $('#NeueVokabel').on('pagebeforeshow', function(event, ui) {
         sprachen[aktuelleSprache][aktuelleKartei][uebersetzung] = deutsch;
         console.log("Speichere Vokabel");
         app.writeFile(function() {
-            console.log("Vokabel gespeichert");
-            zeigeInfo = true;
-            $('#neueVokabel-div-hinweis').fadeIn(500).delay(2000).fadeOut(500);
+            nachricht.inhalt(nachrichtTyp.INFORMATION, 'Die Vokabel wurde<br>erfolgreich gespeichert!', 500, 500);
+            nachricht.pruefenUndAnzeigen();
         });
     });
 });
@@ -610,9 +619,8 @@ $('#SpracheLoeschenDialog').on('pagebeforeshow', function(){
         }
 
         app.writeFile(function() {
-            zeigeInfo = true;
-            // hier müssten wir noch prüfen, ob das Schreiben geklappt hat, oder nicht
-            $('#karteiverw-div-hinweis').show().delay(2000).fadeOut(500);
+            nachricht.inhalt(nachrichtTyp.INFORMATION, 'Die gewählten Karteien<br>wurden gelöscht!', 500, 500);
+            nachricht.pruefenUndAnzeigen();
         });
     });
 });
@@ -631,9 +639,8 @@ $('#VokabelLoeschenDialog').on('pagecreate', function(){
         });
 
         app.writeFile(function() {
-            // hier müssten wir noch prüfen, ob das Schreiben geklappt hat, oder nicht
-            zeigeInfo = true;
-            $('#vokabelverw-div-hinweis').show().delay(2000).fadeOut(500);
+            nachricht.inhalt(nachrichtTyp.INFORMATION, 'Die gewählten Vokabeln<br>wurden gelöscht!', 500, 500);
+            nachricht.pruefenUndAnzeigen();
         });
     });
 });
