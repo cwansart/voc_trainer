@@ -403,11 +403,12 @@ $('#NeueKartei').on('pagebeforeshow', function(event, ui) {
             aktuelleSprache = sprache;
         }
         else {
-            $('#neueKartei-div-warnung').fadeIn(500).delay(2000).fadeOut(500);  // Das ist eher eine Notlösung  
+            $('#neueKartei-div-warnung').fadeIn(500).delay(2000).fadeOut(500);  
             return;
         }
 
         var kartei = $('#neueKartei-input-kartei').val();
+		aktuelleKartei = $('#neueKartei-input-kartei').val();
         if(kartei === '') {
             $('#neueKartei-div-warnung').fadeIn(500);
             $('#neueKartei-input-kartei').addClass("inputText");
@@ -428,6 +429,9 @@ $('#NeueKartei').on('pagebeforeshow', function(event, ui) {
         app.writeFile(function() {
             zeigeInfo = true;
             $('#neueKartei-div-hinweis').fadeIn(500).delay(2000).fadeOut(500);
+			setTimeout(function(){			// Nachdem der Hinweis verschwindet, kann man direkt Vokabeln hinzufügen
+				window.location = '#NeueVokabel';
+			}, 3000);
         });
     });
 });
