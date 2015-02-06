@@ -213,7 +213,7 @@ var nachricht = {
         var dialog = $('<div></div>').attr('id', 'nachrichten-dialog');
         var link = $('<a></a>').attr('class', 'ui-btn ui-corner-all ui-btn-icon-left ui-icon-alert').attr('href', '#');
 
-        link.text('hello');
+        link.text(this.text);
 
         switch(this.typ) {
             case nachrichtTyp.WARNUNG:
