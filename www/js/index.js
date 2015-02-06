@@ -179,6 +179,77 @@ var app = {
 
 };
 
+var nachrichtTyp = Object.freeze({
+        WARNUNG: 0,
+        INFORMATION: 1
+});
+
+var nachricht = {
+    inhalt: function(typ, text, dauer) {
+        if(typ === undefined && text === undefined) {
+            return;
+        }
+
+        this.typ = typ;
+        this.text = text;
+        
+        if(dauer !== undefined) {
+            this.dauer = dauer;
+        }
+
+        console.log('typ: ' + this.typ);
+        console.log('text: ' + this.text);
+    },
+
+    // prueft ob inhalt ungleich null ist und zeigt die entsprechende
+    // Nachricht an.
+    pruefenUndAnzeigen: function() {
+        if(this.typ === undefined &&
+           this.text === undefined) {
+            console.log('nachricht: typ oder text ist undefiniert');
+            return;
+        }
+
+        var dialog = $('<div></div>').attr('id', 'nachrichten-dialog');
+        var link = $('<a></a>').attr('class', 'ui-btn ui-corner-all ui-btn-icon-left ui-icon-alert').attr('href', '#');
+
+        link.text('hello');
+
+        switch(this.typ) {
+            case nachrichtTyp.WARNUNG:
+                link.addClass('a-warnung');
+                console.log('warnung');
+                break;
+            case nachrichtTyp.INFORMATION:
+                console.log('hinweis');
+                link.addClass('a-hinweis');
+                dialog.addClass('div-hinweis');
+                break;
+        }
+
+        if(this.dauer !== undefined) {
+            var dauer = parseInt(this.dauer);
+            dialog.hide();
+            dialog.fadeIn(dauer)
+            dialog.fadeOut(dauer*3, nachricht.leere);
+        }
+
+        dialog.append(link);
+        $('body').append(dialog);
+        nachricht.leeren();
+    },
+
+    leeren: function() {
+        this.typ = undefined;
+        this.text = undefined;
+        this.dauer = undefined;
+    },
+
+    entfernen: function() {
+        $('#nachrichten-dialog').remove();
+    }
+};
+
 app.initialize();
 
 // Beim Laden der App, Sprachen-Datei einlesen. Diese Funktion muss für die App
@@ -215,6 +286,8 @@ $('#Karteiverwaltung').on('pagebeforeshow', function(event, ui) {
     $('#karteiverw-btn-loeschen').hide();
     $('#karteiverw-btn-lernen').hide();
     $('#karteiverw-btn-oeffnen').hide();
+
+    nachricht.pruefenUndAnzeigen();
 
     var collapsible = '';
     $.each(sprachen, function(sprache) {

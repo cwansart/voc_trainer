@@ -100,7 +100,9 @@ hr{
 html .ui-bar-a .ui-btn.ui-btn-active,
 html .ui-body-a .ui-btn.ui-btn-active,
 html body .ui-group-theme-a .ui-btn.ui-btn-active,
-html head + body .ui-btn.ui-btn-a.ui-btn-active{
+html head + body .ui-btn.ui-btn-a.ui-btn-active,
+#nachrichten-dialog
+{
 	background-color: #fff /*{a-active-background-color}*/;
 	border-color: #ff507d /*{a-active-border}*/;
 	color: #333 /*{a-active-color}*/;
@@ -124,6 +126,19 @@ html head + body .ui-btn.ui-btn-a.ui-btn-active{
 
 .a-hinweis:hover, .a-warnung:hover{
 	background-color:#fff !important;
+}
+
+.div-hinweis {
+	background-color: #63B059;
+	background-color: rgba(99,176,89,1);
+}
+
+#nachrichten-dialog {
+    position: absolute !important;
+    -webkit-border-radius: 0.6em;
+    border-radius: 0.6em;
+    top: 40px;
+    left: 42%;
 }
 
 #neueKartei-div-hinweis > .ui-btn-icon-left:after, #neueVokabel-div-hinweis > .ui-btn-icon-left:after, #karteiverw-div-hinweis > .ui-btn-icon-left:after, #vokabelverw-div-hinweis > .ui-btn-icon-left:after {
