@@ -216,16 +216,16 @@ var nachricht = {
         }
 
         var dialog = $('<div></div>').attr('id', 'nachrichten-dialog');
-        var link = $('<a></a>').attr('class', 'ui-btn ui-corner-all ui-btn-icon-left ui-icon-alert').attr('href', '#');
+        var link = $('<a></a>').attr('class', 'ui-btn ui-corner-all ui-btn-icon-left').attr('href', '#');
 
         link.html(this.text);
 
         switch(this.typ) {
             case nachrichtTyp.WARNUNG:
-                link.addClass('a-warnung');
+                link.addClass('a-warnung').addClass('ui-icon-alert');
                 break;
             case nachrichtTyp.INFORMATION:
-                link.addClass('a-hinweis');
+                link.addClass('a-hinweis').addClass('ui-icon-info');
                 dialog.addClass('div-hinweis');
                 break;
         }
