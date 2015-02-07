@@ -360,7 +360,7 @@ $('#Vokabelverwaltung').on( 'pagebeforeshow', function( event, ui ) {
 
     $('#vokabelverw-liste').empty();
 
-	$('#vokabelverw-btn-loeschen').hide();
+    $('#vokabelverw-btn-loeschen').hide();
 
     nachricht.pruefenUndAnzeigen();
 
