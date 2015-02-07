@@ -564,6 +564,8 @@ $('#NeueVokabel').on('pagebeforeshow', function(event, ui) {
         app.writeFile(function() {
             nachricht.inhalt(nachrichtTyp.INFORMATION, 'Die Vokabel wurde<br>erfolgreich gespeichert!', 500, 500);
             nachricht.pruefenUndAnzeigen();
+			$('#neueVokabel-input-deutsch').val('').focus();
+			$('#neueVokabel-input-uebersetzung').val('');
         });
     });
 });
@@ -703,6 +705,7 @@ function lernen(x, y, vokNr, anzVokabeln, vokabeln, timerID){		// Die Methode is
 			$('#lernen-div-karteBody p').fadeIn(500).delay(2000).fadeOut(500);
 			setTimeout(function(){
 				$('#lernen-div-footLinks').removeClass('richtig');
+				$('#lernen-input-loesung').val('').focus();
 				pruefeAnzahl(x, vokNr, anzVokabeln, vokabeln, timerID);
 			}, 3000);
 		}
@@ -715,6 +718,7 @@ function lernen(x, y, vokNr, anzVokabeln, vokabeln, timerID){		// Die Methode is
 			$('#lernen-div-karteBody p').fadeIn(500).delay(2000).fadeOut(500);
 			setTimeout(function(){
 				$('#lernen-div-footLinks').removeClass('fast');
+				$('#lernen-input-loesung').val('').focus();
 				pruefeAnzahl(x, vokNr, anzVokabeln, vokabeln, timerID);
 			}, 3000);
 		}
@@ -725,6 +729,7 @@ function lernen(x, y, vokNr, anzVokabeln, vokabeln, timerID){		// Die Methode is
 			$('#lernen-div-karteBody p').fadeIn(500).delay(2000).fadeOut(500);
 			setTimeout(function(){
 				$('#lernen-div-footRechts').removeClass('falsch');
+				$('#lernen-input-loesung').val('').focus();
 				pruefeAnzahl(x, vokNr, anzVokabeln, vokabeln, timerID);
 			 }, 3000);
 		}
