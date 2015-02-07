@@ -146,8 +146,11 @@ html head + body .ui-btn.ui-btn-a.ui-btn-active,
     position: absolute !important;
     -webkit-border-radius: 0.6em;
     border-radius: 0.6em;
-    top: 40px;
-    left: 42%;
+    top: 100px;
+    left: 50%;
+	margin-left: -139.5px;
+	 box-shadow: 0px 0px 10px #333;
+	-webkit-box-shadow: 0px 0px 10px #333;
 }
 
 #neueKartei-div-hinweis > .ui-btn-icon-left:after, #neueVokabel-div-hinweis > .ui-btn-icon-left:after, #karteiverw-div-hinweis > .ui-btn-icon-left:after, #vokabelverw-div-hinweis > .ui-btn-icon-left:after {
