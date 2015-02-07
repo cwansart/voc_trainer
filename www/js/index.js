@@ -574,6 +574,7 @@ $('#Lernen').on('pageshow', function(event, ui) {
 	var anzVokabeln = anzahlVokabeln(aktuelleSprache, aktuelleKartei);
 	var vokabeln = vokabelArray(aktuelleSprache, aktuelleKartei, anzVokabeln);	// Vokabeln werden als 2-Dim Array gespeichert
 	var ueberschrift = aktuelleSprache + ' – ' + aktuelleKartei;
+	vokabeln = shuffleArray(vokabeln, anzVokabeln);
 
 	//zurücksetzen
 	punkte = 0;	
@@ -803,3 +804,20 @@ var soundex = function (s) {
 	.join('');
 	return (r + '000').slice(0, 4).toUpperCase();
 };  
+
+// Mischt den 2-dim. Array
+function shuffleArray(array, anzVokabeln) {
+	for (var i = anzVokabeln - 1; i > 0; i--) {
+		var j = Math.floor(Math.random() * (i + 1));
+		var temp = [['', '']];
+		temp[0][0] = array[i][0];
+		temp[0][1] = array[i][1];
+
+		array[i][0] = array[j][0];
+		array[i][1] = array[j][1];
+
+		array[j][0] = temp[0][0];
+		array[j][1] = temp[0][1];
+	}
+	return array;
+}
