@@ -54,6 +54,11 @@ div[data-role="footer"] {
 
 /* ************************* Eigene CSS-Ergänzungen/Anpassungen ************************* */
 
+p{
+	font-size:14px;
+	line-height:22px;
+}
+
 .content-home{
 	margin-top: 70px;
 }
