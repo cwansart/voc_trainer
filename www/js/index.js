@@ -537,6 +537,13 @@ $('#NeueVokabel').on('pagebeforeshow', function(event, ui) {
         source: 'http://localhost/~christian/voc_base/index.php?sprache='+aktuelleSprache+'&sprache2=deutsch'
     });
 
+    if($('#neueVokabel-input-uebersetzung').autocomplete('instance') !== undefined) {
+        $('#neueVokabel-input-uebersetzung').autocomplete( "destroy" );
+    }
+    $('#neueVokabel-input-uebersetzung').autocomplete({
+        source: 'http://localhost/~christian/voc_base/index.php?sprache='+aktuelleSprache+'&sprache2='+aktuelleSprache
+    });
+
     $('#neueVokabel-btn-vokabelSpeichern').on('click', function() {
         var deutsch = $('#neueVokabel-input-deutsch').val();
         var uebersetzung = $('#neueVokabel-input-uebersetzung').val();
