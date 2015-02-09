@@ -529,6 +529,13 @@ $('#NeueVokabel').on('pagebeforeshow', function(event, ui) {
 
     var ueberschrift = aktuelleSprache + ' – ' + aktuelleKartei;
     $('#neuevokabel-div-content > h2').empty().append(ueberschrift);
+    
+    if($('#neueVokabel-input-deutsch').autocomplete('instance') !== undefined) {
+        $('#neueVokabel-input-deutsch').autocomplete( "destroy" );
+    }
+    $('#neueVokabel-input-deutsch').autocomplete({
+        source: 'http://localhost/~christian/voc_base/index.php?sprache='+aktuelleSprache+'&sprache2=deutsch'
+    });
 
     $('#neueVokabel-btn-vokabelSpeichern').on('click', function() {
         var deutsch = $('#neueVokabel-input-deutsch').val();
