@@ -615,7 +615,17 @@ $('#Lernen').on('pageshow', function(event, ui) {
 });
 
 $('#Lernfortschritt').on('pageshow', function(event, ui) {
-	alert(aktuelleSprache + ' - ' + aktuelleKartei + ': ' + varZeit + ' Minuten, ' +punkte + '%');
+	var ergebnisse = localStorage.ergebnisse === undefined ? [] : JSON.parse(localStorage.ergebnisse);
+	
+	if(localStorage.ergebnisse !== undefined){
+		for(var index in ergebnisse) {
+			var ergebniss = ergebnisse[index];
+			$('#lernfort-list-ergebnisse').append('<li data-icon="false">' + ergebnisse.index + ' - ' + ergebnisse.wert + '</li>');
+		}
+	}else{
+		$('#lernfort-list-ergebnisse').append('<li data-icon="false">Es sind noch keine Ergebnisse vorhanden!</li>');
+	}
+	$('#lernfort-list-ergebnisse').listview('refresh');
 });
 
 $('#SpracheLoeschenDialog').on('pagebeforeshow', function(){
