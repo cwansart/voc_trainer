@@ -616,11 +616,11 @@ $('#Lernen').on('pageshow', function(event, ui) {
 
 $('#Lernfortschritt').on('pageshow', function(event, ui) {
 	var ergebnisse = localStorage.ergebnisse === undefined ? [] : JSON.parse(localStorage.ergebnisse);
-	
+	console.log(ergebnisse);
 	if(localStorage.ergebnisse !== undefined){
 		for(var index in ergebnisse) {
-			var ergebniss = ergebnisse[index];
-			$('#lernfort-list-ergebnisse').append('<li data-icon="false">' + ergebnisse.index + ' - ' + ergebnisse.wert + '</li>');
+			var ergebnis = ergebnisse[index];
+			$('#lernfort-list-ergebnisse').append('<li data-icon="false">' + ergebnis.index + ' - ' + ergebnis.wert + '</li>');
 		}
 	}else{
 		$('#lernfort-list-ergebnisse').append('<li data-icon="false">Es sind noch keine Ergebnisse vorhanden!</li>');
@@ -774,7 +774,7 @@ function pruefeAnzahl(x, vokNr, anzVokabeln, vokabeln, timerID){
 		punkte = parseInt(punkte / (anzVokabeln * 2) * 100);
 		varZeit = $('#lernen-div-zeit').html();
 
-        var ergebnisseIndex = (new Date()).toLocaleString() + '-' + id(aktuelleSprache, aktuelleKartei);
+        var ergebnisseIndex = (new Date()).toLocaleString() + ' - ' + id(aktuelleSprache, aktuelleKartei);
         var ergebnissWert = punkte + ', ' + varZeit + ' Minuten';
 
         var aktuellerSpeicher = localStorage.aktuellerSpeicher === undefined ? 0 : parseInt(localStorage.aktuellerSpeicher);
@@ -783,7 +783,7 @@ function pruefeAnzahl(x, vokNr, anzVokabeln, vokabeln, timerID){
         console.log(ergebnisse);
         ergebnisse[aktuellerSpeicher] = { 'index': ergebnisseIndex, 'wert': ergebnissWert };
 
-        aktuellerSpeicher = ++aktuellerSpeicher % 10; // maximal 10 Einträge speichern
+        aktuellerSpeicher = ++aktuellerSpeicher % 15; // maximal 10 Einträge speichern
         localStorage.aktuellerSpeicher = aktuellerSpeicher;
 
         localStorage.ergebnisse = JSON.stringify(ergebnisse);
