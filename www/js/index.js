@@ -35,7 +35,7 @@ var app = {
     initialize: function() {
         this.bindEvents();
         app.writeCallback = null;
-        //sprachenLaden();
+        //app.sprachenLaden();
     },
     // Bind Event Listeners
     //
@@ -139,14 +139,12 @@ var app = {
         fs.root.getFile(app.sprachenFile.substr(7), {create: true}, function(fileEntry) {
             fileEntry.createWriter(function(fileWriter) {
                 fileWriter.onwriteend = function(e) {
-                    console.log("sprachen.json geschrieben");
                     if(app.writeCallback != null) {
                         app.writeCallback();
                     }
                 };
 
                 fileWriter.onerror = function(e) {
-                    console.log('Schreiben fehlgeschlagen: ' + e.toString());
                     if(app.writeCallback != null) {
                         app.writeCallback();
                     }
@@ -171,8 +169,202 @@ var app = {
     },
 
     errorHandler: function(e) {
+        alert('Es ist ein Fehler aufgetreten: ' + e.code);
         console.log(e.code);
     },
+
+    sprachenLaden: function() {
+        if(sprachenGeladen) return;
+        $.getJSON('data/sprachen.json', function( data ) {
+            sprachen = data;
+        });
+        sprachenGeladen = true;
+    },
+
+    // erstellt eine ID bestehend aus den übergebenen Parametern
+    id: function(sprache, kartei, vokabel) {
+        var r = '';
+        if(sprache !== undefined) {
+            r = sprache;
+        }
+        if(kartei !== undefined) {
+            r += '-' + kartei;
+        }
+        if(vokabel !== undefined) {
+            r += '-' + vokabel;
+        }
+        // ersetze Leerzeichen (s = spaces) mit Bindestrichen
+        return r.replace(/\s/g, '-');
+    },
+
+    anzahlVokabeln: function(sprache, kartei) {
+        var anzahlVokabeln =0;
+        $.each(sprachen[sprache][kartei], function() {
+            ++anzahlVokabeln;
+        });
+        return anzahlVokabeln;
+    },
+
+    vokabelArray: function(sprache, kartei, anzahlVokabeln) {
+        var x =0;
+        var y = 0;
+        var vokabelnArray = new Array(anzahlVokabeln);
+        var vokabeln = sprachen[sprache][kartei];
+
+        $.each(vokabeln, function(fremdsprache, deutsch) {
+            vokabelnArray[x] = new Array(2);
+            vokabelnArray[x][y] = fremdsprache;
+            vokabelnArray[x][++y] = deutsch;
+            ++x;
+            y = 0;
+        });
+        return vokabelnArray;
+    },
+
+    // Die Methode ist echt hässlich und vollgestopft. evtl noch mal überarbeiten.
+    lernen: function(x, y, vokNr, anzVokabeln, vokabeln, timerID){
+        $('#lernen-btn-pruefen').off();
+        $('#lernen-div-anzahl').html('Anzahl: ' + vokNr + ' / ' + anzVokabeln);
+        if(!sprachenUmkehren)	$('#lernen-div-karteHead p').html(vokabeln[x][y]);
+        else					$('#lernen-div-karteHead p').html(vokabeln[x][++y]);
+
+        $('#lernen-btn-pruefen').click( function(){
+            $(this).button('disable');
+            if(sprachenUmkehren)		y = (-1);
+            var val = $('#lernen-input-loesung').val();
+            var vok = vokabeln[x][++y];
+
+            // Richtige Lösung wurde eingegeben (2 Punkte hierfür)
+            if(val === vok) {
+                punkte += 2;
+                $('#lernen-div-karteBody p').html('Richtig! :)');
+                $('#lernen-div-footLinks').addClass('richtig');
+                $('#lernen-div-karteBody p').fadeIn(500).delay(2000).fadeOut(500);
+                setTimeout(function(){
+                    $('#lernen-div-footLinks').removeClass('richtig');
+                    $('#lernen-input-loesung').val('').focus();
+                    app.pruefeAnzahl(x, vokNr, anzVokabeln, vokabeln, timerID);
+                    $('#lernen-btn-pruefen').button('enable');
+                }, 3000);
+            }
+            // Ähnliche Lösung wurde eingegeben (1 Punkt hierfür)
+            else if(app.soundex(val) === app.soundex(vok)) {
+                punkte++;
+                if(sprachenUmkehren)		y = 0;
+                $('#lernen-div-karteBody p').html('Fast! Richtige Lösung: ' + vokabeln[x][y]);
+                $('#lernen-div-footLinks').addClass('fast');
+                $('#lernen-div-karteBody p').fadeIn(500).delay(2000).fadeOut(500);
+                setTimeout(function(){
+                    $('#lernen-div-footLinks').removeClass('fast');
+                    $('#lernen-input-loesung').val('').focus();
+                    app.pruefeAnzahl(x, vokNr, anzVokabeln, vokabeln, timerID);
+                    $('#lernen-btn-pruefen').button('enable');
+                }, 3000);
+            }
+            else{											// Falsche Lösung wurde eingegeben (0 Punkte hierfür)
+                if(sprachenUmkehren)		y = 0;													
+                $('#lernen-div-karteBody p').html('Leider falsch! Lösung: ' + vokabeln[x][y]);
+                $('#lernen-div-footRechts').addClass('falsch');
+                $('#lernen-div-karteBody p').fadeIn(500).delay(2000).fadeOut(500);
+                setTimeout(function(){
+                    $('#lernen-div-footRechts').removeClass('falsch');
+                    $('#lernen-input-loesung').val('').focus();
+                    app.pruefeAnzahl(x, vokNr, anzVokabeln, vokabeln, timerID);
+                    $('#lernen-btn-pruefen').button('enable');
+                }, 3000);
+            }
+        });
+    },
+
+    // Hilfsfunktion für lernen-Methode. prüft, ob noch Vokabeln vorhanden und leitet weitere Schritte ein.
+    pruefeAnzahl: function(x, vokNr, anzVokabeln, vokabeln, timerID) {
+        if(vokNr < anzVokabeln) {
+            app.lernen(++x, 0, ++vokNr, anzVokabeln, vokabeln, timerID);
+        }
+        // Keine Vokabeln mehr vorhanden
+        else {
+            $('#lernen-btn-start').fadeIn(500);
+            $('#lernen-btn-richtung').fadeIn(500);
+            clearInterval(timerID);
+            timerID = null;
+            punkte = parseInt(punkte / (anzVokabeln * 2) * 100);
+            varZeit = $('#lernen-div-zeit').html();
+
+            var ergebnisseIndex = (new Date()).toLocaleString() + ' - ' + app.id(aktuelleSprache, aktuelleKartei);
+            var ergebnissWert = punkte + ', ' + varZeit + ' Minuten';
+
+            var aktuellerSpeicher = localStorage.aktuellerSpeicher === undefined ? 0 : parseInt(localStorage.aktuellerSpeicher);
+
+            var ergebnisse = localStorage.ergebnisse === undefined ? [] : JSON.parse(localStorage.ergebnisse);
+            ergebnisse[aktuellerSpeicher] = { 'index': ergebnisseIndex, 'wert': ergebnissWert };
+
+            // maximal 15 Einträge speichern
+            aktuellerSpeicher = ++aktuellerSpeicher % 15;
+            localStorage.aktuellerSpeicher = aktuellerSpeicher;
+
+            localStorage.ergebnisse = JSON.stringify(ergebnisse);
+
+            // Weiterleitung auf den Lernfortschritt, wenn kartei fertig gelernt
+            window.location = '#Lernfortschritt';
+        }
+    },
+
+    // Gibt die Zeit im Lernmodus aus
+    zeit: function() {
+        var minuten = 0;
+        var sekunden = 0;
+        var timerID = setInterval(function() {
+            if(sekunden < 59)	sekunden++;
+            else				sekunden = 0;
+            if(sekunden == 0)	minuten++;
+            $('#lernen-div-zeit').html('Zeit: ' + minuten + ':' + sekunden);
+        }, 1000);
+        return timerID;
+    },
+
+    // zum Vergleichen, ob Wörter ähnlich sind
+    // implementiert den Soundex-Algorithmus.
+    // Code stammt von:
+    // https://gist.github.com/shawndumas/1262659
+    soundex: function(s) {
+        var a = s.toLowerCase().split(''),
+        f = a.shift(),
+        r = '',
+        codes = {
+            a: '', e: '', i: '', o: '', u: '',
+            b: 1, f: 1, p: 1, v: 1,
+            c: 2, g: 2, j: 2, k: 2, q: 2, s: 2, x: 2, z: 2,
+            d: 3, t: 3,
+            l: 4,
+            m: 5, n: 5,
+            r: 6
+        };
+        r = f +
+            a
+        .map(function (v, i, a) { return codes[v] })
+        .filter(function (v, i, a) {
+            return ((i === 0) ? v !== codes[f] : v !== a[i - 1]);
+        })
+        .join('');
+        return (r + '000').slice(0, 4).toUpperCase();
+    },
+
+    // Mischt den 2-dim. Array
+    shuffleArray: function(array, anzVokabeln) {
+        for (var i = anzVokabeln - 1; i > 0; i--) {
+            var j = Math.floor(Math.random() * (i + 1));
+            var temp = [['', '']];
+            temp[0][0] = array[i][0];
+            temp[0][1] = array[i][1];
+
+            array[i][0] = array[j][0];
+            array[i][1] = array[j][1];
+
+            array[j][0] = temp[0][0];
+            array[j][1] = temp[0][1];
+        }
+        return array;
+    }
 
 };
 
@@ -208,7 +400,6 @@ var nachricht = {
     pruefenUndAnzeigen: function() {
         if(this.typ === undefined &&
            this.text === undefined) {
-            console.log('nachricht: typ oder text ist undefiniert');
         return;
         }
 
@@ -326,19 +517,10 @@ app.initialize();
 // Beim Laden der App, Sprachen-Datei einlesen. Diese Funktion muss für die App
 // noch in the app.onDeviceReady verschoben werden.
 $(document).ready(function() {
-    sprachenLaden();
+    app.sprachenLaden();
     $.mobile.defaultPageTransition = 'slidefade';
     $('#neueKartei-div-spracheHinzu').hide();
 });
-
-function sprachenLaden() {
-    console.log("sprachen laden");
-    if(sprachenGeladen) return;
-    $.getJSON('data/sprachen.json', function( data ) {
-        sprachen = data;
-    });
-    sprachenGeladen = true;
-}
 
 $('#Karteiverwaltung').on('pagebeforeshow', function(event, ui) {
     $('#Karteiverwaltung').children().off();
@@ -388,8 +570,8 @@ $('#Karteiverwaltung').on('pagebeforeshow', function(event, ui) {
         collapsible += '<div data-role="collapsible" data-iconpos="right" data-sprache="' + sprache + '"><h3>' + sprache + '</h3>'
         +  '<fieldset data-role="controlgroup">';   //div noch schließen 
         $.each(sprachen[sprache], function(kartei) {
-            collapsible += '<label for="kartei-' + id(sprache, kartei) +'">'
-            +  '<input type="checkbox" value="' + kartei + '" data-mini="true" id="kartei-' + id(sprache, kartei) + '">'
+            collapsible += '<label for="kartei-' + app.id(sprache, kartei) +'">'
+            +  '<input type="checkbox" value="' + kartei + '" data-mini="true" id="kartei-' + app.id(sprache, kartei) + '">'
             +   kartei + '</label>';
         });
         collapsible += '</fieldset></div>';
@@ -404,7 +586,6 @@ $('#Karteiverwaltung').on('pagebeforeshow', function(event, ui) {
     // ausgewählte/ausgeklappte Sprache speichern
     $('#karteiverw-coll-sprachenListe').children().on('collapsibleexpand', function(event, ui) {
         aktuelleSprache = $(this).attr('data-sprache');
-        console.log('Aktuelle Sprache gesetzt: ' + aktuelleSprache);
     });
 
     var einAusblendeGeschw = 400;
@@ -483,9 +664,9 @@ $('#Vokabelverwaltung').on( 'pagebeforeshow', function( event, ui ) {
     var vokabeln = sprachen[aktuelleSprache][aktuelleKartei];
 
     $.each(vokabeln, function(fremdsprache, deutsch) {
-        controlGroup += '<label for="vokabel-' + id(fremdsprache, deutsch) +'">'
+        controlGroup += '<label for="vokabel-' + app.id(fremdsprache, deutsch) +'">'
         +  '<input type="checkbox" value="'+fremdsprache+'" data-mini="true" '
-        +  'id="vokabel-'+ id(fremdsprache, deutsch) +'">' + fremdsprache + ' – ' + deutsch + '</label>';
+        +  'id="vokabel-'+ app.id(fremdsprache, deutsch) +'">' + fremdsprache + ' – ' + deutsch + '</label>';
     });
 
     $('#vokabelverw-liste').append(controlGroup).trigger('create');
@@ -680,10 +861,10 @@ $('#NeueVokabel').on('pagebeforeshow', function(event, ui) {
 });
 
 $('#Lernen').on('pageshow', function(event, ui) {
-    var anzVokabeln = anzahlVokabeln(aktuelleSprache, aktuelleKartei);
-    var vokabeln = vokabelArray(aktuelleSprache, aktuelleKartei, anzVokabeln);	// Vokabeln werden als 2-Dim Array gespeichert
+    var anzVokabeln = app.anzahlVokabeln(aktuelleSprache, aktuelleKartei);
+    var vokabeln = app.vokabelArray(aktuelleSprache, aktuelleKartei, anzVokabeln);	// Vokabeln werden als 2-Dim Array gespeichert
     var ueberschrift = aktuelleSprache + ' – ' + aktuelleKartei;
-    vokabeln = shuffleArray(vokabeln, anzVokabeln);
+    vokabeln = app.shuffleArray(vokabeln, anzVokabeln);
 
     //zurücksetzen und herstellen der default-Einstellungen
     if(timerID != null) {
@@ -714,8 +895,8 @@ $('#Lernen').on('pageshow', function(event, ui) {
     $('#lernen-btn-start').click( function(){
         $('#lernen-btn-start').fadeOut(500);
         $('#lernen-btn-richtung').fadeOut(500);
-        timerID = zeit();
-        lernen(0, 0, 1, anzVokabeln, vokabeln, timerID);
+        timerID = app.zeit();
+        app.lernen(0, 0, 1, anzVokabeln, vokabeln, timerID);
         $('#lernen-btn-pruefen').button('enable');
     });
 });
@@ -735,184 +916,3 @@ $('#Lernfortschritt').on('pagebeforeshow', function(event, ui) {
     $('#lernfort-list-ergebnisse').listview('refresh');
 });
 
-
-// erstellt eine ID bestehend aus den übergebenen Parametern
-function id(sprache, kartei, vokabel) {
-    var r = '';
-    if(sprache !== undefined) {
-        r = sprache;
-    }
-    if(kartei !== undefined) {
-        r += '-' + kartei;
-    }
-    if(vokabel !== undefined) {
-        r += '-' + vokabel;
-    }
-    // ersetze Leerzeichen (s = spaces) mit Bindestrichen
-    return r.replace(/\s/g, '-');
-}
-
-function anzahlVokabeln(sprache, kartei) {
-    var anzahlVokabeln =0;
-    $.each(sprachen[sprache][kartei], function() {
-        ++anzahlVokabeln;
-    });
-    return anzahlVokabeln;
-}
-
-function vokabelArray(sprache, kartei, anzahlVokabeln) {
-    var x =0;
-    var y = 0;
-    var vokabelnArray = new Array(anzahlVokabeln);
-    var vokabeln = sprachen[sprache][kartei];
-
-    $.each(vokabeln, function(fremdsprache, deutsch) {
-        vokabelnArray[x] = new Array(2);
-        vokabelnArray[x][y] = fremdsprache;
-        vokabelnArray[x][++y] = deutsch;
-        ++x;
-        y = 0;
-    });
-    return vokabelnArray;
-}
-
-function lernen(x, y, vokNr, anzVokabeln, vokabeln, timerID){		// Die Methode ist echt hässlich und vollgestopft. evtl noch mal überarbeiten.
-    $('#lernen-btn-pruefen').off();
-    $('#lernen-div-anzahl').html('Anzahl: ' + vokNr + ' / ' + anzVokabeln);
-    if(!sprachenUmkehren)	$('#lernen-div-karteHead p').html(vokabeln[x][y]);
-    else					$('#lernen-div-karteHead p').html(vokabeln[x][++y]);
-
-    $('#lernen-btn-pruefen').click( function(){
-        $(this).button('disable');
-        if(sprachenUmkehren)		y = (-1);
-        var val = $('#lernen-input-loesung').val();
-        var vok = vokabeln[x][++y];
-
-        // Richtige Lösung wurde eingegeben (2 Punkte hierfür)
-        if(val === vok) {
-            punkte += 2;
-            $('#lernen-div-karteBody p').html('Richtig! :)');
-            $('#lernen-div-footLinks').addClass('richtig');
-            $('#lernen-div-karteBody p').fadeIn(500).delay(2000).fadeOut(500);
-            setTimeout(function(){
-                $('#lernen-div-footLinks').removeClass('richtig');
-                $('#lernen-input-loesung').val('').focus();
-                pruefeAnzahl(x, vokNr, anzVokabeln, vokabeln, timerID);
-                $('#lernen-btn-pruefen').button('enable');
-            }, 3000);
-        }
-        // Ähnliche Lösung wurde eingegeben (1 Punkt hierfür)
-        else if(soundex(val) === soundex(vok)) {
-            punkte++;
-            if(sprachenUmkehren)		y = 0;
-            $('#lernen-div-karteBody p').html('Fast! Richtige Lösung: ' + vokabeln[x][y]);
-            $('#lernen-div-footLinks').addClass('fast');
-            $('#lernen-div-karteBody p').fadeIn(500).delay(2000).fadeOut(500);
-            setTimeout(function(){
-                $('#lernen-div-footLinks').removeClass('fast');
-                $('#lernen-input-loesung').val('').focus();
-                pruefeAnzahl(x, vokNr, anzVokabeln, vokabeln, timerID);
-                $('#lernen-btn-pruefen').button('enable');
-            }, 3000);
-        }
-        else{											// Falsche Lösung wurde eingegeben (0 Punkte hierfür)
-            if(sprachenUmkehren)		y = 0;													
-            $('#lernen-div-karteBody p').html('Leider falsch! Lösung: ' + vokabeln[x][y]);
-            $('#lernen-div-footRechts').addClass('falsch');
-            $('#lernen-div-karteBody p').fadeIn(500).delay(2000).fadeOut(500);
-            setTimeout(function(){
-                $('#lernen-div-footRechts').removeClass('falsch');
-                $('#lernen-input-loesung').val('').focus();
-                pruefeAnzahl(x, vokNr, anzVokabeln, vokabeln, timerID);
-                $('#lernen-btn-pruefen').button('enable');
-            }, 3000);
-        }
-    });
-}
-
-// Hilfsfunktion für lernen-Methode. prüft, ob noch Vokabeln vorhanden und leitet weitere Schritte ein.
-function pruefeAnzahl(x, vokNr, anzVokabeln, vokabeln, timerID) {
-    if(vokNr < anzVokabeln) {
-        lernen(++x, 0, ++vokNr, anzVokabeln, vokabeln, timerID);
-    }
-    // Keine Vokabeln mehr vorhanden
-    else {
-        $('#lernen-btn-start').fadeIn(500);
-        $('#lernen-btn-richtung').fadeIn(500);
-        clearInterval(timerID);
-        timerID = null;
-        punkte = parseInt(punkte / (anzVokabeln * 2) * 100);
-        varZeit = $('#lernen-div-zeit').html();
-
-        var ergebnisseIndex = (new Date()).toLocaleString() + ' - ' + id(aktuelleSprache, aktuelleKartei);
-        var ergebnissWert = punkte + ', ' + varZeit + ' Minuten';
-
-        var aktuellerSpeicher = localStorage.aktuellerSpeicher === undefined ? 0 : parseInt(localStorage.aktuellerSpeicher);
-
-        var ergebnisse = localStorage.ergebnisse === undefined ? [] : JSON.parse(localStorage.ergebnisse);
-        ergebnisse[aktuellerSpeicher] = { 'index': ergebnisseIndex, 'wert': ergebnissWert };
-
-        // maximal 15 Einträge speichern
-        aktuellerSpeicher = ++aktuellerSpeicher % 15;
-        localStorage.aktuellerSpeicher = aktuellerSpeicher;
-
-        localStorage.ergebnisse = JSON.stringify(ergebnisse);
-
-        // Weiterleitung auf den Lernfortschritt, wenn kartei fertig gelernt
-        window.location = '#Lernfortschritt';
-    }
-}
-
-// Gibt die Zeit im Lernmodus aus
-function zeit() {
-    var minuten = 0;
-    var sekunden = 0;
-    var timerID = setInterval(function() {
-        if(sekunden < 59)	sekunden++;
-        else				sekunden = 0;
-        if(sekunden == 0)	minuten++;
-        $('#lernen-div-zeit').html('Zeit: ' + minuten + ':' + sekunden);
-    }, 1000);
-    return timerID;
-}
-
-// zum Vergleichen, ob Wörter ähnlich sind
-var soundex = function (s) {
-    var a = s.toLowerCase().split(''),
-    f = a.shift(),
-    r = '',
-    codes = {
-        a: '', e: '', i: '', o: '', u: '',
-        b: 1, f: 1, p: 1, v: 1,
-        c: 2, g: 2, j: 2, k: 2, q: 2, s: 2, x: 2, z: 2,
-        d: 3, t: 3,
-        l: 4,
-        m: 5, n: 5,
-        r: 6
-    };
-    r = f +
-        a
-    .map(function (v, i, a) { return codes[v] })
-    .filter(function (v, i, a) {
-        return ((i === 0) ? v !== codes[f] : v !== a[i - 1]);
-    })
-    .join('');
-    return (r + '000').slice(0, 4).toUpperCase();
-};  
-
-// Mischt den 2-dim. Array
-function shuffleArray(array, anzVokabeln) {
-    for (var i = anzVokabeln - 1; i > 0; i--) {
-        var j = Math.floor(Math.random() * (i + 1));
-        var temp = [['', '']];
-        temp[0][0] = array[i][0];
-        temp[0][1] = array[i][1];
-
-        array[i][0] = array[j][0];
-        array[i][1] = array[j][1];
-
-        array[j][0] = temp[0][0];
-        array[j][1] = temp[0][1];
-    }
-    return array;
-}
