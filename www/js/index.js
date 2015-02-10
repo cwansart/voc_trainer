@@ -261,7 +261,8 @@ var app = {
                     $('#lernen-btn-pruefen').button('enable');
                 }, 3000);
             }
-            else{											// Falsche Lösung wurde eingegeben (0 Punkte hierfür)
+            // Falsche Lösung wurde eingegeben (0 Punkte hierfür)
+            else {
                 if(sprachenUmkehren)		y = 0;													
                 $('#lernen-div-karteBody p').html('Leider falsch! Lösung: ' + vokabeln[x][y]);
                 $('#lernen-div-footRechts').addClass('falsch');
@@ -860,7 +861,7 @@ $('#NeueVokabel').on('pagebeforeshow', function(event, ui) {
     });
 });
 
-$('#Lernen').on('pageshow', function(event, ui) {
+$('#Lernen').on('pagebeforeshow', function(event, ui) {
     var anzVokabeln = app.anzahlVokabeln(aktuelleSprache, aktuelleKartei);
     var vokabeln = app.vokabelArray(aktuelleSprache, aktuelleKartei, anzVokabeln);	// Vokabeln werden als 2-Dim Array gespeichert
     var ueberschrift = aktuelleSprache + ' – ' + aktuelleKartei;
@@ -874,7 +875,7 @@ $('#Lernen').on('pageshow', function(event, ui) {
     punkte = 0;	
     varZeit = '';
     sprachenUmkehren = false;
-    $('#lernen-input-loesung').val('');
+    $('#lernen-input-loesung').val('').prop('disabled', true);
     $('#lernen-div-zeit').html('Zeit: 0:0');
     $('#lernen-div-karteHead p').html('Bitte "start" drücken');
     $('#lernen-btn-richtung').off().text('Fremdsprache - Deutsch');
@@ -898,6 +899,7 @@ $('#Lernen').on('pageshow', function(event, ui) {
         timerID = app.zeit();
         app.lernen(0, 0, 1, anzVokabeln, vokabeln, timerID);
         $('#lernen-btn-pruefen').button('enable');
+        $('#lernen-input-loesung').prop('disabled', false).focus();
     });
 });
 
