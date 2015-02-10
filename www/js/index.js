@@ -563,7 +563,7 @@ $('#NeueKartei').on('pagebeforeshow', function(event, ui) {
 
         var sprache = '';
         var kartei = '';
-        var fehlermeldung = 'Du musst eine Sprache <br>wählen/eingeben und einen <br>Karteinamen eingeben!';
+        var fehlermeldung = 'Du musst eine Sprache <br>wählen und einen<br>Karteinamen eingeben!';
 
         if(spracheToggle === true) { // aus der Liste
             sprache = $('#neueKartei-coll-sprachenListe').find(':checked');
@@ -661,7 +661,7 @@ $('#NeueVokabel').on('pagebeforeshow', function(event, ui) {
     $('#neueVokabel-btn-vokabelSpeichern').on('click', function() {
         var deutsch = $('#neueVokabel-input-deutsch').val();
         var uebersetzung = $('#neueVokabel-input-uebersetzung').val();
-        var fehlermeldung = 'Bitte gib ein deutsches Wort<br>und eine Übersetzung ein!';
+        var fehlermeldung = 'Bitte gib ein deutsches<br>Wort und eine<br>Übersetzung ein!';
 
         if(deutsch === '') {
             nachricht.inhalt(nachrichtTyp.WARNUNG, fehlermeldung, 500);
