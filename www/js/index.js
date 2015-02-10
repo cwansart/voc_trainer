@@ -636,52 +636,8 @@ $('#Lernfortschritt').on('pageshow', function(event, ui) {
 		$('#lernfort-list-ergebnisse').append('<li data-icon="false">Es sind noch keine Ergebnisse vorhanden!</li>');
 	}
 	$('#lernfort-list-ergebnisse').listview('refresh');
-	var w = confirm("wirklich löschen?");
 });
 
-$('#SpracheLoeschenDialog').on('pagebeforeshow', function(){
-    $('#spracheLoeschen-btn-loeschen').on('click', function() {
-        var abgehakteBoxen = $('#karteiverw-coll-sprachenListe').find('input:checkbox:checked');
-        $.each(abgehakteBoxen, function(i, checkbox) {
-            var kartei = $(checkbox).val();
-            if(sprachen[aktuelleSprache] !== undefined && sprachen[aktuelleSprache][kartei] !== undefined) {
-                delete sprachen[aktuelleSprache][kartei];
-            }
-        });
-
-        var checkboxenSprache = $('#karteiverw-coll-sprachenListe div[data-sprache="' + aktuelleSprache + '"]').find('input:checkbox');
-        if(abgehakteBoxen.length == checkboxenSprache.length) {
-            if(sprachen[aktuelleSprache] !== undefined) {
-                delete sprachen[aktuelleSprache];
-            }
-        }
-
-        app.writeFile(function() {
-            nachricht.inhalt(nachrichtTyp.INFORMATION, 'Die gewählten Karteien<br>wurden gelöscht!', 500, 500);
-            nachricht.pruefenUndAnzeigen();
-        });
-    });
-});
-
-$('#VokabelLoeschenDialog').on('pagecreate', function(){
-    $('#vokabelLoeschen-btn-loeschen').click( function(){
-        var abgehakteBoxen = $('#vokabelverw-div-vokListe').find('input:checkbox:checked');
-        $.each(abgehakteBoxen, function(i, checkbox) {
-            var vokabel = $(checkbox).val();
-            if(sprachen[aktuelleSprache] !== undefined &&
-               sprachen[aktuelleSprache][aktuelleKartei] !== undefined &&
-               sprachen[aktuelleSprache][aktuelleKartei][vokabel] !== undefined) {
-
-                delete sprachen[aktuelleSprache][aktuelleKartei][vokabel];
-            }
-        });
-
-        app.writeFile(function() {
-            nachricht.inhalt(nachrichtTyp.INFORMATION, 'Die gewählten Vokabeln<br>wurden gelöscht!', 500, 500);
-            nachricht.pruefenUndAnzeigen();
-        });
-    });
-});
 
 // erstellt eine ID bestehend aus den übergebenen Parametern
 function id(sprache, kartei, vokabel) {
