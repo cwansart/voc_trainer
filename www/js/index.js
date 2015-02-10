@@ -636,6 +636,7 @@ $('#Lernfortschritt').on('pageshow', function(event, ui) {
 		$('#lernfort-list-ergebnisse').append('<li data-icon="false">Es sind noch keine Ergebnisse vorhanden!</li>');
 	}
 	$('#lernfort-list-ergebnisse').listview('refresh');
+	var w = confirm("wirklich löschen?");
 });
 
 $('#SpracheLoeschenDialog').on('pagebeforeshow', function(){
