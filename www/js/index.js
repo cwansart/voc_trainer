@@ -606,13 +606,9 @@ $('#NeueKartei').on('pagebeforeshow', function(event, ui) {
         var kartei = $('#neueKartei-input-kartei').val();
 		aktuelleKartei = $('#neueKartei-input-kartei').val();
         if(kartei === '') {
-            nachricht.inhalt(nachrichtTyp.WARNUNG, fehlermeldung, 500);
+            nachricht.inhalt(nachrichtTyp.WARNUNG, fehlermeldung, 500, 500);
             nachricht.pruefenUndAnzeigen();
             $('#neueKartei-input-kartei').addClass("inputText");
-            $('#neueKartei-div-content').find('#neueKartei-input-kartei').on('click', function(){   // Sobald das input-field (Kartei) geklickt wird, verschwindet der Hinweis
-                nachricht.entfernen(500);
-                $('#neueKartei-input-kartei').removeClass("inputText");
-            });
             return;
         }
 
@@ -739,7 +735,8 @@ $('#Lernen').on('pageshow', function(event, ui) {
     });
 });
 
-$('#Lernfortschritt').on('pageshow', function(event, ui) {
+$('#Lernfortschritt').on('pagebeforeshow', function(event, ui) {
+    $('#lernfort-list-ergebnisse').empty();
 	var ergebnisse = localStorage.ergebnisse === undefined ? [] : JSON.parse(localStorage.ergebnisse);
 	console.log(ergebnisse);
 	if(localStorage.ergebnisse !== undefined){
