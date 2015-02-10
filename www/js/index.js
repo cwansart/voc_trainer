@@ -365,8 +365,177 @@ var app = {
             array[j][1] = temp[0][1];
         }
         return array;
-    }
+    },
 
+    karteiverwaltungAnzeigen: function() {
+        $('#Karteiverwaltung').children().off();
+        $('#karteiverw-coll-sprachenListe').children().off();
+        $('#karteiverw-coll-sprachenListe').children().find(':checkbox').off();
+
+        $('#karteiverw-coll-sprachenListe').empty();
+
+        $('#karteiverw-btn-lernen').hide();
+        $('#karteiverw-btn-oeffnen').hide();
+        $('#karteiverw-btn-loeschen').hide().off().on('click', function() {
+            dialog.inhalt('Kartei löschen', 'Möchtest Du die Karteien wirklich löschen?',
+                          function() {
+                              var abgehakteBoxen = $('#karteiverw-coll-sprachenListe').find('input:checkbox:checked');
+                              $.each(abgehakteBoxen, function(i, checkbox) {
+                                  var kartei = $(checkbox).val();
+                                  if(sprachen[aktuelleSprache] !== undefined && sprachen[aktuelleSprache][kartei] !== undefined) {
+                                      delete sprachen[aktuelleSprache][kartei];
+                                  }
+                              });
+
+                              var checkboxenSprache = $('#karteiverw-coll-sprachenListe div[data-sprache="' + aktuelleSprache + '"]').find('input:checkbox');
+                              if(abgehakteBoxen.length == checkboxenSprache.length) {
+                                  if(sprachen[aktuelleSprache] !== undefined) {
+                                      delete sprachen[aktuelleSprache];
+                                  }
+                              }
+
+                              app.writeFile(function() {
+                                  nachricht.inhalt(nachrichtTyp.INFORMATION, 'Die gewählten Karteien<br>wurden gelöscht!', 500, 500);
+                                  nachricht.pruefenUndAnzeigen();
+                                  app.karteiverwaltungAnzeigen();
+                              });
+                              dialog.leeren();
+                              dialog.entfernen();
+                          },
+                          function() {
+                              dialog.leeren();
+                              dialog.entfernen();
+                          }
+                         );
+        });
+
+        nachricht.pruefenUndAnzeigen();
+
+        var collapsible = '';
+        $.each(sprachen, function(sprache) {
+            collapsible += '<div data-role="collapsible" data-iconpos="right" data-sprache="' + sprache + '"><h3>' + sprache + '</h3>'
+            +  '<fieldset data-role="controlgroup">';   //div noch schließen 
+            $.each(sprachen[sprache], function(kartei) {
+                collapsible += '<label for="kartei-' + app.id(sprache, kartei) +'">'
+                +  '<input type="checkbox" value="' + kartei + '" data-mini="true" id="kartei-' + app.id(sprache, kartei) + '">'
+                +   kartei + '</label>';
+            });
+            collapsible += '</fieldset></div>';
+        });
+
+        if(collapsible != '')   $('#karteiverw-h2-keineSprachen').hide();
+        else                    $('#karteiverw-h2-spracheWaehlen').hide();
+
+        $('#karteiverw-coll-sprachenListe').append(collapsible);
+        $('#karteiverw-coll-sprachenListe').collapsibleset('refresh').trigger("create");
+
+        // ausgewählte/ausgeklappte Sprache speichern
+        $('#karteiverw-coll-sprachenListe').children().on('collapsibleexpand', function(event, ui) {
+            aktuelleSprache = $(this).attr('data-sprache');
+        });
+
+        var einAusblendeGeschw = 400;
+        $('#karteiverw-coll-sprachenListe').children().on('collapsiblecollapse', function(event, ui) {
+            $(this).find('input:checked').attr('checked', false);
+            $(this).find('input[type="checkbox"]').checkboxradio('refresh');
+            $('#karteiverw-btn-loeschen').hide(einAusblendeGeschw);
+            $('#karteiverw-btn-lernen').hide(einAusblendeGeschw);
+            $('#karteiverw-btn-oeffnen').hide(einAusblendeGeschw);
+        });
+
+        $('#karteiverw-coll-sprachenListe').children().find(':checkbox').on('click', function() {
+            var anzahlAusgewaehlt = $('#karteiverw-coll-sprachenListe').find('input:checked').length;
+            switch(anzahlAusgewaehlt) {
+                case 0:
+                    $('#karteiverw-btn-loeschen').hide(einAusblendeGeschw);
+                $('#karteiverw-btn-lernen').hide(einAusblendeGeschw);
+                $('#karteiverw-btn-oeffnen').hide(einAusblendeGeschw);
+                break;
+                case 1:
+                    $('#karteiverw-btn-loeschen').show(einAusblendeGeschw);
+                $('#karteiverw-btn-lernen').show(einAusblendeGeschw);
+                $('#karteiverw-btn-oeffnen').show(einAusblendeGeschw);
+                aktuelleKartei = $('#karteiverw-coll-sprachenListe').find('input:checked').val();   // Der name der gewählten Kartei wird gespeichert
+                break;
+                default:
+                    $('#karteiverw-btn-loeschen').show(einAusblendeGeschw);
+                $('#karteiverw-btn-lernen').hide(einAusblendeGeschw);
+                $('#karteiverw-btn-oeffnen').hide(einAusblendeGeschw);
+                break;
+            }
+        });
+    },
+
+    vokabelverwaltungAnzeigen: function() {
+        $('#vokabelverw-div-vokListe').children().find(':checkbox').off();
+
+        $('#vokabelverw-liste').empty();
+
+        $('#vokabelverw-btn-loeschen').hide().off().on('click', function() {
+            dialog.inhalt('Vokabel löschen', 'Möchtest Du die Vokabeln wirklich löschen?',
+                          function() {
+                              var abgehakteBoxen = $('#vokabelverw-div-vokListe').find('input:checkbox:checked');
+                              $.each(abgehakteBoxen, function(i, checkbox) {
+                                  var vokabel = $(checkbox).val();
+                                  if(sprachen[aktuelleSprache] !== undefined &&
+                                     sprachen[aktuelleSprache][aktuelleKartei] !== undefined &&
+                                         sprachen[aktuelleSprache][aktuelleKartei][vokabel] !== undefined) {
+
+                                      delete sprachen[aktuelleSprache][aktuelleKartei][vokabel];
+                                  }
+                              });
+
+                              app.writeFile(function() {
+                                  nachricht.inhalt(nachrichtTyp.INFORMATION, 'Die gewählten Vokabeln<br>wurden gelöscht!', 500, 500);
+                                  nachricht.pruefenUndAnzeigen();
+                                  app.vokabelverwaltungAnzeigen();
+                              });
+                              dialog.leeren();
+                              dialog.entfernen();
+                          },
+                          function() {
+                              dialog.leeren();
+                              dialog.entfernen();
+                          }
+                         );
+        });
+
+        nachricht.pruefenUndAnzeigen();
+
+        if(aktuelleKartei != null)  var pfad = '<h2>' + aktuelleSprache + ' - ' + aktuelleKartei + '</h2>';
+        else var pfad = '<h2>' + aktuelleSprache + '</h2>';
+
+        if(aktuelleKartei == null) return;
+
+        var controlGroup = '<fieldset id="vokabelverw-div-vokListe" data-role="controlgroup">';
+        var vokabeln = sprachen[aktuelleSprache][aktuelleKartei];
+
+        $.each(vokabeln, function(fremdsprache, deutsch) {
+            controlGroup += '<label for="vokabel-' + app.id(fremdsprache, deutsch) +'">'
+            +  '<input type="checkbox" value="'+fremdsprache+'" data-mini="true" '
+            +  'id="vokabel-'+ app.id(fremdsprache, deutsch) +'">' + fremdsprache + ' – ' + deutsch + '</label>';
+        });
+
+        $('#vokabelverw-liste').append(controlGroup).trigger('create');
+        $('#vokabelverw-div-vokListe').prepend(pfad);
+
+        if(controlGroup != '')  $('#vokabelverw-h2-keineVokabeln').hide();
+        else                    $('#vokabelverw-h2-vokabelnWaehlen').hide();
+
+        $('#vokabelverw-div-vokListe').children().find(':checkbox').on('click', function() {
+            var einAusblendeGeschw = 400;
+            var anzahlAusgewaehlt = $('#vokabelverw-div-vokListe').find('input:checked').length;
+
+            switch(anzahlAusgewaehlt) {
+                case 0:
+                    $('#vokabelverw-btn-loeschen').hide(einAusblendeGeschw);
+                break;
+                default:
+                    $('#vokabelverw-btn-loeschen').show(einAusblendeGeschw);
+                break;
+            }
+        });
+    }
 };
 
 var nachrichtTyp = Object.freeze({
@@ -524,171 +693,11 @@ $(document).ready(function() {
 });
 
 $('#Karteiverwaltung').on('pagebeforeshow', function(event, ui) {
-    $('#Karteiverwaltung').children().off();
-    $('#karteiverw-coll-sprachenListe').children().off();
-    $('#karteiverw-coll-sprachenListe').children().find(':checkbox').off();
-
-    $('#karteiverw-coll-sprachenListe').empty();
-
-    $('#karteiverw-btn-lernen').hide();
-    $('#karteiverw-btn-oeffnen').hide();
-    $('#karteiverw-btn-loeschen').hide().off().on('click', function() {
-        dialog.inhalt('Kartei löschen', 'Möchtest Du die Karteien wirklich löschen?',
-                      function() {
-                          var abgehakteBoxen = $('#karteiverw-coll-sprachenListe').find('input:checkbox:checked');
-                          $.each(abgehakteBoxen, function(i, checkbox) {
-                              var kartei = $(checkbox).val();
-                              if(sprachen[aktuelleSprache] !== undefined && sprachen[aktuelleSprache][kartei] !== undefined) {
-                                  delete sprachen[aktuelleSprache][kartei];
-                              }
-                          });
-
-                          var checkboxenSprache = $('#karteiverw-coll-sprachenListe div[data-sprache="' + aktuelleSprache + '"]').find('input:checkbox');
-                          if(abgehakteBoxen.length == checkboxenSprache.length) {
-                              if(sprachen[aktuelleSprache] !== undefined) {
-                                  delete sprachen[aktuelleSprache];
-                              }
-                          }
-
-                          app.writeFile(function() {
-                              nachricht.inhalt(nachrichtTyp.INFORMATION, 'Die gewählten Karteien<br>wurden gelöscht!', 500, 500);
-                              nachricht.pruefenUndAnzeigen();
-                          });
-                          dialog.leeren();
-                          dialog.entfernen();
-                      },
-                      function() {
-                          dialog.leeren();
-                          dialog.entfernen();
-                      }
-                     );
-    });
-
-    nachricht.pruefenUndAnzeigen();
-
-    var collapsible = '';
-    $.each(sprachen, function(sprache) {
-        collapsible += '<div data-role="collapsible" data-iconpos="right" data-sprache="' + sprache + '"><h3>' + sprache + '</h3>'
-        +  '<fieldset data-role="controlgroup">';   //div noch schließen 
-        $.each(sprachen[sprache], function(kartei) {
-            collapsible += '<label for="kartei-' + app.id(sprache, kartei) +'">'
-            +  '<input type="checkbox" value="' + kartei + '" data-mini="true" id="kartei-' + app.id(sprache, kartei) + '">'
-            +   kartei + '</label>';
-        });
-        collapsible += '</fieldset></div>';
-    });
-
-    if(collapsible != '')   $('#karteiverw-h2-keineSprachen').hide();
-    else                    $('#karteiverw-h2-spracheWaehlen').hide();
-
-    $('#karteiverw-coll-sprachenListe').append(collapsible);
-    $('#karteiverw-coll-sprachenListe').collapsibleset('refresh').trigger("create");
-
-    // ausgewählte/ausgeklappte Sprache speichern
-    $('#karteiverw-coll-sprachenListe').children().on('collapsibleexpand', function(event, ui) {
-        aktuelleSprache = $(this).attr('data-sprache');
-    });
-
-    var einAusblendeGeschw = 400;
-    $('#karteiverw-coll-sprachenListe').children().on('collapsiblecollapse', function(event, ui) {
-        $(this).find('input:checked').attr('checked', false);
-        $(this).find('input[type="checkbox"]').checkboxradio('refresh');
-        $('#karteiverw-btn-loeschen').hide(einAusblendeGeschw);
-        $('#karteiverw-btn-lernen').hide(einAusblendeGeschw);
-        $('#karteiverw-btn-oeffnen').hide(einAusblendeGeschw);
-    });
-
-    $('#karteiverw-coll-sprachenListe').children().find(':checkbox').on('click', function() {
-        var anzahlAusgewaehlt = $('#karteiverw-coll-sprachenListe').find('input:checked').length;
-        switch(anzahlAusgewaehlt) {
-            case 0:
-                $('#karteiverw-btn-loeschen').hide(einAusblendeGeschw);
-                $('#karteiverw-btn-lernen').hide(einAusblendeGeschw);
-                $('#karteiverw-btn-oeffnen').hide(einAusblendeGeschw);
-                break;
-            case 1:
-                $('#karteiverw-btn-loeschen').show(einAusblendeGeschw);
-                $('#karteiverw-btn-lernen').show(einAusblendeGeschw);
-                $('#karteiverw-btn-oeffnen').show(einAusblendeGeschw);
-                aktuelleKartei = $('#karteiverw-coll-sprachenListe').find('input:checked').val();   // Der name der gewählten Kartei wird gespeichert
-            break;
-            default:
-                $('#karteiverw-btn-loeschen').show(einAusblendeGeschw);
-                $('#karteiverw-btn-lernen').hide(einAusblendeGeschw);
-                $('#karteiverw-btn-oeffnen').hide(einAusblendeGeschw);
-            break;
-        }
-    });
+    app.karteiverwaltungAnzeigen();
 });
 
 $('#Vokabelverwaltung').on( 'pagebeforeshow', function( event, ui ) { 
-    $('#vokabelverw-div-vokListe').children().find(':checkbox').off();
-
-    $('#vokabelverw-liste').empty();
-
-    $('#vokabelverw-btn-loeschen').hide().off().on('click', function() {
-        dialog.inhalt('Vokabel löschen', 'Möchtest Du die Vokabeln wirklich löschen?',
-                      function() {
-                          var abgehakteBoxen = $('#vokabelverw-div-vokListe').find('input:checkbox:checked');
-                          $.each(abgehakteBoxen, function(i, checkbox) {
-                              var vokabel = $(checkbox).val();
-                              if(sprachen[aktuelleSprache] !== undefined &&
-                                 sprachen[aktuelleSprache][aktuelleKartei] !== undefined &&
-                                     sprachen[aktuelleSprache][aktuelleKartei][vokabel] !== undefined) {
-
-                                  delete sprachen[aktuelleSprache][aktuelleKartei][vokabel];
-                              }
-                          });
-
-                          app.writeFile(function() {
-                              nachricht.inhalt(nachrichtTyp.INFORMATION, 'Die gewählten Vokabeln<br>wurden gelöscht!', 500, 500);
-                              nachricht.pruefenUndAnzeigen();
-                          });
-                          dialog.leeren();
-                          dialog.entfernen();
-                      },
-                      function() {
-                          dialog.leeren();
-                          dialog.entfernen();
-                      }
-                     );
-    });
-
-    nachricht.pruefenUndAnzeigen();
-
-    if(aktuelleKartei != null)  var pfad = '<h2>' + aktuelleSprache + ' - ' + aktuelleKartei + '</h2>';
-    else var pfad = '<h2>' + aktuelleSprache + '</h2>';
-
-    if(aktuelleKartei == null) return;
-
-    var controlGroup = '<fieldset id="vokabelverw-div-vokListe" data-role="controlgroup">';
-    var vokabeln = sprachen[aktuelleSprache][aktuelleKartei];
-
-    $.each(vokabeln, function(fremdsprache, deutsch) {
-        controlGroup += '<label for="vokabel-' + app.id(fremdsprache, deutsch) +'">'
-        +  '<input type="checkbox" value="'+fremdsprache+'" data-mini="true" '
-        +  'id="vokabel-'+ app.id(fremdsprache, deutsch) +'">' + fremdsprache + ' – ' + deutsch + '</label>';
-    });
-
-    $('#vokabelverw-liste').append(controlGroup).trigger('create');
-    $('#vokabelverw-div-vokListe').prepend(pfad);
-
-    if(controlGroup != '')  $('#vokabelverw-h2-keineVokabeln').hide();
-    else                    $('#vokabelverw-h2-vokabelnWaehlen').hide();
-
-    $('#vokabelverw-div-vokListe').children().find(':checkbox').on('click', function() {
-        var einAusblendeGeschw = 400;
-        var anzahlAusgewaehlt = $('#vokabelverw-div-vokListe').find('input:checked').length;
-
-        switch(anzahlAusgewaehlt) {
-            case 0:
-                $('#vokabelverw-btn-loeschen').hide(einAusblendeGeschw);
-                break;
-            default:
-                $('#vokabelverw-btn-loeschen').show(einAusblendeGeschw);
-                break;
-        }
-    });
+    app.vokabelverwaltungAnzeigen();
 });
 
 $('#NeueKartei').on('pagebeforeshow', function(event, ui) {
