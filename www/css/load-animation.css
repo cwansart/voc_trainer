@@ -2,12 +2,14 @@
  * LADE ANIMATION
  *****************************************************************************/
 /* LADE ANIMATION ABSCHALTEN: */
+/*
 .event.received {
-    display: block !important;
+display: block !important;
 }
 .event.listening {
-    display:none !important;
+display:none !important;
 }
+ */
 
 /* ausgeblendetes Element der Ladeanimation. Hier ist die eigentliche
  * Webseite enthalten */
@@ -18,24 +20,24 @@
 /* Container der die Elemente der Ladeanimation entält. */
 .event.listening.loading {
     width:100%;
-	height:100%;
+    height:100%;
 }
 
 .loading {
     background:url(../img/load-background.jpg); /* 170px x 200px */
     position:absolute;             /* position in the center of the screen */
     text-align:center;
-	background-size: 100% 100%;
+    background-size: 100% 100%;
 }
 
 .event.listening > div {
     background-color: #333333;
-     border-radius:4px;
+    border-radius:4px;
     -webkit-border-radius:4px;
     color:#FFFFFF;
     font-size:12px;
     margin:10px auto;
-	width:30%;
+    width:30%;
     padding:2px 0px;
 }
 
@@ -44,13 +46,13 @@
     50% { opacity: 0.4; }
     to { opacity: 1.0; }
 }
- 
+
 @-webkit-keyframes fade {
     from { opacity: 1.0; }
     50% { opacity: 0.4; }
     to { opacity: 1.0; }
 }
- 
+
 .blink {
     animation:fade 3000ms infinite;
     -webkit-animation:fade 3000ms infinite;

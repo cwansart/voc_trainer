@@ -29,14 +29,14 @@ body {
     background-image:-webkit-linear-gradient(top, #A7A7A7 0%, #E4E4E4 51%);
     background-image:-ms-linear-gradient(top, #A7A7A7 0%, #E4E4E4 51%);
     background-image:-webkit-gradient(
-        linear,
-        left top,
-        left bottom,
-        color-stop(0, #A7A7A7),
-        color-stop(0.51, #E4E4E4)
+    linear,
+    left top,
+    left bottom,
+    color-stop(0, #A7A7A7),
+    color-stop(0.51, #E4E4E4)
     );
-	background-image:url(../img/back.jpg);
-	background-size: 100% 100%;
+    background-image:url(../img/back.jpg);
+    background-size: 100% 100%;
     font-family:'HelveticaNeue-Light', 'HelveticaNeue', Helvetica, Arial, sans-serif;
     font-size:12px;
     height:100%;
@@ -56,35 +56,35 @@ div[data-role="footer"] {
 /* ************************* Eigene CSS-Ergänzungen/Anpassungen ************************* */
 
 p{
-	font-size:14px;
-	line-height:22px;
+    font-size:14px;
+    line-height:22px;
 }
 
 .content-home{
-	margin-top: 70px;
+    margin-top: 70px;
 }
 
 .ui-listview > .ui-li-has-thumb > .ui-btn{
-	padding-left:60px !important;
+    padding-left:60px !important;
 }
 
 .ui-li-has-thumb> a >img{
-	background: #FF507D !important;
-	top:16px !important;
-	left:12px !important;
+    background: #FF507D !important;
+    top:16px !important;
+    left:12px !important;
 }
 
 .content-continuos-text{
-	width:auto;
-	height:auto;
-	background:#fff;
-	padding:0px 20px;
-	border:1px solid #63b059;
-	border-radius:0.5em;
+    width:auto;
+    height:auto;
+    background:#fff;
+    padding:0px 20px;
+    border:1px solid #63b059;
+    border-radius:0.5em;
 }
 
 hr{
-	margin:30px 0 30px 0;
+    margin:30px 0 30px 0;
 }
 
 .kartei-action-box > .ui-btn {
@@ -109,35 +109,35 @@ html body .ui-group-theme-a .ui-btn.ui-btn-active,
 html head + body .ui-btn.ui-btn-a.ui-btn-active,
 #nachrichten-dialog
 {
-	background-color: #fff /*{a-active-background-color}*/;
-	border-color: #ff507d /*{a-active-border}*/;
-	color: #333 /*{a-active-color}*/;
-	text-shadow: 0 /*{a-active-shadow-x}*/ 1px /*{a-active-shadow-y}*/ 0 /*{a-active-shadow-radius}*/ #F3F3F3 /*{a-active-shadow-color}*/;
-	z-index:999;
+    background-color: #fff /*{a-active-background-color}*/;
+    border-color: #ff507d /*{a-active-border}*/;
+    color: #333 /*{a-active-color}*/;
+    text-shadow: 0 /*{a-active-shadow-x}*/ 1px /*{a-active-shadow-y}*/ 0 /*{a-active-shadow-radius}*/ #F3F3F3 /*{a-active-shadow-color}*/;
+    z-index:999;
 }
 
 .a-warnung, .a-hinweis{
-	color:#FF507D !important;
-	font-size:1.25em;
-	border: 1px solid #FF507D !important;
-	margin: 0 auto;
-	width:225px;
-	height:auto;
-	cursor:default;
+    color:#FF507D !important;
+    font-size:1.25em;
+    border: 1px solid #FF507D !important;
+    margin: 0 auto;
+    width:225px;
+    height:auto;
+    cursor:default;
 }
 
 .a-hinweis {
-	color:#63B059 !important;
-	border: 1px solid #63B059 !important;
+    color:#63B059 !important;
+    border: 1px solid #63B059 !important;
 }
 
 .a-hinweis:hover, .a-warnung:hover{
-	background-color:#fff !important;
+    background-color:#fff !important;
 }
 
 .a-hinweis.ui-icon-info:after {
-	background-color: #63B059 !important;
-	background-color: rgba(99,176,89,1) !important;
+    background-color: #63B059 !important;
+    background-color: rgba(99,176,89,1) !important;
     background-position: center center;
     background-repeat: no-repeat;
     -webkit-border-radius: 1em;
@@ -145,8 +145,8 @@ html head + body .ui-btn.ui-btn-a.ui-btn-active,
 }
 
 .div-hinweis {
-	background-color: #63B059;
-	background-color: rgba(99,176,89,1);
+    background-color: #63B059;
+    background-color: rgba(99,176,89,1);
 }
 
 #nachrichten-dialog {
@@ -155,26 +155,26 @@ html head + body .ui-btn.ui-btn-a.ui-btn-active,
     border-radius: 0.6em;
     top: 100px;
     left: 50%;
-	margin-left: -139.5px;
-	 box-shadow: 0px 0px 10px #333;
-	-webkit-box-shadow: 0px 0px 10px #333;
+    margin-left: -139.5px;
+    box-shadow: 0px 0px 10px #333;
+    -webkit-box-shadow: 0px 0px 10px #333;
 }
 
 #neueKartei-div-hinweis > .ui-btn-icon-left:after, #neueVokabel-div-hinweis > .ui-btn-icon-left:after, #karteiverw-div-hinweis > .ui-btn-icon-left:after, #vokabelverw-div-hinweis > .ui-btn-icon-left:after {
-	background-color: #63B059;
-	background-color: rgba(99,176,89,1);
+    background-color: #63B059;
+    background-color: rgba(99,176,89,1);
 }
 
 .inputText{
-	box-shadow: 0 0 12px #ff507d;
-	-webkit-box-shadow: 0 0 12px #ff507d;
-	border:1px solid #ff507d !important;
+    box-shadow: 0 0 12px #ff507d;
+    -webkit-box-shadow: 0 0 12px #ff507d;
+    border:1px solid #ff507d !important;
 }
 
 .div-markiert{
-	box-shadow: 0 0 12px #ff507d;
-	-webkit-box-shadow: 0 0 12px #ff507d;
-	border:1px solid #ff507d !important;
+    box-shadow: 0 0 12px #ff507d;
+    -webkit-box-shadow: 0 0 12px #ff507d;
+    border:1px solid #ff507d !important;
 }
 
 /* Style für löschen-Dialog */
@@ -190,17 +190,17 @@ html head + body .ui-btn.ui-btn-a.ui-btn-active,
     position: absolute;
     background:#fff;
     z-index:1002;
-	border: 1px solid #FF507D !important;
-	width:279px;
-	height:auto;
-	cursor:default;
-	text-align:center;
-	border-radius:0.6em;
-	top: 100px;
+    border: 1px solid #FF507D !important;
+    width:279px;
+    height:auto;
+    cursor:default;
+    text-align:center;
+    border-radius:0.6em;
+    top: 100px;
     left: 50%;
-	margin-left: -139.5px;
-	color:#333;
-	padding:10px 0 10px 0;
+    margin-left: -139.5px;
+    color:#333;
+    padding:10px 0 10px 0;
 }
 
 .loeschen-dialog-titel{
@@ -215,86 +215,86 @@ html head + body .ui-btn.ui-btn-a.ui-btn-active,
 /* Style auf der Lernen-Page */
 
 #lernen-div-metainfo p{
-	width:50%;
-	float:left;
-	margin:-20px 0 30px 0;
-	font-size:1.5em;
-	font-weight:bold;
+    width:50%;
+    float:left;
+    margin:-20px 0 30px 0;
+    font-size:1.5em;
+    font-weight:bold;
 }
 
 #lernen-div-zeit{
-	text-align:right;
+    text-align:right;
 }
 
 #lernen-div-karte{
-	clear:both;
-	margin:0 auto 30px;
-	width:60%;
-	min-width:250px;
-	height:280px;
-	background:#fff;
-	border:1px solid #FF9EB7;
-	border-radius:0.5em;
+    clear:both;
+    margin:0 auto 30px;
+    width:60%;
+    min-width:250px;
+    height:280px;
+    background:#fff;
+    border:1px solid #FF9EB7;
+    border-radius:0.5em;
 }
 
 #lernen-div-karteHead{
-	border-radius:0.5em 0.5em 0 0;
-	border-bottom:1px solid #FF9EB7;
-	background-color:#EDEDED;
-	height:40px;
+    border-radius:0.5em 0.5em 0 0;
+    border-bottom:1px solid #FF9EB7;
+    background-color:#EDEDED;
+    height:40px;
 }
 
 #lernen-div-karteHead p{
-	font-size:1.5em;
-	line-height:2em;
-	text-align:center;
-	font-weight:bold;
-	margin: 0px;
+    font-size:1.5em;
+    line-height:2em;
+    text-align:center;
+    font-weight:bold;
+    margin: 0px;
 }
 
 #lernen-div-karteBody{
-	padding-top:48px; 
-	text-align:center;
-	height:110px;;
-	margin:20px;
+    padding-top:48px; 
+    text-align:center;
+    height:110px;;
+    margin:20px;
 }
 
 #lernen-div-karteBody p{
-	color:#666;
+    color:#666;
 }
 
 #lernen-div-karteFoot{
-	border-radius:0 0 0.5em 0.5em;
-	border-top:1px solid #FF9EB7;
-	text-align:center;
-	background-color:#EDEDED;
-	height:40px;
+    border-radius:0 0 0.5em 0.5em;
+    border-top:1px solid #FF9EB7;
+    text-align:center;
+    background-color:#EDEDED;
+    height:40px;
 }
 
 #lernen-div-footLinks, #lernen-div-footRechts{
-	width:50%;
-	float:left;
-	height:40px;
+    width:50%;
+    float:left;
+    height:40px;
 }
 
 #lernen-div-footLinks{
-	border-radius:0 0 0 0.5em;
+    border-radius:0 0 0 0.5em;
 }
 
 #lernen-div-footRechts{
-	border-radius:0 0 0.5em 0;
+    border-radius:0 0 0.5em 0;
 }
 
 .richtig{
-	background:#63B059;
+    background:#63B059;
 }
 
 .fast{
-	background:#a1d79a;
+    background:#a1d79a;
 }
 
 .falsch{
-	background:#FF507D;
+    background:#FF507D;
 }
 
 /* ************************* Einbinden eigener Icons ************************* */
@@ -304,26 +304,26 @@ html head + body .ui-btn.ui-btn-a.ui-btn-active,
 div[data-role="navbar"] .ui-icon-anleitung.ui-btn-icon-top:after,
 div[data-role="navbar"] .ui-icon-karteiverwaltung.ui-btn-icon-top:after,
 div[data-role="navbar"] .ui-icon-lernfortschritt.ui-btn-icon-top:after {
-	background-size: 100%;
+    background-size: 100%;
 }
 
 /* Schaltet die Hintergrundfarbe der Icons aus. */
 div[data-role="navbar"] .ui-btn-icon-top:after {
-	background-color: #FF507D;
+    background-color: #FF507D;
 }
 
 /* Anleitung Icon */
 .ui-icon-anleitung:after {
-	background-image: url("../img/app-icon-anleitung-highres.png");
+    background-image: url("../img/app-icon-anleitung-highres.png");
 }
 
 /* Karteiverwaltung Icon */
 .ui-icon-karteiverwaltung:after {
-	background-image: url("../img/app-icon-karteien-highres.png");
+    background-image: url("../img/app-icon-karteien-highres.png");
 }
 
 /* Lernfortschritt Icon */
 .ui-icon-lernfortschritt:after {
-	background-image: url("../img/app-icon-lernfortschritt-highres.png");
+    background-image: url("../img/app-icon-lernfortschritt-highres.png");
 }
 
