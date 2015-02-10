@@ -28,6 +28,7 @@ var zeigeInfo = false;
 var punkte = 0;
 var varZeit = '';
 var sprachenUmkehren = false;
+var timerID = null;
 
 var app = {
     // Application Constructor
@@ -590,11 +591,20 @@ $('#Lernen').on('pageshow', function(event, ui) {
 	var ueberschrift = aktuelleSprache + ' – ' + aktuelleKartei;
 	vokabeln = shuffleArray(vokabeln, anzVokabeln);
 
-	//zurücksetzen
+	//zurücksetzen und herstellen der default-Einstellungen
+	if(timerID != null) {
+	    clearInterval(timerID);
+	    timerID = null;
+	}
 	punkte = 0;	
 	varZeit = '';
 	sprachenUmkehren = false;
+	$('#lernen-input-loesung').val('');
+	$('#lernen-div-zeit').html('Zeit: 0:0');
+	$('#lernen-div-karteHead p').html('Bitte "start" drücken');
 	$('#lernen-btn-richtung').off().text('Fremdsprache - Deutsch');
+	$('#lernen-btn-start').show();
+	$('#lernen-btn-richtung').show();
 	
 	$('#lernen-div-anzahl').html('Anzahl: 0 / ' + anzVokabeln);
 	$('#lernen-div-content > h2').html(ueberschrift);
@@ -609,7 +619,7 @@ $('#Lernen').on('pageshow', function(event, ui) {
 	$('#lernen-btn-start').click( function(){
 		$('#lernen-btn-start').fadeOut(500);
 		$('#lernen-btn-richtung').fadeOut(500);
-		var timerID = zeit();
+	    timerID = zeit();
 		lernen(0, 0, 1, anzVokabeln, vokabeln, timerID);
 	});
 });
