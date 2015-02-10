@@ -605,6 +605,7 @@ $('#Lernen').on('pageshow', function(event, ui) {
 	$('#lernen-btn-richtung').off().text('Fremdsprache - Deutsch');
 	$('#lernen-btn-start').show();
 	$('#lernen-btn-richtung').show();
+    $('#lernen-btn-pruefen').button('disable');
 	
 	$('#lernen-div-anzahl').html('Anzahl: 0 / ' + anzVokabeln);
 	$('#lernen-div-content > h2').html(ueberschrift);
@@ -616,12 +617,13 @@ $('#Lernen').on('pageshow', function(event, ui) {
 		});
 	});
 
-	$('#lernen-btn-start').click( function(){
-		$('#lernen-btn-start').fadeOut(500);
-		$('#lernen-btn-richtung').fadeOut(500);
-	    timerID = zeit();
-		lernen(0, 0, 1, anzVokabeln, vokabeln, timerID);
-	});
+    $('#lernen-btn-start').click( function(){
+        $('#lernen-btn-start').fadeOut(500);
+        $('#lernen-btn-richtung').fadeOut(500);
+        timerID = zeit();
+        lernen(0, 0, 1, anzVokabeln, vokabeln, timerID);
+        $('#lernen-btn-pruefen').button('enable');
+    });
 });
 
 $('#Lernfortschritt').on('pageshow', function(event, ui) {
