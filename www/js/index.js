@@ -277,34 +277,35 @@ var dialog = {
             return;
         }
 
-        if(this.titel !== undefined 
-           this.text !== undefined &&
-           this.jacb !== undefined &&
+        if(this.titel !== undefined ||
+           this.text !== undefined ||
+           this.jacb !== undefined ||
            this.neincb !== undefined) {
             dialog.entfernen();
         }
 
-        this.titel = title;
+        this.titel = titel;
         this.text = text;
         this.jacb = jaCallback;
         this.neincb = neinCallback;
 
-        var hintergrund = $('<div></div>').appendClass('loeschen-hintergrund');
+        var hintergrund = $('<div></div>').addClass('loeschen-hintergrund');
         var loeschenDialog = $('<div></div>').attr('id', 'loeschen-dialog');
-        var titelDiv = $('<div></div>').appendClass('.loeschen-dialog-titel').text(this.titel);
-        var textDiv = $('<div></div>').appendClass('.loeschen-dialog-text').text(this.text);
-        var btnDiv = $('<div></div>').appendClass('.loeschen-dialog-btn');
+        var titelDiv = $('<div></div>').addClass('loeschen-dialog-titel').text(this.titel);
+        var textDiv = $('<div></div>').addClass('loeschen-dialog-text').text(this.text);
+        var btnDiv = $('<div></div>').addClass('loeschen-dialog-btn');
 
         var jaBtn = $('<input></input>').attr('type', 'button').attr('class', 'ui-btn ui-corner-all ui-btn-inline ui-mini');
         var neinBtn = $('<input></input>').attr('type', 'button').attr('class', 'ui-btn ui-corner-all ui-btn-inline ui-mini');
 
         // Beschriftung
-        jaBtn.value('löschen');
-        neinBtn.value('abbrechen');
+        jaBtn.val('löschen');
+        neinBtn.val('abbrechen');
 
+        var me = this;
         // Klick-Event hinzufügen
-        jaBtn.on('click', jacb);
-        neinBtn.on('click', jacb);
+        jaBtn.on('click', function() { me.jacb(); });
+        neinBtn.on('click', function() { me.neincb(); });
 
         btnDiv.append(jaBtn).append(neinBtn);
         loeschenDialog.append(titelDiv).append(textDiv).append(btnDiv);
@@ -355,7 +356,6 @@ $('#Karteiverwaltung').on('pagebeforeshow', function(event, ui) {
     $('#karteiverw-btn-loeschen').hide().off().on('click', function() {
         dialog.inhalt('Kartei löschen', 'Möchtest Du die Karteien wirklich löschen?',
                       function() {
-                          $('#spracheLoeschen-btn-loeschen').on('click', function() {
                               var abgehakteBoxen = $('#karteiverw-coll-sprachenListe').find('input:checkbox:checked');
                               $.each(abgehakteBoxen, function(i, checkbox) {
                                   var kartei = $(checkbox).val();
@@ -375,7 +375,6 @@ $('#Karteiverwaltung').on('pagebeforeshow', function(event, ui) {
                                   nachricht.inhalt(nachrichtTyp.INFORMATION, 'Die gewählten Karteien<br>wurden gelöscht!', 500, 500);
                                   nachricht.pruefenUndAnzeigen();
                               });
-                          });
                           dialog.leeren();
                           dialog.entfernen();
                       },
