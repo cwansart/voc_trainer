@@ -231,7 +231,7 @@ var app = {
         $('#lernen-btn-pruefen').click( function(){
             $(this).button('disable');
             if(sprachenUmkehren)		y = (-1);
-            var val = $('#lernen-input-loesung').val();
+            var val = $('#lernen-input-loesung').val().trim();
             var vok = vokabeln[x][++y];
 
             // Richtige Lösung wurde eingegeben (2 Punkte hierfür)
