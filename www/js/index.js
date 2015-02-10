@@ -292,7 +292,7 @@ var app = {
             varZeit = $('#lernen-div-zeit').html();
 
             var ergebnisseIndex = (new Date()).toLocaleString() + ' - ' + app.id(aktuelleSprache, aktuelleKartei);
-            var ergebnissWert = punkte + ', ' + varZeit + ' Minuten';
+            var ergebnissWert = punkte + ' %, ' + varZeit + ' Minuten';
 
             var aktuellerSpeicher = localStorage.aktuellerSpeicher === undefined ? 0 : parseInt(localStorage.aktuellerSpeicher);
 
