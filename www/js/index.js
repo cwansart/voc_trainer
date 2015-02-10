@@ -729,7 +729,8 @@ function lernen(x, y, vokNr, anzVokabeln, vokabeln, timerID){		// Die Methode is
 	if(!sprachenUmkehren)	$('#lernen-div-karteHead p').html(vokabeln[x][y]);
 	else					$('#lernen-div-karteHead p').html(vokabeln[x][++y]);
     
-	$('#lernen-btn-pruefen').click( function(){	
+	$('#lernen-btn-pruefen').click( function(){
+        $(this).button('disable');
 		if(sprachenUmkehren)		y = (-1);
 		var val = $('#lernen-input-loesung').val();
 		var vok = vokabeln[x][++y];
@@ -743,6 +744,7 @@ function lernen(x, y, vokNr, anzVokabeln, vokabeln, timerID){		// Die Methode is
 				$('#lernen-div-footLinks').removeClass('richtig');
 				$('#lernen-input-loesung').val('').focus();
 				pruefeAnzahl(x, vokNr, anzVokabeln, vokabeln, timerID);
+                $('#lernen-btn-pruefen').button('enable');
 			}, 3000);
 		}
 		else if(soundex(val) === soundex(vok)){			// Ähnliche Lösung wurde eingegeben (1 Punkt hierfür)
@@ -756,6 +758,7 @@ function lernen(x, y, vokNr, anzVokabeln, vokabeln, timerID){		// Die Methode is
 				$('#lernen-div-footLinks').removeClass('fast');
 				$('#lernen-input-loesung').val('').focus();
 				pruefeAnzahl(x, vokNr, anzVokabeln, vokabeln, timerID);
+                $('#lernen-btn-pruefen').button('enable');
 			}, 3000);
 		}
 		else{											// Falsche Lösung wurde eingegeben (0 Punkte hierfür)
@@ -767,6 +770,7 @@ function lernen(x, y, vokNr, anzVokabeln, vokabeln, timerID){		// Die Methode is
 				$('#lernen-div-footRechts').removeClass('falsch');
 				$('#lernen-input-loesung').val('').focus();
 				pruefeAnzahl(x, vokNr, anzVokabeln, vokabeln, timerID);
+                $('#lernen-btn-pruefen').button('enable');
 			 }, 3000);
 		}
 	});
