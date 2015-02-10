@@ -268,6 +268,62 @@ var nachricht = {
     }
 };
 
+var dialog = {
+    inhalt: function(titel, text, jaCallback, neinCallback) {
+        if(titel === undefined &&
+           text === undefined &&
+           jaCallback === undefined &&
+           neinCallback === undefined) {
+            return;
+        }
+
+        if(this.titel !== undefined 
+           this.text !== undefined &&
+           this.jacb !== undefined &&
+           this.neincb !== undefined) {
+            dialog.entfernen();
+        }
+
+        this.titel = title;
+        this.text = text;
+        this.jacb = jaCallback;
+        this.neincb = neinCallback;
+
+        var hintergrund = $('<div></div>').appendClass('loeschen-hintergrund');
+        var loeschenDialog = $('<div></div>').attr('id', 'loeschen-dialog');
+        var titelDiv = $('<div></div>').appendClass('.loeschen-dialog-titel').text(this.titel);
+        var textDiv = $('<div></div>').appendClass('.loeschen-dialog-text').text(this.text);
+        var btnDiv = $('<div></div>').appendClass('.loeschen-dialog-btn');
+
+        var jaBtn = $('<input></input>').attr('type', 'button').attr('class', 'ui-btn ui-corner-all ui-btn-inline ui-mini');
+        var neinBtn = $('<input></input>').attr('type', 'button').attr('class', 'ui-btn ui-corner-all ui-btn-inline ui-mini');
+
+        // Beschriftung
+        jaBtn.value('löschen');
+        neinBtn.value('abbrechen');
+
+        // Klick-Event hinzufügen
+        jaBtn.on('click', jacb);
+        neinBtn.on('click', jacb);
+
+        btnDiv.append(jaBtn).append(neinBtn);
+        loeschenDialog.append(titelDiv).append(textDiv).append(btnDiv);
+        $('body').append(hintergrund).append(loeschenDialog);
+    },
+
+    leeren: function() {
+        this.titel = undefined;
+        this.text = undefined;
+        this.jacb = undefined;
+        this.neincb = undefined;
+    },
+
+    entfernen: function() {
+        $('#loeschen-dialog').remove();
+        $('.loeschen-hintergrund').remove();
+    }
+};
+
 app.initialize();
 
 // Beim Laden der App, Sprachen-Datei einlesen. Diese Funktion muss für die App
@@ -294,9 +350,41 @@ $('#Karteiverwaltung').on('pagebeforeshow', function(event, ui) {
     
     $('#karteiverw-coll-sprachenListe').empty();
 
-    $('#karteiverw-btn-loeschen').hide();
     $('#karteiverw-btn-lernen').hide();
     $('#karteiverw-btn-oeffnen').hide();
+    $('#karteiverw-btn-loeschen').hide().off().on('click', function() {
+        dialog.inhalt('Kartei löschen', 'Möchtest Du die Karteien wirklich löschen?',
+                      function() {
+                          $('#spracheLoeschen-btn-loeschen').on('click', function() {
+                              var abgehakteBoxen = $('#karteiverw-coll-sprachenListe').find('input:checkbox:checked');
+                              $.each(abgehakteBoxen, function(i, checkbox) {
+                                  var kartei = $(checkbox).val();
+                                  if(sprachen[aktuelleSprache] !== undefined && sprachen[aktuelleSprache][kartei] !== undefined) {
+                                      delete sprachen[aktuelleSprache][kartei];
+                                  }
+                              });
+
+                              var checkboxenSprache = $('#karteiverw-coll-sprachenListe div[data-sprache="' + aktuelleSprache + '"]').find('input:checkbox');
+                              if(abgehakteBoxen.length == checkboxenSprache.length) {
+                                  if(sprachen[aktuelleSprache] !== undefined) {
+                                      delete sprachen[aktuelleSprache];
+                                  }
+                              }
+
+                              app.writeFile(function() {
+                                  nachricht.inhalt(nachrichtTyp.INFORMATION, 'Die gewählten Karteien<br>wurden gelöscht!', 500, 500);
+                                  nachricht.pruefenUndAnzeigen();
+                              });
+                          });
+                          dialog.leeren();
+                          dialog.entfernen();
+                      },
+                      function() {
+                          dialog.leeren();
+                          dialog.entfernen();
+                      }
+                     );
+    });
 
     nachricht.pruefenUndAnzeigen();
 
@@ -361,7 +449,33 @@ $('#Vokabelverwaltung').on( 'pagebeforeshow', function( event, ui ) {
 
     $('#vokabelverw-liste').empty();
 
-    $('#vokabelverw-btn-loeschen').hide();
+    $('#vokabelverw-btn-loeschen').hide().off().on('click', function() {
+        dialog.inhalt('Vokabel löschen', 'Möchtest Du die Vokabeln wirklich löschen?',
+            function() {
+                var abgehakteBoxen = $('#vokabelverw-div-vokListe').find('input:checkbox:checked');
+                $.each(abgehakteBoxen, function(i, checkbox) {
+                    var vokabel = $(checkbox).val();
+                    if(sprachen[aktuelleSprache] !== undefined &&
+                       sprachen[aktuelleSprache][aktuelleKartei] !== undefined &&
+                           sprachen[aktuelleSprache][aktuelleKartei][vokabel] !== undefined) {
+
+                        delete sprachen[aktuelleSprache][aktuelleKartei][vokabel];
+                    }
+                });
+
+                app.writeFile(function() {
+                    nachricht.inhalt(nachrichtTyp.INFORMATION, 'Die gewählten Vokabeln<br>wurden gelöscht!', 500, 500);
+                    nachricht.pruefenUndAnzeigen();
+                });
+                dialog.leeren();
+                dialog.entfernen();
+            },
+            function() {
+                dialog.leeren();
+                dialog.entfernen();
+            }
+        );
+    });
 
     nachricht.pruefenUndAnzeigen();
 
