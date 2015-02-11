@@ -822,14 +822,14 @@ $('#NeueVokabel').on('pagebeforeshow', function(event, ui) {
         $('#neueVokabel-input-deutsch').autocomplete( "destroy" );
     }
     $('#neueVokabel-input-deutsch').autocomplete({
-        source: 'http://localhost/~christian/voc_base/index.php?sprache='+aktuelleSprache+'&sprache2=deutsch'
+        source: 'http://avocado.wc.lt/index.php?sprache='+aktuelleSprache+'&sprache2=deutsch'
     });
 
     if($('#neueVokabel-input-uebersetzung').autocomplete('instance') !== undefined) {
         $('#neueVokabel-input-uebersetzung').autocomplete( "destroy" );
     }
     $('#neueVokabel-input-uebersetzung').autocomplete({
-        source: 'http://localhost/~christian/voc_base/index.php?sprache='+aktuelleSprache+'&sprache2='+aktuelleSprache
+        source: 'http://avocado.wc.lt/index.php?sprache='+aktuelleSprache+'&sprache2='+aktuelleSprache
     });
 
     $('#neueVokabel-btn-vokabelSpeichern').on('click', function() {
