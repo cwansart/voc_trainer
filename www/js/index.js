@@ -222,7 +222,7 @@ var app = {
     },
 
     // Die Methode ist echt hässlich und vollgestopft. evtl noch mal überarbeiten.
-    lernen: function(x, y, vokNr, anzVokabeln, vokabeln, timerID){
+    lernen: function(x, y, vokNr, anzVokabeln, vokabeln){
         $('#lernen-btn-pruefen').off();
         $('#lernen-div-anzahl').html('Anzahl: ' + vokNr + ' / ' + anzVokabeln);
         if(!sprachenUmkehren)	$('#lernen-div-karteHead p').html(vokabeln[x][y]);
@@ -243,7 +243,7 @@ var app = {
                 setTimeout(function(){
                     $('#lernen-div-footLinks').removeClass('richtig');
                     $('#lernen-input-loesung').val('').focus();
-                    app.pruefeAnzahl(x, vokNr, anzVokabeln, vokabeln, timerID);
+                    app.pruefeAnzahl(x, vokNr, anzVokabeln, vokabeln);
                     $('#lernen-btn-pruefen').button('enable');
                 }, 3000);
             }
@@ -257,7 +257,7 @@ var app = {
                 setTimeout(function(){
                     $('#lernen-div-footLinks').removeClass('fast');
                     $('#lernen-input-loesung').val('').focus();
-                    app.pruefeAnzahl(x, vokNr, anzVokabeln, vokabeln, timerID);
+                    app.pruefeAnzahl(x, vokNr, anzVokabeln, vokabeln);
                     $('#lernen-btn-pruefen').button('enable');
                 }, 3000);
             }
@@ -270,7 +270,7 @@ var app = {
                 setTimeout(function(){
                     $('#lernen-div-footRechts').removeClass('falsch');
                     $('#lernen-input-loesung').val('').focus();
-                    app.pruefeAnzahl(x, vokNr, anzVokabeln, vokabeln, timerID);
+                    app.pruefeAnzahl(x, vokNr, anzVokabeln, vokabeln);
                     $('#lernen-btn-pruefen').button('enable');
                 }, 3000);
             }
@@ -278,9 +278,9 @@ var app = {
     },
 
     // Hilfsfunktion für lernen-Methode. prüft, ob noch Vokabeln vorhanden und leitet weitere Schritte ein.
-    pruefeAnzahl: function(x, vokNr, anzVokabeln, vokabeln, timerID) {
+    pruefeAnzahl: function(x, vokNr, anzVokabeln, vokabeln) {
         if(vokNr < anzVokabeln) {
-            app.lernen(++x, 0, ++vokNr, anzVokabeln, vokabeln, timerID);
+            app.lernen(++x, 0, ++vokNr, anzVokabeln, vokabeln);
         }
         // Keine Vokabeln mehr vorhanden
         else {
@@ -315,13 +315,12 @@ var app = {
         var minuten = 0;
         var sekunden = 0;
         var sekundenZaehler = 0;
-        var timerID = setInterval(function() {
+        timerID = setInterval(function() {
             sekundenZaehler++;
             sekunden = app.zeitFormat(sekundenZaehler);
             minuten = app.zeitFormat(parseInt(sekundenZaehler/60));
             $('#lernen-div-zeit').html('Zeit: ' + minuten + ':' + sekunden);
         }, 1000);
-        return timerID;
     },
 
     zeitFormat: function(wert) {
@@ -899,7 +898,7 @@ $('#Lernen').on('pagebeforeshow', function(event, ui) {
     $('#lernen-div-zeit').html('Zeit: 00:00');
     $('#lernen-div-karteHead p').html('Bitte "start" drücken');
     $('#lernen-btn-richtung').off().text('Fremdsprache - Deutsch');
-    $('#lernen-btn-start').show();
+    $('#lernen-btn-start').off().show();
     $('#lernen-btn-richtung').show();
     $('#lernen-btn-pruefen').button('disable');
 
@@ -916,8 +915,8 @@ $('#Lernen').on('pagebeforeshow', function(event, ui) {
     $('#lernen-btn-start').click( function(){
         $('#lernen-btn-start').fadeOut(500);
         $('#lernen-btn-richtung').fadeOut(500);
-        timerID = app.zeit();
-        app.lernen(0, 0, 1, anzVokabeln, vokabeln, timerID);
+        app.zeit();
+        app.lernen(0, 0, 1, anzVokabeln, vokabeln);
         $('#lernen-btn-pruefen').button('enable');
         $('#lernen-input-loesung').prop('disabled', false).focus();
     });
