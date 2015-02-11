@@ -9,7 +9,7 @@
     </author>
     <content src="index.html" />
     <access origin="*" />
-    <icon src="www/res/icons/icon.png" />
+    <icon src="www/res/icons/android/icon-72-hdpi.png" />
     <splash src="www/res/screen/splash.png" />
     <preference name="SplashScreenDelay" value="3000" />
 </widget>
