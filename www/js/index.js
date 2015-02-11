@@ -314,13 +314,24 @@ var app = {
     zeit: function() {
         var minuten = 0;
         var sekunden = 0;
+        var sekundenZaehler = 0;
         var timerID = setInterval(function() {
-            if(sekunden < 59)	sekunden++;
-            else				sekunden = 0;
-            if(sekunden == 0)	minuten++;
+            sekundenZaehler++;
+            sekunden = app.zeitFormat(sekundenZaehler);
+            minuten = app.zeitFormat(parseInt(sekundenZaehler/60));
             $('#lernen-div-zeit').html('Zeit: ' + minuten + ':' + sekunden);
         }, 1000);
         return timerID;
+    },
+
+    zeitFormat: function(wert) {
+        var wertStr = wert+'';
+        if(wertStr.length < 2) {
+            return '0' + wertStr;
+        }
+        else {
+            return wertStr;
+        }
     },
 
     // zum Vergleichen, ob Wörter ähnlich sind
@@ -885,7 +896,7 @@ $('#Lernen').on('pagebeforeshow', function(event, ui) {
     varZeit = '';
     sprachenUmkehren = false;
     $('#lernen-input-loesung').val('').prop('disabled', true);
-    $('#lernen-div-zeit').html('Zeit: 0:0');
+    $('#lernen-div-zeit').html('Zeit: 00:00');
     $('#lernen-div-karteHead p').html('Bitte "start" drücken');
     $('#lernen-btn-richtung').off().text('Fremdsprache - Deutsch');
     $('#lernen-btn-start').show();
