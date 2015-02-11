@@ -556,11 +556,11 @@ var nachrichtTyp = Object.freeze({
 
 var nachricht = {
     inhalt: function(typ, text, dauerEinblenden, dauerAusblenden) {
-        if(typ === undefined && text === undefined) {
+        if(typ === undefined || text === undefined) {
             return;
         }
 
-        if(this.typ !== undefined && this.text !== undefined) {
+        if(this.typ !== undefined || this.text !== undefined) {
             nachricht.entfernen();
         }
 
@@ -579,9 +579,9 @@ var nachricht = {
     // prueft ob inhalt ungleich null ist und zeigt die entsprechende
     // Nachricht an.
     pruefenUndAnzeigen: function() {
-        if(this.typ === undefined &&
+        if(this.typ === undefined ||
            this.text === undefined) {
-        return;
+            return;
         }
 
         var dialog = $('<div></div>').attr('id', 'nachrichten-dialog');
