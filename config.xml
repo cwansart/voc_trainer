@@ -9,7 +9,7 @@
     </author>
     <content src="index.html" />
     <access origin="*" />
-    <icon src="www/res/drawable/icon.png" />
+    <icon src="www/res/icons/icon.png" />
     <splash src="www/res/screen/splash.png" />
     <preference name="SplashScreenDelay" value="3000" />
 </widget>
