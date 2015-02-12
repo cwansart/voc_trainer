@@ -458,19 +458,19 @@ var app = {
             switch(anzahlAusgewaehlt) {
                 case 0:
                     $('#karteiverw-btn-loeschen').hide(einAusblendeGeschw);
-                $('#karteiverw-btn-lernen').hide(einAusblendeGeschw);
-                $('#karteiverw-btn-oeffnen').hide(einAusblendeGeschw);
+                    $('#karteiverw-btn-lernen').hide(einAusblendeGeschw);
+                    $('#karteiverw-btn-oeffnen').hide(einAusblendeGeschw);
                 break;
                 case 1:
                     $('#karteiverw-btn-loeschen').show(einAusblendeGeschw);
-                $('#karteiverw-btn-lernen').show(einAusblendeGeschw);
-                $('#karteiverw-btn-oeffnen').show(einAusblendeGeschw);
-                aktuelleKartei = $('#karteiverw-coll-sprachenListe').find('input:checked').val();   // Der name der gewählten Kartei wird gespeichert
+                    $('#karteiverw-btn-lernen').show(einAusblendeGeschw);
+                    $('#karteiverw-btn-oeffnen').show(einAusblendeGeschw);
+                    aktuelleKartei = $('#karteiverw-coll-sprachenListe').find('input:checked').val();   // Der name der gewählten Kartei wird gespeichert
                 break;
                 default:
                     $('#karteiverw-btn-loeschen').show(einAusblendeGeschw);
-                $('#karteiverw-btn-lernen').hide(einAusblendeGeschw);
-                $('#karteiverw-btn-oeffnen').hide(einAusblendeGeschw);
+                    $('#karteiverw-btn-lernen').hide(einAusblendeGeschw);
+                    $('#karteiverw-btn-oeffnen').hide(einAusblendeGeschw);
                 break;
             }
         });
@@ -722,7 +722,9 @@ $('#NeueKartei').on('pagebeforeshow', function(event, ui) {
 
     $('#neueKartei-coll-sprachenListe').show();
     $('#neueKartei-btn-spracheHinzu').show();
+    $('#neueKartei-div-spracheHinzu').hide();
 
+    aktuelleSprache = '';
     var collapsible = '';
     var spracheToggle = null;
 
@@ -741,17 +743,30 @@ $('#NeueKartei').on('pagebeforeshow', function(event, ui) {
 
     $('#neueKartei-coll-sprachenListe').on('collapsibleexpand', function(){     // "Sprache wählen" wird betätigt
         $('#neueKartei-btn-spracheHinzu').slideUp();
+        aktuelleSprache = '';
         spracheToggle = true;
     });
 
     $('#neueKartei-coll-sprachenListe').on('collapsiblecollapse', function(){     // "Sprache wählen" wird betätigt
         $('#neueKartei-btn-spracheHinzu').slideDown();
+        aktuelleSprache = '';
         spracheToggle = false;
     });
 
+    var zeigeInput = false;
     $('#neueKartei-btn-spracheHinzu').click( function(){      // "Sprache hinzufügen" wird betätigt
-        $('#neueKartei-div-spracheHinzu').fadeToggle();
-        if(!$.isEmptyObject(sprachen))  $('#neueKartei-coll-sprachenListe').slideToggle();
+        if(zeigeInput) {
+            console.log("this");
+            $('#neueKartei-div-spracheHinzu').fadeOut();
+            if(!$.isEmptyObject(sprachen))  $('#neueKartei-coll-sprachenListe').slideDown();
+        }
+        else {
+            console.log("that");
+            $('#neueKartei-div-spracheHinzu').fadeIn();
+            if(!$.isEmptyObject(sprachen))  $('#neueKartei-coll-sprachenListe').slideUp();
+        }
+        zeigeInput = !zeigeInput;
+        aktuelleSprache = '';
         spracheToggle = false;
     });
 
@@ -793,7 +808,7 @@ $('#NeueKartei').on('pagebeforeshow', function(event, ui) {
 
         var kartei = $('#neueKartei-input-kartei').val();
         aktuelleKartei = $('#neueKartei-input-kartei').val();
-        if(kartei === '') {
+        if(kartei === '' || sprache === '') {
             nachricht.inhalt(nachrichtTyp.WARNUNG, fehlermeldung, 500, 500);
             nachricht.pruefenUndAnzeigen();
             $('#neueKartei-input-kartei').addClass("inputText");
