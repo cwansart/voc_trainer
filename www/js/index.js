@@ -65,7 +65,7 @@ var app = {
             var reader = new FileReader(file);
             reader.onloadend = function() {
                 if(this.result === '') {
-                    sprachen = {};
+                    app.sprachenLaden();
                 }
                 else {
                     sprachen = JSON.parse(this.result);
@@ -82,7 +82,7 @@ var app = {
         switch(e.code) {
             case 1: // NOT_FOUND_ERR
                 // Datei nicht gefunden, dann muss sprachen leer initialisiert werden.
-                sprachen = {};
+                app.sprachenLaden();
                 $('.listening').attr('style', 'display: none;');
                 $('.received').attr('style', 'display: block;');
                 break;
