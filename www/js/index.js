@@ -18,13 +18,15 @@
  */
 // Hier werden Datei"global" die Sprachen gespeichert aus der
 // data/sprachen.json
+
 var sprachen = {};
 var sprachenGeladen = false;
 var aktuelleSprache = null;
 var aktuelleKartei = null;
 var aktuelleVokabel = null;
 var zeigeInfo = false;
-// Variablen für den Lernmodus
+
+// Variablen für den Lernmodus.
 var punkte = 0;
 var varZeit = '';
 var sprachenUmkehren = false;
@@ -44,7 +46,7 @@ var app = {
     bindEvents: function() {
         document.addEventListener('deviceready', this.onDeviceReady, false);
     },
-    // deviceready Event Handler
+    // Deviceready Event Handler
     //
     // The scope of 'this' is the event. In order to call the 'receivedEvent'
     // function, we must explicitly call 'app.receivedEvent(...);'
@@ -75,7 +77,7 @@ var app = {
         });
     },
 
-    // beim Laden sind Fehler aufgetreten, oder die Datei existiert nicht.
+    // Beim Laden sind Fehler aufgetreten, oder die Datei existiert nicht.
     failToRead: function(e) {
         switch(e.code) {
             case 1: // NOT_FOUND_ERR
@@ -94,7 +96,7 @@ var app = {
 
     // sprachen.js festschreiben
     writeFile: function(callback) {
-        // könnte problematisch sein, wenn writeFile direkt hinterinander
+        // Könnte problematisch sein, wenn writeFile direkt hinterinander
         // aufgerufen wird, und das Speichern einfach zu lange braucht.
         app.writeCallback = (callback === undefined)? null : callback;
 
@@ -181,7 +183,7 @@ var app = {
         sprachenGeladen = true;
     },
 
-    // erstellt eine ID bestehend aus den übergebenen Parametern
+    // Erstellt eine ID bestehend aus den übergebenen Parametern
     id: function(sprache, kartei, vokabel) {
         var r = '';
         if(sprache !== undefined) {
@@ -193,10 +195,11 @@ var app = {
         if(vokabel !== undefined) {
             r += '-' + vokabel;
         }
-        // ersetze Leerzeichen (s = spaces) mit Bindestrichen
+        // Ersetze Leerzeichen (s = spaces) mit Bindestrichen
         return r.replace(/\s/g, '-');
     },
 
+	// Gibt an, wieviele Vokabeln in einer Kartei sind.
     anzahlVokabeln: function(sprache, kartei) {
         var anzahlVokabeln =0;
         $.each(sprachen[sprache][kartei], function() {
@@ -204,7 +207,9 @@ var app = {
         });
         return anzahlVokabeln;
     },
-
+	
+	// Die Vokabeln werden in einen zweidimensionalen Array gespeichert
+	// zum Zugriff auf bestimmte Indizes.
     vokabelArray: function(sprache, kartei, anzahlVokabeln) {
         var x =0;
         var y = 0;
@@ -221,7 +226,8 @@ var app = {
         return vokabelnArray;
     },
 
-    // Die Methode ist echt hässlich und vollgestopft. evtl noch mal überarbeiten.
+    // Rekursive Methode, die den Ablauf des Lern-Prozesses abwickelt.
+	// Ruft sich so lange selbst auf, bis keine Vokabeln mehr vorhanden sind.
     lernen: function(x, y, vokNr, anzVokabeln, vokabeln){
         $('#lernen-btn-pruefen').off();
         $('#lernen-div-anzahl').html('Anzahl: ' + vokNr + ' / ' + anzVokabeln);
@@ -277,7 +283,8 @@ var app = {
         });
     },
 
-    // Hilfsfunktion für lernen-Methode. prüft, ob noch Vokabeln vorhanden und leitet weitere Schritte ein.
+    // Hilfsfunktion für lernen-Methode. Prüft, ob noch Vokabeln vorhanden und leitet weitere Schritte ein.
+	// Zum Beispiel: speichern der Zeit und der Punkte in den localStorage und Weiterleitung.
     pruefeAnzahl: function(x, vokNr, anzVokabeln, vokabeln) {
         if(vokNr < anzVokabeln) {
             app.lernen(++x, 0, ++vokNr, anzVokabeln, vokabeln);
@@ -299,13 +306,13 @@ var app = {
             var ergebnisse = localStorage.ergebnisse === undefined ? [] : JSON.parse(localStorage.ergebnisse);
             ergebnisse[aktuellerSpeicher] = { 'index': ergebnisseIndex, 'wert': ergebnissWert };
 
-            // maximal 15 Einträge speichern
+            // Maximal 15 Einträge speichern
             aktuellerSpeicher = ++aktuellerSpeicher % 15;
             localStorage.aktuellerSpeicher = aktuellerSpeicher;
 
             localStorage.ergebnisse = JSON.stringify(ergebnisse);
 
-            // Weiterleitung auf den Lernfortschritt, wenn kartei fertig gelernt
+            // Weiterleitung auf den Lernfortschritt, wenn Kartei fertig gelernt wurde.
             window.location = '#Lernfortschritt';
         }
     },
@@ -322,7 +329,8 @@ var app = {
             $('#lernen-div-zeit').html('Zeit: ' + minuten + ':' + sekunden);
         }, 1000);
     },
-
+	
+	// Formatierung der Zeit-Ausgabe
     zeitFormat: function(wert) {
         var wertStr = wert+'';
         if(wertStr.length < 2) {
@@ -360,7 +368,7 @@ var app = {
         return (r + '000').slice(0, 4).toUpperCase();
     },
 
-    // Mischt den 2-dim. Array
+    // Mischt den 2-dim. Array und gibt diesen zurück
     shuffleArray: function(array, anzVokabeln) {
         for (var i = anzVokabeln - 1; i > 0; i--) {
             var j = Math.floor(Math.random() * (i + 1));
@@ -377,6 +385,8 @@ var app = {
         return array;
     },
 
+	// Regelt die Anzeige der Meldungen "wirklich löschen?" und "erfolgreich gelöscht!"
+	// sowie die Anzeige der Buttons etc.
     karteiverwaltungAnzeigen: function() {
         $('#Karteiverwaltung').children().off();
         $('#karteiverw-coll-sprachenListe').children().off();
@@ -422,9 +432,10 @@ var app = {
         nachricht.pruefenUndAnzeigen();
 
         var collapsible = '';
+		// Verschachtelte Schleife generiert das Collapsibel-Set mit Checkboxen für die Karteien
         $.each(sprachen, function(sprache) {
             collapsible += '<div data-role="collapsible" data-iconpos="right" data-sprache="' + sprache + '"><h3>' + sprache + '</h3>'
-            +  '<fieldset data-role="controlgroup">';   //div noch schließen 
+            +  '<fieldset data-role="controlgroup">';   
             $.each(sprachen[sprache], function(kartei) {
                 collapsible += '<label for="kartei-' + app.id(sprache, kartei) +'">'
                 +  '<input type="checkbox" value="' + kartei + '" data-mini="true" id="kartei-' + app.id(sprache, kartei) + '">'
@@ -432,7 +443,8 @@ var app = {
             });
             collapsible += '</fieldset></div>';
         });
-
+		
+		// unpassende Überschrift wird ausgeblendet
         if(collapsible != '')   $('#karteiverw-h2-keineSprachen').hide();
         else                    $('#karteiverw-h2-spracheWaehlen').hide();
 
@@ -444,6 +456,7 @@ var app = {
             aktuelleSprache = $(this).attr('data-sprache');
         });
 
+		// Anzeigen/ Ausblenden bestimmter Elemente und passende Ansicht
         var einAusblendeGeschw = 400;
         $('#karteiverw-coll-sprachenListe').children().on('collapsiblecollapse', function(event, ui) {
             $(this).find('input:checked').attr('checked', false);
@@ -452,7 +465,8 @@ var app = {
             $('#karteiverw-btn-lernen').hide(einAusblendeGeschw);
             $('#karteiverw-btn-oeffnen').hide(einAusblendeGeschw);
         });
-
+		
+		// Verstecken und zeigen der Buttons, je nachdem wieviele Karteien gewählt wurden
         $('#karteiverw-coll-sprachenListe').children().find(':checkbox').on('click', function() {
             var anzahlAusgewaehlt = $('#karteiverw-coll-sprachenListe').find('input:checked').length;
             switch(anzahlAusgewaehlt) {
@@ -478,7 +492,6 @@ var app = {
 
     vokabelverwaltungAnzeigen: function() {
         $('#vokabelverw-div-vokListe').children().find(':checkbox').off();
-
         $('#vokabelverw-liste').empty();
 
         $('#vokabelverw-btn-loeschen').hide().off().on('click', function() {
@@ -513,13 +526,14 @@ var app = {
         nachricht.pruefenUndAnzeigen();
 
         if(aktuelleKartei != null)  var pfad = '<h2>' + aktuelleSprache + ' - ' + aktuelleKartei + '</h2>';
-        else var pfad = '<h2>' + aktuelleSprache + '</h2>';
+        else 						var pfad = '<h2>' + aktuelleSprache + '</h2>';
 
-        if(aktuelleKartei == null) return;
+        if(aktuelleKartei == null) 	return;
 
         var controlGroup = '<fieldset id="vokabelverw-div-vokListe" data-role="controlgroup">';
         var vokabeln = sprachen[aktuelleSprache][aktuelleKartei];
 
+		// Anzeigen der Vokabeln mit Checkboxen
         $.each(vokabeln, function(fremdsprache, deutsch) {
             controlGroup += '<label for="vokabel-' + app.id(fremdsprache, deutsch) +'">'
             +  '<input type="checkbox" value="'+fremdsprache+'" data-mini="true" '
@@ -529,9 +543,11 @@ var app = {
         $('#vokabelverw-liste').append(controlGroup).trigger('create');
         $('#vokabelverw-div-vokListe').prepend(pfad);
 
+		// Unpassende Überschrift ausblenden
         if(controlGroup != '')  $('#vokabelverw-h2-keineVokabeln').hide();
         else                    $('#vokabelverw-h2-vokabelnWaehlen').hide();
 
+		// Ein- Ausblenden des löschen-Buttons
         $('#vokabelverw-div-vokListe').children().find(':checkbox').on('click', function() {
             var einAusblendeGeschw = 400;
             var anzahlAusgewaehlt = $('#vokabelverw-div-vokListe').find('input:checked').length;
@@ -702,13 +718,25 @@ $(document).ready(function() {
     $('#neueKartei-div-spracheHinzu').hide();
 });
 
+/************************************************************************************************
+***************************************** KARTEIVERWALTUNG **************************************
+************************************************************************************************/
+
 $('#Karteiverwaltung').on('pagebeforeshow', function(event, ui) {
     app.karteiverwaltungAnzeigen();
 });
 
+/************************************************************************************************
+**************************************** VOKABELVERWALTUNG **************************************
+************************************************************************************************/
+
 $('#Vokabelverwaltung').on( 'pagebeforeshow', function( event, ui ) { 
     app.vokabelverwaltungAnzeigen();
 });
+
+/************************************************************************************************
+******************************************** NEUE KARTEI ****************************************
+************************************************************************************************/
 
 $('#NeueKartei').on('pagebeforeshow', function(event, ui) {
     $('#neueKartei-coll-sprachenListe').off();
@@ -739,22 +767,26 @@ $('#NeueKartei').on('pagebeforeshow', function(event, ui) {
     $('#neueKartei-coll-sprachenListe').append(collapsible);
     $('#neueKartei-coll-sprachenListe').collapsibleset('refresh').trigger('create');
 
-    if($.isEmptyObject(sprachen))   $('#neueKartei-coll-sprachenListe').hide(); // Noch keine Sprachen vorhanden
+	// Noch keine Sprachen vorhanden
+    if($.isEmptyObject(sprachen))   $('#neueKartei-coll-sprachenListe').hide(); 
 
-    $('#neueKartei-coll-sprachenListe').on('collapsibleexpand', function(){     // "Sprache wählen" wird betätigt
+	// "Sprache wählen" wird betätigt
+    $('#neueKartei-coll-sprachenListe').on('collapsibleexpand', function(){     
         $('#neueKartei-btn-spracheHinzu').slideUp();
         aktuelleSprache = '';
         spracheToggle = true;
     });
 
-    $('#neueKartei-coll-sprachenListe').on('collapsiblecollapse', function(){     // "Sprache wählen" wird betätigt
+	// "Sprache wählen" wird betätigt
+    $('#neueKartei-coll-sprachenListe').on('collapsiblecollapse', function(){     
         $('#neueKartei-btn-spracheHinzu').slideDown();
         aktuelleSprache = '';
         spracheToggle = false;
     });
 
     var zeigeInput = false;
-    $('#neueKartei-btn-spracheHinzu').click( function(){      // "Sprache hinzufügen" wird betätigt
+	// "Sprache hinzufügen" wird betätigt
+    $('#neueKartei-btn-spracheHinzu').click( function(){      
         if(zeigeInput) {
             console.log("this");
             $('#neueKartei-div-spracheHinzu').fadeOut();
@@ -789,7 +821,7 @@ $('#NeueKartei').on('pagebeforeshow', function(event, ui) {
                 return;
             }
             aktuelleSprache = sprache.val();
-            sprache = sprache.val(); // bufix
+            sprache = sprache.val();
         }
         else if(spracheToggle === false) {
             sprache = $('#neueKartei-input-sprache').val();
@@ -815,7 +847,7 @@ $('#NeueKartei').on('pagebeforeshow', function(event, ui) {
             return;
         }
 
-        // und zum Schluss einfügen in die Sprachen
+        // Und zum Schluss einfügen in die Sprachen
         if(sprachen[sprache] === undefined) {
             sprachen[sprache] = {};
         }
@@ -831,6 +863,10 @@ $('#NeueKartei').on('pagebeforeshow', function(event, ui) {
         });
     });
 });
+
+/************************************************************************************************
+******************************************* NEUE VOKABEL ****************************************
+************************************************************************************************/
 
 $('#NeueVokabel').on('pagebeforeshow', function(event, ui) {
     $('#neueVokabel-btn-vokabelSpeichern').off();
@@ -895,13 +931,17 @@ $('#NeueVokabel').on('pagebeforeshow', function(event, ui) {
     });
 });
 
+/************************************************************************************************
+********************************************** LERNEN *******************************************
+************************************************************************************************/
+
 $('#Lernen').on('pagebeforeshow', function(event, ui) {
     var anzVokabeln = app.anzahlVokabeln(aktuelleSprache, aktuelleKartei);
     var vokabeln = app.vokabelArray(aktuelleSprache, aktuelleKartei, anzVokabeln);	// Vokabeln werden als 2-Dim Array gespeichert
     var ueberschrift = aktuelleSprache + ' – ' + aktuelleKartei;
     vokabeln = app.shuffleArray(vokabeln, anzVokabeln);
 
-    //zurücksetzen und herstellen der default-Einstellungen
+    // Zurücksetzen und herstellen der default-Einstellungen
     if(timerID != null) {
         clearInterval(timerID);
         timerID = null;
@@ -936,6 +976,10 @@ $('#Lernen').on('pagebeforeshow', function(event, ui) {
         $('#lernen-input-loesung').prop('disabled', false).focus();
     });
 });
+
+/************************************************************************************************
+****************************************** LERNVORTSCHRITT **************************************
+************************************************************************************************/
 
 $('#Lernfortschritt').on('pagebeforeshow', function(event, ui) {
     $('#lernfort-list-ergebnisse').empty();
