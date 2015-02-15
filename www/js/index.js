@@ -55,7 +55,9 @@ var app = {
     },
     // Update DOM on a Received Event
     receivedEvent: function(id) {
-        app.sprachenFile = cordova.file.externalApplicationStorageDirectory + 'sprachen.json';
+        app.sprachenFile = cordova.file.externalApplicationStorageDirectory == null ? cordova.file.applicationStorageDirectory : cordova.file.externalApplicationStorageDirectory;
+        app.sprachenFile += 'sprachen.json';
+        console.log("sprachen file: " + app.sprachenFile);
         window.resolveLocalFileSystemURL(app.sprachenFile, this.gotFile, this.failToRead);
     },
 
