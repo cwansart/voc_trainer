@@ -10,8 +10,10 @@
     <content src="index.html" />
     <access origin="*" />
     <icon src="www/res/icons/android/icon-72-hdpi.png" />
-    <splash src="www/res/screen/xlarge-landscape.jpg" density="land-xlarge" />
-    <splash src="www/res/screen/xlarge-portrait.jpg" density="port-xlarge" />
-    <preference name="SplashScreen" value="xlarge-portrait" />
+    <platform name="android">
+        <splash src="www/res/screen/xlarge-landscape.png" density="land-xhdpi" />
+        <splash src="www/res/screen/xlarge-portrait.png" density="port-xhdpi" />
+    </platform>
+    <preference name="SplashScreen" value="screen" />
     <preference name="SplashScreenDelay" value="3000" />
 </widget>
