@@ -3,15 +3,15 @@
         "Grundbegriffe": {
             "hello": "hallo",
             "bye": "tschüss",
-			"bla": "blubb",
-			"bli": "blobb"
+            "thanks": "danke",
+            "please": "bitte"
         },
         "Politik": {
             "European Union": "Europäische Union",
             "prime minister": "Premierminister"
         }
     },
-	"Spanisch": {
+    "Spanisch": {
         "Grundbegriffe": {
             "hola": "hallo",
             "hasta luego": "bis bald"
