@@ -46,7 +46,7 @@ var app = {
     bindEvents: function() {
         document.addEventListener('deviceready', this.onDeviceReady, false);
     },
-    // Deviceready Event Handler
+    // deviceready Event Handler
     //
     // The scope of 'this' is the event. In order to call the 'receivedEvent'
     // function, we must explicitly call 'app.receivedEvent(...);'
@@ -96,7 +96,7 @@ var app = {
 
     // sprachen.js festschreiben
     writeFile: function(callback) {
-        // Könnte problematisch sein, wenn writeFile direkt hinterinander
+        // Könnte problematisch sein, wenn writeFile direkt hintereinander
         // aufgerufen wird, und das Speichern einfach zu lange braucht.
         app.writeCallback = (callback === undefined)? null : callback;
 
@@ -175,6 +175,7 @@ var app = {
         console.log(e.code);
     },
 
+    // Lädt die sprachen.json-Datei mit default-Werten.
     sprachenLaden: function() {
         if(sprachenGeladen) return;
         $.getJSON('data/sprachen.json', function( data ) {
@@ -199,7 +200,7 @@ var app = {
         return r.replace(/\s/g, '-');
     },
 
-	// Gibt an, wieviele Vokabeln in einer Kartei sind.
+    // Gibt an, wieviele Vokabeln in einer Kartei sind.
     anzahlVokabeln: function(sprache, kartei) {
         var anzahlVokabeln =0;
         $.each(sprachen[sprache][kartei], function() {
@@ -207,9 +208,9 @@ var app = {
         });
         return anzahlVokabeln;
     },
-	
-	// Die Vokabeln werden in einen zweidimensionalen Array gespeichert
-	// zum Zugriff auf bestimmte Indizes.
+    
+    // Die Vokabeln werden in einen zweidimensionalen Array gespeichert
+    // zum Zugriff auf bestimmte Indizes.
     vokabelArray: function(sprache, kartei, anzahlVokabeln) {
         var x =0;
         var y = 0;
@@ -227,16 +228,16 @@ var app = {
     },
 
     // Rekursive Methode, die den Ablauf des Lern-Prozesses abwickelt.
-	// Ruft sich so lange selbst auf, bis keine Vokabeln mehr vorhanden sind.
+    // Ruft sich so lange selbst auf, bis keine Vokabeln mehr vorhanden sind.
     lernen: function(x, y, vokNr, anzVokabeln, vokabeln){
         $('#lernen-btn-pruefen').off();
         $('#lernen-div-anzahl').html('Anzahl: ' + vokNr + ' / ' + anzVokabeln);
-        if(!sprachenUmkehren)	$('#lernen-div-karteHead p').html(vokabeln[x][y]);
-        else					$('#lernen-div-karteHead p').html(vokabeln[x][++y]);
+        if(!sprachenUmkehren)   $('#lernen-div-karteHead p').html(vokabeln[x][y]);
+        else                    $('#lernen-div-karteHead p').html(vokabeln[x][++y]);
 
         $('#lernen-btn-pruefen').click( function(){
             $(this).button('disable');
-            if(sprachenUmkehren)		y = (-1);
+            if(sprachenUmkehren) y = (-1);
             var val = $('#lernen-input-loesung').val().trim();
             var vok = vokabeln[x][++y];
 
@@ -256,7 +257,7 @@ var app = {
             // Ähnliche Lösung wurde eingegeben (1 Punkt hierfür)
             else if(app.soundex(val) === app.soundex(vok)) {
                 punkte++;
-                if(sprachenUmkehren)		y = 0;
+                if(sprachenUmkehren) y = 0;
                 $('#lernen-div-karteBody p').html('Fast! Richtige Lösung: ' + vokabeln[x][y]);
                 $('#lernen-div-footLinks').addClass('fast');
                 $('#lernen-div-karteBody p').fadeIn(500).delay(2000).fadeOut(500);
@@ -269,7 +270,7 @@ var app = {
             }
             // Falsche Lösung wurde eingegeben (0 Punkte hierfür)
             else {
-                if(sprachenUmkehren)		y = 0;													
+                if(sprachenUmkehren) y = 0;
                 $('#lernen-div-karteBody p').html('Leider falsch! Lösung: ' + vokabeln[x][y]);
                 $('#lernen-div-footRechts').addClass('falsch');
                 $('#lernen-div-karteBody p').fadeIn(500).delay(2000).fadeOut(500);
@@ -284,7 +285,7 @@ var app = {
     },
 
     // Hilfsfunktion für lernen-Methode. Prüft, ob noch Vokabeln vorhanden und leitet weitere Schritte ein.
-	// Zum Beispiel: speichern der Zeit und der Punkte in den localStorage und Weiterleitung.
+    // Zum Beispiel: speichern der Zeit und der Punkte in den localStorage und Weiterleitung.
     pruefeAnzahl: function(x, vokNr, anzVokabeln, vokabeln) {
         if(vokNr < anzVokabeln) {
             app.lernen(++x, 0, ++vokNr, anzVokabeln, vokabeln);
@@ -329,8 +330,8 @@ var app = {
             $('#lernen-div-zeit').html('Zeit: ' + minuten + ':' + sekunden);
         }, 1000);
     },
-	
-	// Formatierung der Zeit-Ausgabe
+    
+    // Formatierung der Zeit-Ausgabe
     zeitFormat: function(wert) {
         var wertStr = wert+'';
         if(wertStr.length < 2) {
@@ -385,8 +386,8 @@ var app = {
         return array;
     },
 
-	// Regelt die Anzeige der Meldungen "wirklich löschen?" und "erfolgreich gelöscht!"
-	// sowie die Anzeige der Buttons etc.
+    // Regelt die Anzeige der Meldungen "wirklich löschen?" und "erfolgreich gelöscht!"
+    // sowie die Anzeige der Buttons etc.
     karteiverwaltungAnzeigen: function() {
         $('#Karteiverwaltung').children().off();
         $('#karteiverw-coll-sprachenListe').children().off();
@@ -432,7 +433,7 @@ var app = {
         nachricht.pruefenUndAnzeigen();
 
         var collapsible = '';
-		// Verschachtelte Schleife generiert das Collapsibel-Set mit Checkboxen für die Karteien
+        // Verschachtelte Schleife generiert das Collapsibel-Set mit Checkboxen für die Karteien
         $.each(sprachen, function(sprache) {
             collapsible += '<div data-role="collapsible" data-iconpos="right" data-sprache="' + sprache + '"><h3>' + sprache + '</h3>'
             +  '<fieldset data-role="controlgroup">';   
@@ -443,8 +444,8 @@ var app = {
             });
             collapsible += '</fieldset></div>';
         });
-		
-		// unpassende Überschrift wird ausgeblendet
+        
+        // unpassende Überschrift wird ausgeblendet
         if(collapsible != '')   $('#karteiverw-h2-keineSprachen').hide();
         else                    $('#karteiverw-h2-spracheWaehlen').hide();
 
@@ -456,7 +457,7 @@ var app = {
             aktuelleSprache = $(this).attr('data-sprache');
         });
 
-		// Anzeigen/ Ausblenden bestimmter Elemente und passende Ansicht
+        // Anzeigen/Ausblenden bestimmter Elemente und passende Ansicht
         var einAusblendeGeschw = 400;
         $('#karteiverw-coll-sprachenListe').children().on('collapsiblecollapse', function(event, ui) {
             $(this).find('input:checked').attr('checked', false);
@@ -465,8 +466,8 @@ var app = {
             $('#karteiverw-btn-lernen').hide(einAusblendeGeschw);
             $('#karteiverw-btn-oeffnen').hide(einAusblendeGeschw);
         });
-		
-		// Verstecken und zeigen der Buttons, je nachdem wieviele Karteien gewählt wurden
+        
+        // Verstecken und zeigen der Buttons, je nachdem wieviele Karteien gewählt wurden
         $('#karteiverw-coll-sprachenListe').children().find(':checkbox').on('click', function() {
             var anzahlAusgewaehlt = $('#karteiverw-coll-sprachenListe').find('input:checked').length;
             switch(anzahlAusgewaehlt) {
@@ -490,6 +491,9 @@ var app = {
         });
     },
 
+    // Aktualisiert die Vokabelverwaltung. Wird benötigt, weil die Liste nach
+    // Löschen von Karteien und Sprachen aktualisiert werden muss und ein
+    // einfaches refresh zu Problemen führt.
     vokabelverwaltungAnzeigen: function() {
         $('#vokabelverw-div-vokListe').children().find(':checkbox').off();
         $('#vokabelverw-liste').empty();
@@ -526,14 +530,14 @@ var app = {
         nachricht.pruefenUndAnzeigen();
 
         if(aktuelleKartei != null)  var pfad = '<h2>' + aktuelleSprache + ' - ' + aktuelleKartei + '</h2>';
-        else 						var pfad = '<h2>' + aktuelleSprache + '</h2>';
+        else                        var pfad = '<h2>' + aktuelleSprache + '</h2>';
 
-        if(aktuelleKartei == null) 	return;
+        if(aktuelleKartei == null)     return;
 
         var controlGroup = '<fieldset id="vokabelverw-div-vokListe" data-role="controlgroup">';
         var vokabeln = sprachen[aktuelleSprache][aktuelleKartei];
 
-		// Anzeigen der Vokabeln mit Checkboxen
+        // Anzeigen der Vokabeln mit Checkboxen
         $.each(vokabeln, function(fremdsprache, deutsch) {
             controlGroup += '<label for="vokabel-' + app.id(fremdsprache, deutsch) +'">'
             +  '<input type="checkbox" value="'+fremdsprache+'" data-mini="true" '
@@ -543,11 +547,11 @@ var app = {
         $('#vokabelverw-liste').append(controlGroup).trigger('create');
         $('#vokabelverw-div-vokListe').prepend(pfad);
 
-		// Unpassende Überschrift ausblenden
+        // Unpassende Überschrift ausblenden
         if(controlGroup != '')  $('#vokabelverw-h2-keineVokabeln').hide();
         else                    $('#vokabelverw-h2-vokabelnWaehlen').hide();
 
-		// Ein- Ausblenden des löschen-Buttons
+        // Ein- Ausblenden des löschen-Buttons
         $('#vokabelverw-div-vokListe').children().find(':checkbox').on('click', function() {
             var einAusblendeGeschw = 400;
             var anzahlAusgewaehlt = $('#vokabelverw-div-vokListe').find('input:checked').length;
@@ -570,6 +574,8 @@ var nachrichtTyp = Object.freeze({
 });
 
 var nachricht = {
+    // Initialisiert eine Nachricht vom angegebenen Typ, mit dem engegebenen
+    // Text und den zwei optionalen Parametern zum Ein- und Ausblenden.
     inhalt: function(typ, text, dauerEinblenden, dauerAusblenden) {
         if(typ === undefined || text === undefined) {
             return;
@@ -633,12 +639,17 @@ var nachricht = {
         nachricht.leeren();
     },
 
+    // Setzt die Attribute zurück. Wird benötigt, um zu überprüfen ob
+    // bereits eine Nachricht angezeigt wird/vorhanden ist. Es kann
+    // immer nur eine Nachricht angezeigt werden; ältere werden
+    // gelöscht.
     leeren: function() {
         this.typ = undefined;
         this.text = undefined;
         this.dauer = undefined;
     },
 
+    // Entfernt das Element der Nachricht
     entfernen: function(dauer) {
         if(dauer !== undefined) {
             $('#nachrichten-dialog').fadeOut(dauer, function() {
@@ -652,6 +663,10 @@ var nachricht = {
 };
 
 var dialog = {
+    // Erzeugt einen Dialog mit zwei Buttons, mit dem angegebenen Titel,
+    // Text und die zwei Buttons werden entsprechend mit dem ja und nein
+    // Callback "verbunden".
+    // Der Dialog wird anders als bei "nachricht" direkt angezeigt.
     inhalt: function(titel, text, jaCallback, neinCallback) {
         if(titel === undefined &&
            text === undefined &&
@@ -767,17 +782,17 @@ $('#NeueKartei').on('pagebeforeshow', function(event, ui) {
     $('#neueKartei-coll-sprachenListe').append(collapsible);
     $('#neueKartei-coll-sprachenListe').collapsibleset('refresh').trigger('create');
 
-	// Noch keine Sprachen vorhanden
+    // Noch keine Sprachen vorhanden
     if($.isEmptyObject(sprachen))   $('#neueKartei-coll-sprachenListe').hide(); 
 
-	// "Sprache wählen" wird betätigt
+    // "Sprache wählen" wird betätigt
     $('#neueKartei-coll-sprachenListe').on('collapsibleexpand', function(){     
         $('#neueKartei-btn-spracheHinzu').slideUp();
         aktuelleSprache = '';
         spracheToggle = true;
     });
 
-	// "Sprache wählen" wird betätigt
+    // "Sprache wählen" wird betätigt
     $('#neueKartei-coll-sprachenListe').on('collapsiblecollapse', function(){     
         $('#neueKartei-btn-spracheHinzu').slideDown();
         aktuelleSprache = '';
@@ -785,7 +800,7 @@ $('#NeueKartei').on('pagebeforeshow', function(event, ui) {
     });
 
     var zeigeInput = false;
-	// "Sprache hinzufügen" wird betätigt
+    // "Sprache hinzufügen" wird betätigt
     $('#neueKartei-btn-spracheHinzu').click( function(){      
         if(zeigeInput) {
             console.log("this");
@@ -857,7 +872,8 @@ $('#NeueKartei').on('pagebeforeshow', function(event, ui) {
         app.writeFile(function() {
             nachricht.inhalt(nachrichtTyp.INFORMATION, 'Die Kartei wurde<br>erfolgreich gespeichert', 500, 500);
             nachricht.pruefenUndAnzeigen();
-            setTimeout(function(){			// Nachdem der Hinweis verschwindet, kann man direkt Vokabeln hinzufügen
+            // Nachdem der Hinweis verschwindet, kann man direkt Vokabeln hinzufügen
+            setTimeout(function(){ 
                 window.location = '#NeueVokabel';
             }, 3000);
         });
@@ -937,7 +953,7 @@ $('#NeueVokabel').on('pagebeforeshow', function(event, ui) {
 
 $('#Lernen').on('pagebeforeshow', function(event, ui) {
     var anzVokabeln = app.anzahlVokabeln(aktuelleSprache, aktuelleKartei);
-    var vokabeln = app.vokabelArray(aktuelleSprache, aktuelleKartei, anzVokabeln);	// Vokabeln werden als 2-Dim Array gespeichert
+    var vokabeln = app.vokabelArray(aktuelleSprache, aktuelleKartei, anzVokabeln);    // Vokabeln werden als 2-Dim Array gespeichert
     var ueberschrift = aktuelleSprache + ' – ' + aktuelleKartei;
     vokabeln = app.shuffleArray(vokabeln, anzVokabeln);
 
@@ -946,7 +962,7 @@ $('#Lernen').on('pagebeforeshow', function(event, ui) {
         clearInterval(timerID);
         timerID = null;
     }
-    punkte = 0;	
+    punkte = 0;    
     varZeit = '';
     sprachenUmkehren = false;
     $('#lernen-input-loesung').val('').prop('disabled', true);
@@ -960,7 +976,7 @@ $('#Lernen').on('pagebeforeshow', function(event, ui) {
     $('#lernen-div-anzahl').html('Anzahl: 0 / ' + anzVokabeln);
     $('#lernen-div-content > h2').html(ueberschrift);
 
-    $('#lernen-btn-richtung').click( function(){	// Lern-Richtung wird umgekehrt
+    $('#lernen-btn-richtung').click( function(){    // Lern-Richtung wird umgekehrt
         sprachenUmkehren = (sprachenUmkehren == false) ? true : false;
         $(this).text(function(i, text){
             return text === "Fremdsprache - Deutsch" ? "Deutsch - Fremdsprache" : "Fremdsprache - Deutsch";
