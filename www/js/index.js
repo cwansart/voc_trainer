@@ -477,18 +477,20 @@ var app = {
                     $('#karteiverw-btn-loeschen').hide(einAusblendeGeschw);
                     $('#karteiverw-btn-lernen').hide(einAusblendeGeschw);
                     $('#karteiverw-btn-oeffnen').hide(einAusblendeGeschw);
-                break;
+                    break;
                 case 1:
                     $('#karteiverw-btn-loeschen').show(einAusblendeGeschw);
-                    $('#karteiverw-btn-lernen').show(einAusblendeGeschw);
                     $('#karteiverw-btn-oeffnen').show(einAusblendeGeschw);
-                    aktuelleKartei = $('#karteiverw-coll-sprachenListe').find('input:checked').val();   // Der name der gewählten Kartei wird gespeichert
-                break;
+                    aktuelleKartei = $('#karteiverw-coll-sprachenListe').find('input:checked').val(); 
+                    if(app.anzahlVokabeln(aktuelleSprache, aktuelleKartei) !== 0) {
+                        $('#karteiverw-btn-lernen').show(einAusblendeGeschw);
+                    }
+                    break;
                 default:
                     $('#karteiverw-btn-loeschen').show(einAusblendeGeschw);
                     $('#karteiverw-btn-lernen').hide(einAusblendeGeschw);
                     $('#karteiverw-btn-oeffnen').hide(einAusblendeGeschw);
-                break;
+                    break;
             }
         });
     },
