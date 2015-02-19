@@ -327,7 +327,7 @@ var app = {
         var sekundenZaehler = 0;
         timerID = setInterval(function() {
             sekundenZaehler++;
-            sekunden = app.zeitFormat(sekundenZaehler);
+            sekunden = app.zeitFormat(sekundenZaehler%60);
             minuten = app.zeitFormat(parseInt(sekundenZaehler/60));
             $('#lernen-div-zeit').html('Zeit: ' + minuten + ':' + sekunden);
         }, 1000);
