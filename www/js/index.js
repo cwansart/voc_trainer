@@ -899,6 +899,7 @@ $('#NeueVokabel').on('pagebeforeshow', function(event, ui) {
     var ueberschrift = aktuelleSprache + ' – ' + aktuelleKartei;
     $('#neuevokabel-div-content > h2').empty().append(ueberschrift);
 
+    /*
     if($('#neueVokabel-input-deutsch').autocomplete('instance') !== undefined) {
         $('#neueVokabel-input-deutsch').autocomplete( "destroy" );
     }
@@ -912,6 +913,7 @@ $('#NeueVokabel').on('pagebeforeshow', function(event, ui) {
     $('#neueVokabel-input-uebersetzung').autocomplete({
         source: 'http://avocado.wc.lt/index.php?sprache='+aktuelleSprache+'&sprache2='+aktuelleSprache
     });
+    */
 
     $('#neueVokabel-btn-vokabelSpeichern').on('click', function() {
         var deutsch = $('#neueVokabel-input-deutsch').val();
